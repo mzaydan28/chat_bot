@@ -16,7 +16,7 @@ body {
 .container { width: 100%; max-width: 520px; }
 
 .chatbox {
-  background: #ffffff;
+  background: #cb0909;
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(20,24,28,0.08);
   overflow: hidden;
