@@ -9,9 +9,14 @@ include __DIR__ . "/koneksi.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot Layanan - AI Assistant</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.combined.css">
 </head>
 <body>
+
+<div style="width:100%;padding:12px 24px;background:transparent;display:flex;justify-content:flex-end;gap:10px;">
+    <?php $base = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\'); ?>
+    <a class="btn btn-primary" href="<?php echo $base; ?>/chatapp/public/chat.php">Mulai Chat</a>
+</div>
 
 <div class="container">
     <div class="chatbox">

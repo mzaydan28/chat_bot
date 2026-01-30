@@ -1,0 +1,35 @@
+:root{--primary:#0d6efd;--muted:#6c757d;--bg:#f6f8fb}
+html,body{height:100%}
+body { background:var(--bg); }
+
+.hero{
+	background: linear-gradient(90deg,#ffffff 0%, #f8fbff 100%);
+	border-radius:12px; padding:28px; box-shadow:0 6px 20px rgba(18,38,63,0.06);
+}
+
+/* Chat */
+.chat-shell{display:flex;gap:20px}
+.chat-side{width:260px}
+.chat-window{flex:1;background:#fff;border-radius:12px;box-shadow:0 4px 18px rgba(2,6,23,0.06);display:flex;flex-direction:column}
+#chatBox{flex:1;padding:18px;overflow:auto}
+.msg{max-width:75%;padding:10px 14px;border-radius:14px;margin-bottom:10px;display:inline-block}
+.msg.user{background:linear-gradient(90deg,var(--primary),#0062d6);color:#fff;border-bottom-right-radius:4px}
+.msg.bot{background:#f1f5f9;color:#111;border-bottom-left-radius:4px}
+.meta{font-size:11px;color:var(--muted);display:block;margin-top:4px}
+
+.quick-replies{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.chip{background:#f1f5f9;padding:6px 10px;border-radius:18px;cursor:pointer;font-size:14px}
+.chip:hover{background:#e2e8f0}
+
+.typing{height:22px;width:80px;border-radius:12px;background:linear-gradient(90deg,#e2e8f0,#cbd5e1);display:inline-block}
+
+/* small screens */
+@media(max-width:768px){.chat-shell{flex-direction:column}.chat-side{width:100%}}
+
+/* Index tweaks */
+.feature-list li{margin-bottom:10px}
+
+.brand-badge{width:44px;height:44px;background:linear-gradient(135deg,var(--primary),#0056b3);border-radius:10px;display:inline-flex;align-items:center;justify-content:center;color:#fff}
+
+/* Admin table small tweaks */
+.table-sm td, .table-sm th{vertical-align:middle}

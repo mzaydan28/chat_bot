@@ -1,16 +1,12 @@
-<?php
-// Widget fragment untuk di-include dari halaman lain
-$baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
-?>
 
 <!-- Stylesheet (gunakan absolute path agar berfungsi dari folder manapun) -->
-<link rel="stylesheet" href="<?php echo $baseUrl; ?>/style.combined.css">
+<link rel="stylesheet" href="/style.combined.css">
 
 <div class="container">
     <div class="chatbox">
         <div class="chat-header">
             <div class="bot-identity">
-                <div class="bot-avatar" style="background-image: url('<?php echo $baseUrl; ?>/images/bot.png.png'); background-size: cover; background-position: center;"></div>
+                <div class="bot-avatar" style="background-image: url('/images/bot.png.png'); background-size: cover; background-position: center;"></div>
                 <div class="bot-info">
                     <h2>NUSA (Nusantara AI Assistant)</h2>
                     <p>Siap Melayanimu 24/7</p>
@@ -53,7 +49,7 @@ function kirim() {
     let typingMsg = document.createElement("div");
     typingMsg.className = "message bot-message";
     typingMsg.id = "typing-indicator";
-    typingMsg.innerHTML = "<img src='<?php echo $baseUrl; ?>/images/bot.png.png' class='message-avatar' alt='Bot'><div class='message-content typing-dots'><span></span><span></span><span></span></div>";
+    typingMsg.innerHTML = "<img src='/images/bot.png.png' class='message-avatar' alt='Bot'><div class='message-content typing-dots'><span></span><span></span><span></span></div>";
     chat.appendChild(typingMsg);
     // Scroll ke bawah untuk lihat typing indicator
     setTimeout(() => {
@@ -61,7 +57,7 @@ function kirim() {
     }, 50);
 
     // Kirim ke server (absolute path)
-    fetch('<?php echo $baseUrl; ?>/proses.php', {
+    fetch('/proses.php', {
         method: 'POST',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: 'pesan=' + encodeURIComponent(pesan)
@@ -78,7 +74,7 @@ function kirim() {
         let contentId = 'typing-content-' + Date.now();
         let botMsg = document.createElement('div');
         botMsg.className = 'message bot-message';
-        botMsg.innerHTML = "<img src='<?php echo $baseUrl; ?>/images/bot.png.png' class='message-avatar' alt='Bot'><div class='message-content' id='" + contentId + "'></div>";
+        botMsg.innerHTML = "<img src='/images/bot.png.png' class='message-avatar' alt='Bot'><div class='message-content' id='" + contentId + "'></div>";
         chat.appendChild(botMsg);
         setTimeout(() => {
             chat.scrollTop = chat.scrollHeight;
@@ -96,7 +92,7 @@ function kirim() {
         
         let errMsg = document.createElement('div');
         errMsg.className = 'message bot-message';
-        errMsg.innerHTML = "<img src='<?php echo $baseUrl; ?>/images/bot.png.png' class='message-avatar' alt='Bot'><div class='message-content'>❌ Error: " + escapeHtml(error) + "</div>";
+        errMsg.innerHTML = "<img src='/images/bot.png.png' class='message-avatar' alt='Bot'><div class='message-content'>❌ Error: " + escapeHtml(error) + "</div>";
         chat.appendChild(errMsg);
         setTimeout(() => {
             chat.scrollTop = chat.scrollHeight;
