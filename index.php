@@ -1,16 +1,23 @@
 <?php
-// Widget fragment untuk di-include dari halaman lain
-$baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+include __DIR__ . "/config/koneksi.php";
 ?>
-
-<!-- Stylesheet (gunakan absolute path agar berfungsi dari folder manapun) -->
-<link rel="stylesheet" href="<?php echo $baseUrl; ?>/style.combined.css">
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Layanan - AI Assistant</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
 <div class="container">
     <div class="chatbox">
         <div class="chat-header">
             <div class="bot-identity">
-                <div class="bot-avatar" style="background-image: url('<?php echo $baseUrl; ?>/images/bot.png.png'); background-size: cover; background-position: center;"></div>
+                <div class="bot-avatar" style="background-image: url('images/bot.png.png'); background-size: cover; background-position: center;"></div>
                 <div class="bot-info">
                     <h2>NUSA (Nusantara AI Assistant)</h2>
                     <p>Siap Melayanimu 24/7</p>
@@ -34,14 +41,10 @@ function kirim() {
 
     let chat = document.getElementById("chat");
     
-    // Tampilkan pesan user dengan centang ganda biru
+    // Tampilkan pesan user
     let userMsg = document.createElement("div");
     userMsg.className = "message user-message";
-    userMsg.innerHTML = "<div class='message-avatar'>👤</div><div class='message-content'>" + escapeHtml(pesan) + "<span class='msg-status' title='Terkirim'>" +
-        "<svg viewBox='0 0 22 16' xmlns='http://www.w3.org/2000/svg' aria-hidden='true'>" +
-        "<path class='check' d='M1 8 L6 13 L10.5 9' />" +
-        "<path class='check' d='M6 8 L11.5 13 L19 5' />" +
-        "</svg></span></div>";
+    userMsg.innerHTML = "<div class='message-avatar'>👤</div><div class='message-content'>" + escapeHtml(pesan) + "</div>";
     chat.appendChild(userMsg);
 
     document.getElementById("pesan").value = "";
@@ -53,32 +56,32 @@ function kirim() {
     let typingMsg = document.createElement("div");
     typingMsg.className = "message bot-message";
     typingMsg.id = "typing-indicator";
-    typingMsg.innerHTML = "<img src='<?php echo $baseUrl; ?>/images/bot.png.png' class='message-avatar' alt='Bot'><div class='message-content typing-dots'><span></span><span></span><span></span></div>";
+    typingMsg.innerHTML = "<img src='images/bot.png.png' class='message-avatar' alt='Bot'><div class='message-content typing-dots'><span></span><span></span><span></span></div>";
     chat.appendChild(typingMsg);
     // Scroll ke bawah untuk lihat typing indicator
     setTimeout(() => {
         chat.scrollTop = chat.scrollHeight;
     }, 50);
 
-    // Kirim ke server (absolute path)
-    fetch('<?php echo $baseUrl; ?>/proses.php', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-        body: 'pesan=' + encodeURIComponent(pesan)
+    // Kirim ke server
+    fetch("proses.php", {
+        method: "POST",
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+        body: "pesan=" + encodeURIComponent(pesan)
     })
     .then(response => response.text())
     .then(data => {
         // Hapus typing indicator
-        let typingInd = document.getElementById('typing-indicator');
+        let typingInd = document.getElementById("typing-indicator");
         if (typingInd) {
             typingInd.remove();
         }
         
         // Tampilkan jawaban dengan efek typing - gunakan unique id
-        let contentId = 'typing-content-' + Date.now();
-        let botMsg = document.createElement('div');
-        botMsg.className = 'message bot-message';
-        botMsg.innerHTML = "<img src='<?php echo $baseUrl; ?>/images/bot.png.png' class='message-avatar' alt='Bot'><div class='message-content' id='" + contentId + "'></div>";
+        let contentId = "typing-content-" + Date.now();
+        let botMsg = document.createElement("div");
+        botMsg.className = "message bot-message";
+        botMsg.innerHTML = "<img src='images/bot.png.png' class='message-avatar' alt='Bot'><div class='message-content' id='" + contentId + "'></div>";
         chat.appendChild(botMsg);
         setTimeout(() => {
             chat.scrollTop = chat.scrollHeight;
@@ -89,14 +92,14 @@ function kirim() {
     })
     .catch(error => {
         // Hapus typing indicator
-        let typingInd = document.getElementById('typing-indicator');
+        let typingInd = document.getElementById("typing-indicator");
         if (typingInd) {
             typingInd.remove();
         }
         
-        let errMsg = document.createElement('div');
-        errMsg.className = 'message bot-message';
-        errMsg.innerHTML = "<img src='<?php echo $baseUrl; ?>/images/bot.png.png' class='message-avatar' alt='Bot'><div class='message-content'>❌ Error: " + escapeHtml(error) + "</div>";
+        let errMsg = document.createElement("div");
+        errMsg.className = "message bot-message";
+        errMsg.innerHTML = "<img src='images/bot.png.png' class='message-avatar' alt='Bot'><div class='message-content'>❌ Error: " + error + "</div>";
         chat.appendChild(errMsg);
         setTimeout(() => {
             chat.scrollTop = chat.scrollHeight;
@@ -137,13 +140,13 @@ function typeWriter(text, element, chatContainer) {
 
 // Enter key untuk kirim
 document.addEventListener('DOMContentLoaded', function() {
-    let input = document.getElementById('pesan');
-    if (input) {
-        input.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                kirim();
-            }
-        });
-    }
+    document.getElementById("pesan").addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            kirim();
+        }
+    });
 });
 </script>
+
+</body>
+</html>

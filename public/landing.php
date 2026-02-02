@@ -9,7 +9,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NUSA - Chatbot Layanan Disperindag</title>
+    <title>DISA - Chatbot Layanan Disperindag</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;600;700&family=Fraunces:wght@600;700;800&display=swap" rel="stylesheet">
@@ -49,12 +49,48 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 
         .nav-logo {
             font-family: 'Fraunces', serif;
-            font-size: 20px;
+            font-size: 16px;
             font-weight: 700;
-            color: #667eea;
+            color: #1a202c;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .nav-logo:hover {
+            transform: translateY(-2px);
+        }
+
+        .nav-logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+            border: 2px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .nav-logo-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .nav-logo-main {
+            font-size: 18px;
+            font-weight: 800;
+            color: #667eea;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-logo-sub {
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            font-family: 'Cabinet Grotesk', sans-serif;
+            letter-spacing: 0.8px;
         }
 
         .nav-links {
@@ -458,7 +494,13 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
     <!-- Navigation -->
     <nav>
         <div class="nav-content">
-            <div class="nav-logo">🤖 NUSA</div>
+            <div class="nav-logo">
+                <img src="<?php echo $baseUrl; ?>/../assets/images/Disperindag_Asisstant.png" alt="DISA" class="nav-logo-img">
+                <div class="nav-logo-text">
+                    <div class="nav-logo-main">DISA</div>
+                    <div class="nav-logo-sub">Disperindag Assistant</div>
+                </div>
+            </div>
             <div class="nav-links">
                 <a href="#fitur">Fitur</a>
                 <a href="#tutorial">Tutorial</a>
@@ -473,9 +515,9 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
         <div class="hero-content">
             <div class="hero-badge">✨ Solusi Digital untuk Anda</div>
             <div class="hero-image">
-                <img src="<?php echo $baseUrl; ?>/../assets/images/bot.png.png" alt="NUSA Bot">
+                <img src="<?php echo $baseUrl; ?>/../assets/images/Disperindag_Asisstant.png" alt="DISA Bot">
             </div>
-            <h1>Selamat Datang di NUSA</h1>
+            <h1>Selamat Datang di DISA</h1>
             <p class="hero-subtitle">Asisten digital cerdas yang siap membantu Anda 24/7 dengan informasi lengkap tentang layanan, program, dan perizinan Disperindag Jawa Tengah.</p>
             <div class="hero-cta">
                 <a href="<?php echo $baseUrl; ?>/start_chat.php" class="btn-primary">Mulai Chat Sekarang →</a>
@@ -487,14 +529,14 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
     <!-- Features Section -->
     <section class="features-section" id="fitur">
         <div class="section-header">
-            <h2 class="section-title">Keunggulan NUSA</h2>
+            <h2 class="section-title">Keunggulan DISA</h2>
             <p class="section-subtitle">Nikmati pengalaman berinteraksi dengan chatbot yang cerdas dan responsif</p>
         </div>
         <div class="features-grid">
             <div class="feature-card">
                 <div class="feature-icon">⚡</div>
                 <h3>Respon Instan</h3>
-                <p>Dapatkan jawaban langsung tanpa perlu menunggu. NUSA bekerja 24/7 untuk membantu Anda kapan saja.</p>
+                <p>Dapatkan jawaban langsung tanpa perlu menunggu. DISA bekerja 24/7 untuk membantu Anda kapan saja.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🎯</div>
@@ -504,17 +546,17 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
             <div class="feature-card">
                 <div class="feature-icon">🌍</div>
                 <h3>Mudah Digunakan</h3>
-                <p>Interface yang intuitif dan user-friendly membuat siapa saja bisa menggunakan NUSA dengan mudah.</p>
+                <p>Interface yang intuitif dan user-friendly membuat siapa saja bisa menggunakan DISA dengan mudah.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">📱</div>
                 <h3>Responsif</h3>
-                <p>Akses NUSA dari perangkat apa pun - laptop, tablet, atau smartphone Anda.</p>
+                <p>Akses DISA dari perangkat apa pun - laptop, tablet, atau smartphone Anda.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">💡</div>
                 <h3>Rekomendasi Cerdas</h3>
-                <p>NUSA memberikan saran pertanyaan yang relevan untuk membantu Anda menemukan informasi yang dicari.</p>
+                <p>DISA memberikan saran pertanyaan yang relevan untuk membantu Anda menemukan informasi yang dicari.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">🔒</div>
@@ -528,14 +570,14 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
     <section class="tutorial-section" id="tutorial">
         <div class="tutorial-content">
             <div class="section-header">
-                <h2 class="section-title">Cara Menggunakan NUSA</h2>
+                <h2 class="section-title">Cara Menggunakan DISA</h2>
                 <p class="section-subtitle">Ikuti langkah-langkah sederhana ini untuk mendapatkan informasi yang Anda butuhkan</p>
             </div>
             <div class="steps-grid">
                 <div class="step-card">
                     <div class="step-number">1</div>
                     <h4>Mulai Chat</h4>
-                    <p>Klik tombol "Mulai Chat Sekarang" untuk membuka jendela percakapan dengan NUSA.</p>
+                    <p>Klik tombol "Mulai Chat Sekarang" untuk membuka jendela percakapan dengan DISA.</p>
                 </div>
                 <div class="step-card">
                     <div class="step-number">2</div>
@@ -545,7 +587,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
                 <div class="step-card">
                     <div class="step-number">3</div>
                     <h4>Dapatkan Jawaban</h4>
-                    <p>NUSA akan segera memberikan jawaban yang akurat dan lengkap untuk pertanyaan Anda.</p>
+                    <p>DISA akan segera memberikan jawaban yang akurat dan lengkap untuk pertanyaan Anda.</p>
                 </div>
                 <div class="step-card">
                     <div class="step-number">4</div>
@@ -561,36 +603,36 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
         <div class="faq-content">
             <div class="section-header">
                 <h2 class="section-title">Pertanyaan Umum</h2>
-                <p class="section-subtitle">Temukan jawaban atas pertanyaan yang sering diajukan tentang NUSA</p>
+                <p class="section-subtitle">Temukan jawaban atas pertanyaan yang sering diajukan tentang DISA</p>
             </div>
             <div style="margin-top: 48px;">
                 <div class="faq-item">
                     <div class="faq-question">
                         <div class="faq-icon">?</div>
-                        <span>Apa itu NUSA?</span>
+                        <span>Apa itu DISA?</span>
                     </div>
-                    <p class="faq-answer">NUSA adalah chatbot cerdas yang dikembangkan oleh Disperindag Jawa Tengah untuk memberikan informasi terkini tentang layanan, program UMKM, dan perizinan usaha. NUSA tersedia 24/7 untuk membantu Anda.</p>
+                    <p class="faq-answer">DISA adalah chatbot cerdas yang dikembangkan oleh Disperindag Jawa Tengah untuk memberikan informasi terkini tentang layanan, program UMKM, dan perizinan usaha. DISA tersedia 24/7 untuk membantu Anda.</p>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
                         <div class="faq-icon">?</div>
-                        <span>Apakah NUSA benar-benar tersedia 24/7?</span>
+                        <span>Apakah DISA benar-benar tersedia 24/7?</span>
                     </div>
-                    <p class="faq-answer">Ya! NUSA dapat diakses kapan saja, 24 jam sehari, 7 hari seminggu. Anda tidak perlu menunggu jam kerja kantor untuk mendapatkan informasi yang dibutuhkan.</p>
+                    <p class="faq-answer">Ya! DISA dapat diakses kapan saja, 24 jam sehari, 7 hari seminggu. Anda tidak perlu menunggu jam kerja kantor untuk mendapatkan informasi yang dibutuhkan.</p>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
                         <div class="faq-icon">?</div>
-                        <span>Informasi apa yang bisa saya dapatkan dari NUSA?</span>
+                        <span>Informasi apa yang bisa saya dapatkan dari DISA?</span>
                     </div>
-                    <p class="faq-answer">NUSA menyediakan informasi tentang jam operasional, lokasi kantor, program UMKM, proses perizinan usaha, layanan Disperindag, dan berbagai pertanyaan lain terkait dengan industri dan perdagangan.</p>
+                    <p class="faq-answer">DISA menyediakan informasi tentang jam operasional, lokasi kantor, program UMKM, proses perizinan usaha, layanan Disperindag, dan berbagai pertanyaan lain terkait dengan industri dan perdagangan.</p>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
                         <div class="faq-icon">?</div>
                         <span>Bagaimana jika saya tidak menemukan jawaban yang saya cari?</span>
                     </div>
-                    <p class="faq-answer">Jika NUSA tidak dapat menjawab pertanyaan Anda, coba rephrase pertanyaan dengan kata-kata yang berbeda atau kunjungi kantor Disperindag secara langsung untuk bantuan lebih lanjut.</p>
+                    <p class="faq-answer">Jika DISA tidak dapat menjawab pertanyaan Anda, coba rephrase pertanyaan dengan kata-kata yang berbeda atau kunjungi kantor Disperindag secara langsung untuk bantuan lebih lanjut.</p>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
@@ -621,7 +663,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2026 NUSA Chatbot - Dinas Perindustrian dan Perdagangan Jawa Tengah. Semua hak dilindungi.</p>
+        <p>&copy; 2026 DISA Chatbot - Dinas Perindustrian dan Perdagangan Jawa Tengah. Semua hak dilindungi.</p>
     </footer>
 
     <script>
