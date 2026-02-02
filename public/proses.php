@@ -1,7 +1,7 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-include __DIR__ . "/koneksi.php";
+include __DIR__ . "/../config/koneksi.php";
 
 if (!isset($_POST['pesan'])) {
     die("Error: Pesan tidak diterima");

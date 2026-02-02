@@ -11,4 +11,7 @@ if (!$koneksi) {
         "2. Database 'chatbot_db' sudah dibuat\n" .
         "3. Username: root | Password: kosong");
 }
+
+// Set charset to utf8mb4 untuk support emoji dan karakter spesial
+mysqli_set_charset($koneksi, "utf8mb4");
 ?>
