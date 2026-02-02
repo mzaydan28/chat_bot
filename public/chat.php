@@ -1,7 +1,11 @@
 <?php
+// public/chat.php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+
+// Pastikan mengarah ke config yang benar
 include __DIR__ . "/../config/koneksi.php";
+
 $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 ?>
 <!DOCTYPE html>
@@ -648,7 +652,6 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
     </style>
 </head>
 <body>
-    <!-- Header -->
     <div class="chat-header">
         <div class="header-content">
             <div class="bot-identity">
@@ -664,22 +667,18 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
         </div>
     </div>
 
-    <!-- Chat Container -->
     <div class="chat-container">
         <div id="chat-content" class="chat-content"></div>
 
-        <!-- Templates Section -->
         <div class="template-section" id="templateSection">
             <div class="template-title">Coba salah satu pertanyaan ini:</div>
             <div class="templates-grid" id="templatesGrid">
-                <!-- Akan diisi oleh JavaScript -->
-            </div>
+                </div>
             <div style="text-align: center;">
                 <button class="view-all-btn" onclick="openQuestionModal()">📋 Lihat Semua Pertanyaan</button>
             </div>
         </div>
 
-        <!-- Question Modal -->
         <div class="modal" id="questionModal">
             <div class="modal-content">
                 <div class="modal-header">
@@ -687,15 +686,13 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
                     <p>Pilih salah satu pertanyaan yang ingin Anda tanyakan</p>
                 </div>
                 <div class="modal-questions" id="modalQuestionsList">
-                    <!-- Akan diisi oleh JavaScript -->
-                </div>
+                    </div>
                 <div class="modal-close">
                     <button class="close-btn" onclick="closeQuestionModal()">Tutup</button>
                 </div>
             </div>
         </div>
 
-        <!-- Input Area -->
         <div class="chat-input-area">
             <div class="input-wrapper">
                 <input type="text" id="pesan" placeholder="Ketik pertanyaan Anda..." />

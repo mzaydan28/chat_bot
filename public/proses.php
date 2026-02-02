@@ -1,6 +1,9 @@
 <?php
+// public/proses.php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+
+// Pastikan path ke config benar
 include __DIR__ . "/../config/koneksi.php";
 
 if (!isset($_POST['pesan'])) {
@@ -10,46 +13,65 @@ if (!isset($_POST['pesan'])) {
 $pesan = $_POST['pesan'];
 $pesan_lower = strtolower($pesan);
 $user_ip = $_SERVER['REMOTE_ADDR'];
+// Session ID logic tetap sama
 $session_id = session_id() ?: md5(uniqid() . $user_ip);
 
-$query = mysqli_query($koneksi, "SELECT * FROM chatbot");
-if (!$query) {
-    die("Error Query: " . mysqli_error($koneksi));
+// --- 1. AMBIL DATA KEYWORD DARI SUPABASE ---
+// Menggantikan: SELECT * FROM chatbot
+$keywords_data = supabase_request('GET', 'chatbot?select=*');
+
+// Cek jika ada error koneksi
+if (isset($keywords_data['error'])) {
+    // Fallback error message (bisa disesuaikan)
+    die("Error Database: " . print_r($keywords_data['error'], true));
 }
+
 $ketemu = false;
 $matched_keyword = '';
 $jawaban = '';
 
-while ($data = mysqli_fetch_assoc($query)) {
-    if (strpos($pesan_lower, strtolower($data['keyword'])) !== false) {
-        $jawaban = $data['jawaban'];
-        echo $jawaban;
-        $ketemu = true;
-        $matched_keyword = $data['keyword'];
-        break;
+// --- 2. LOGIKA PENCARIAN (PHP SIDE) ---
+// Loop data dari Supabase (Array) menggantikan while mysqli_fetch_assoc
+if (!empty($keywords_data) && is_array($keywords_data)) {
+    foreach ($keywords_data as $data) {
+        // Cek apakah keyword ada di dalam pesan user
+        if (strpos($pesan_lower, strtolower($data['keyword'])) !== false) {
+            $jawaban = $data['jawaban'];
+            echo $jawaban; // Kirim jawaban ke chat.php (AJAX)
+            $ketemu = true;
+            $matched_keyword = $data['keyword'];
+            break; // Berhenti jika ketemu
+        }
     }
 }
 
+// --- 3. JIKA TIDAK KETEMU (INSERT KE SUPABASE) ---
 if (!$ketemu) {
     echo "Maaf, saya belum mengerti pertanyaan itu.";
     
-    // Simpan pertanyaan yang tidak terjawab ke database
-    $insert_query = "INSERT INTO unanswered_questions (pertanyaan, user_ip, status) VALUES (?, ?, 'pending')";
-    if ($stmt = mysqli_prepare($koneksi, $insert_query)) {
-        mysqli_stmt_bind_param($stmt, "ss", $pesan, $user_ip);
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
-    }
+    // Siapkan data untuk INSERT ke tabel unanswered_questions
+    $data_unanswered = [
+        'pertanyaan' => $pesan,
+        'user_ip'    => $user_ip,
+        'status'     => 'pending'
+    ];
+
+    // Eksekusi POST request (Insert)
+    supabase_request('POST', 'unanswered_questions', $data_unanswered);
 }
 
-// Simpan riwayat chat ke database
-$insert_history = "INSERT INTO chat_history (session_id, user_question, bot_answer, matched_keyword, is_answered, user_ip) VALUES (?, ?, ?, ?, ?, ?)";
-if ($stmt = mysqli_prepare($koneksi, $insert_history)) {
-    $is_answered = $ketemu ? 1 : 0;
-    mysqli_stmt_bind_param($stmt, "ssssii", $session_id, $pesan, $jawaban, $matched_keyword, $is_answered, $user_ip);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
-}
+// --- 4. SIMPAN RIWAYAT CHAT (INSERT KE SUPABASE) ---
+$is_answered = $ketemu ? 1 : 0;
+
+$data_history = [
+    'session_id'      => $session_id,
+    'user_question'   => $pesan,
+    'bot_answer'      => $jawaban ?: "Maaf, saya belum mengerti pertanyaan itu.",
+    'matched_keyword' => $matched_keyword,
+    'is_answered'     => $is_answered,
+    'user_ip'         => $user_ip
+];
+
+// Eksekusi POST request ke tabel chat_history
+supabase_request('POST', 'chat_history', $data_history);
 ?>
-
-
