@@ -9,7 +9,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NUSA Chat - Chatbot Layanan Disperindag</title>
+    <title>DISA Chat - Chatbot Layanan Disperindag</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;600;700&family=Fraunces:wght@600;700;800&display=swap" rel="stylesheet">
@@ -653,14 +653,14 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
         <div class="header-content">
             <div class="bot-identity">
                 <div class="bot-avatar">
-                    <img src="<?php echo $baseUrl; ?>/../assets/images/bot.png.png" alt="NUSA Bot">
+                    <img src="<?php echo $baseUrl; ?>/../assets/images/Disperindag_Asisstant.png" alt="NUSA Bot">
                 </div>
                 <div class="bot-info">
-                    <h2>NUSA Chat</h2>
+                    <h2>DISA Chat</h2>
                     <p>Siap melayani Anda</p>
                 </div>
             </div>
-            <a href="<?php echo $baseUrl; ?>/landing.php" class="back-btn"><span>←</span> Kembali</a>
+            <a href="<?php echo $baseUrl; ?>/feedback.php" class="back-btn"><span>✓</span> Selesai</a>
         </div>
     </div>
 
@@ -713,7 +713,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
             
             let avatarDiv = document.createElement('div');
             avatarDiv.className = 'message-avatar';
-            avatarDiv.innerHTML = '<img src="<?php echo $baseUrl; ?>/../assets/images/bot.png.png" alt="Bot">';
+            avatarDiv.innerHTML = '<img src="<?php echo $baseUrl; ?>/../assets/images/Disperindag_Asisstant.png" alt="Bot">';
             
             let contentDiv = document.createElement('div');
             contentDiv.className = 'message-content';
@@ -724,7 +724,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
             chatContent.appendChild(greeting);
             
             // Greeting text with typing animation
-            const greetingText = 'Halo! 👋 Saya NUSA, asisten digital Anda. Ada yang bisa saya bantu tentang layanan Disperindag?';
+            const greetingText = 'Halo! 👋 Saya DISA, asisten digital Anda. Ada yang bisa saya bantu tentang layanan Disperindag?';
             typeMessage(contentDiv, greetingText, 25);
             
             setTimeout(() => {
@@ -810,7 +810,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
             let typingMsg = document.createElement('div');
             typingMsg.className = 'message bot-message';
             typingMsg.id = 'typing-indicator';
-            typingMsg.innerHTML = '<div class="message-avatar"><img src="<?php echo $baseUrl; ?>/../assets/images/bot.png.png" alt="Bot"></div><div class="message-content typing-dots"><span></span><span></span><span></span></div>';
+            typingMsg.innerHTML = '<div class="message-avatar"><img src="<?php echo $baseUrl; ?>/../assets/images/Disperindag_Asisstant.png" alt="Bot"></div><div class="message-content typing-dots"><span></span><span></span><span></span></div>';
             chatContent.appendChild(typingMsg);
             chatContent.scrollTop = chatContent.scrollHeight;
 
@@ -835,7 +835,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
                 
                 let avatarDiv = document.createElement('div');
                 avatarDiv.className = 'message-avatar';
-                avatarDiv.innerHTML = '<img src="<?php echo $baseUrl; ?>/../assets/images/bot.png.png" alt="Bot">';
+                avatarDiv.innerHTML = '<img src="<?php echo $baseUrl; ?>/../assets/images/Disperindag_Asisstant.png" alt="Bot">';
                 
                 botMsg.appendChild(avatarDiv);
                 botMsg.appendChild(contentDiv);
@@ -852,7 +852,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 
                 let errMsg = document.createElement('div');
                 errMsg.className = 'message bot-message';
-                errMsg.innerHTML = '<div class="message-avatar"><img src="<?php echo $baseUrl; ?>/../assets/images/bot.png.png" alt="Bot"></div><div class="message-content">Maaf, ada kesalahan. Silakan coba lagi.</div>';
+                errMsg.innerHTML = '<div class="message-avatar"><img src="<?php echo $baseUrl; ?>/../assets/images/Disperindag_Asisstant.png" alt="Bot"></div><div class="message-content">Maaf, ada kesalahan. Silakan coba lagi.</div>';
                 chatContent.appendChild(errMsg);
                 chatContent.scrollTop = chatContent.scrollHeight;
             });
