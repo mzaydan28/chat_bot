@@ -1,10 +1,8 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-include __DIR__ . "/../config/koneksi.php";
-$baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+// Redirect ke landing page
+header('Location: landing.php');
+exit;
 ?>
-<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">

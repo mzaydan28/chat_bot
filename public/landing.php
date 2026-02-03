@@ -505,7 +505,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
                 <a href="#fitur">Fitur</a>
                 <a href="#tutorial">Tutorial</a>
                 <a href="#faq">FAQ</a>
-                <a href="<?php echo $baseUrl; ?>/start_chat.php" class="nav-cta">Mulai Chat</a>
+                <a href="<?php echo $baseUrl; ?>/chat.php" class="nav-cta">Mulai Chat</a>
             </div>
         </div>
     </nav>
@@ -520,7 +520,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
             <h1>Selamat Datang di DISA</h1>
             <p class="hero-subtitle">Asisten digital cerdas yang siap membantu Anda 24/7 dengan informasi lengkap tentang layanan, program, dan perizinan Disperindag Jawa Tengah.</p>
             <div class="hero-cta">
-                <a href="<?php echo $baseUrl; ?>/start_chat.php" class="btn-primary">Mulai Chat Sekarang →</a>
+                <a href="<?php echo $baseUrl; ?>/chat.php" class="btn-primary">Mulai Chat Sekarang →</a>
                 <a href="#fitur" class="btn-secondary">Pelajari Lebih Lanjut</a>
             </div>
         </div>
@@ -657,7 +657,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
         <div class="cta-banner-content">
             <h2>Siap Memulai?</h2>
             <p>Jangan ragu untuk menghubungi NUSA sekarang dan dapatkan informasi yang Anda butuhkan dalam hitungan detik.</p>
-            <a href="<?php echo $baseUrl; ?>/start_chat.php" class="btn-primary">Mulai Chat Sekarang →</a>
+            <a href="<?php echo $baseUrl; ?>/chat.php" class="btn-primary">Mulai Chat Sekarang →</a>
         </div>
     </section>
 
