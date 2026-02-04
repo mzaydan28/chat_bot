@@ -2,46 +2,33 @@
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config/koneksi.php';
 
-$template_keywords = ['halo','jam','alamat','umkm','perizinan'];
-
-if (empty($template_keywords)) {
-    echo json_encode([]);
-    exit;
-}
-
-// Supabase filter: keyword=in.(...)
-$in = '(' . implode(',', array_map(fn($k) => '"' . $k . '"', $template_keywords)) . ')';
-
-$data = supabase_request(
-    'GET',
-    "chatbot?select=keyword&keyword=in.$in"
-);
-
-if (isset($data['error'])) {
-    http_response_code(500);
-    echo json_encode(['error' => 'Supabase error']);
-    exit;
-}
-
+// Pertanyaan yang ingin ditampilkan (hardcoded untuk menghindari error query)
 $questions = [
-    'halo' => 'Halo! Apa kabar?',
     'jam' => 'Jam berapa kantor Disperindag buka?',
     'alamat' => 'Dimana lokasi kantor Disperindag?',
     'umkm' => 'Apa itu UMKM?',
     'perizinan' => 'Bagaimana cara mengurus perizinan?',
+    'izin' => 'Bagaimana cara mengurus izin usaha?',
+    'program' => 'Apa saja program Disperindag?',
+    'layanan' => 'Apa saja layanan Disperindag?',
+    'kontak' => 'Bagaimana cara menghubungi Disperindag?',
+    'pengaduan' => 'Bagaimana cara menyampaikan pengaduan?',
+    'lapor' => 'Bagaimana cara melaporkan masalah?'
 ];
 
+// Gunakan semua pertanyaan, shuffle, dan ambil yang diinginkan
 $templates = [];
-
-foreach ($data as $row) {
-    $key = $row['keyword'];
+foreach ($questions as $keyword => $question) {
     $templates[] = [
-        'keyword' => $key,
-        'question' => $questions[$key] ?? ucfirst($key) . '?'
+        'keyword' => $keyword,
+        'question' => $question
     ];
 }
 
+// Random order
 shuffle($templates);
-$templates = array_slice($templates, 0, 5);
+// Ambil max 10 pertanyaan
+$templates = array_slice($templates, 0, 10);
 
 echo json_encode($templates, JSON_UNESCAPED_UNICODE);
+?>

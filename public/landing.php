@@ -12,490 +12,16 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
     <title>DISA - Chatbot Layanan Disperindag</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;600;700&family=Fraunces:wght@600;700;800&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Cabinet Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
-            letter-spacing: -0.3px;
-            background: #ffffff;
-            color: #1a202c;
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 16px 24px;
-            z-index: 100;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-        }
-
-        .nav-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .nav-logo {
-            font-family: 'Fraunces', serif;
-            font-size: 16px;
-            font-weight: 700;
-            color: #1a202c;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .nav-logo:hover {
-            transform: translateY(-2px);
-        }
-
-        .nav-logo-img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-            border: 2px solid rgba(102, 126, 234, 0.1);
-        }
-
-        .nav-logo-text {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .nav-logo-main {
-            font-size: 18px;
-            font-weight: 800;
-            color: #667eea;
-            letter-spacing: -0.5px;
-        }
-
-        .nav-logo-sub {
-            font-size: 12px;
-            font-weight: 600;
-            color: #64748b;
-            font-family: 'Cabinet Grotesk', sans-serif;
-            letter-spacing: 0.8px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 32px;
-            align-items: center;
-        }
-
-        .nav-links a {
-            font-size: 13px;
-            font-weight: 600;
-            color: #64748b;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: #667eea;
-        }
-
-        .nav-cta {
-            padding: 10px 24px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 13px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-        }
-
-        .nav-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 120px 24px 80px;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
-            text-align: center;
-        }
-
-        .hero-content {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .hero-badge {
-            display: inline-block;
-            padding: 8px 16px;
-            background: rgba(102, 126, 234, 0.12);
-            border: 1px solid rgba(102, 126, 234, 0.3);
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #667eea;
-            margin-bottom: 24px;
-        }
-
-        .hero h1 {
-            font-family: 'Fraunces', serif;
-            font-size: 56px;
-            font-weight: 700;
-            color: #1a202c;
-            margin-bottom: 20px;
-            line-height: 1.2;
-            letter-spacing: -1.2px;
-        }
-
-        .hero-subtitle {
-            font-size: 18px;
-            color: #64748b;
-            margin-bottom: 40px;
-            line-height: 1.7;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .hero-image {
-            width: 300px;
-            height: 300px;
-            margin: 0 auto 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 120px;
-            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.2);
-            animation: float 3s ease-in-out infinite;
-            overflow: hidden;
-        }
-
-        .hero-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .hero-cta {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            margin-bottom: 40px;
-        }
-
-        .btn-primary, .btn-secondary {
-            padding: 16px 32px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 14px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
-            font-family: 'Cabinet Grotesk', sans-serif;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.35);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 32px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-secondary {
-            background: white;
-            color: #667eea;
-            border: 2px solid #667eea;
-        }
-
-        .btn-secondary:hover {
-            background: #f7fafc;
-            transform: translateY(-3px);
-        }
-
-        /* Features Section */
-        .features-section {
-            padding: 80px 24px;
-            background: white;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-
-        .section-title {
-            font-family: 'Fraunces', serif;
-            font-size: 40px;
-            font-weight: 700;
-            color: #1a202c;
-            margin-bottom: 16px;
-            letter-spacing: -0.8px;
-        }
-
-        .section-subtitle {
-            font-size: 16px;
-            color: #64748b;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 32px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .feature-card {
-            padding: 32px;
-            background: linear-gradient(135deg, #f8fafc 0%, #f0f4f8 100%);
-            border-radius: 16px;
-            border: 1px solid rgba(102, 126, 234, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-8px);
-            background: linear-gradient(135deg, #f0f4f8 0%, #e8f0f8 100%);
-            border-color: rgba(102, 126, 234, 0.3);
-            box-shadow: 0 12px 32px rgba(102, 126, 234, 0.15);
-        }
-
-        .feature-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin-bottom: 16px;
-        }
-
-        .feature-card h3 {
-            font-size: 18px;
-            font-weight: 700;
-            color: #1a202c;
-            margin-bottom: 10px;
-        }
-
-        .feature-card p {
-            font-size: 14px;
-            color: #64748b;
-            line-height: 1.6;
-            margin: 0;
-        }
-
-        /* Tutorial Section */
-        .tutorial-section {
-            padding: 80px 24px;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
-        }
-
-        .tutorial-content {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 24px;
-            margin-top: 40px;
-        }
-
-        .step-card {
-            background: white;
-            padding: 28px;
-            border-radius: 16px;
-            border-left: 4px solid #667eea;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-        }
-
-        .step-number {
-            font-family: 'Fraunces', serif;
-            font-size: 32px;
-            font-weight: 700;
-            color: #667eea;
-            margin-bottom: 12px;
-        }
-
-        .step-card h4 {
-            font-size: 16px;
-            font-weight: 700;
-            color: #1a202c;
-            margin-bottom: 10px;
-        }
-
-        .step-card p {
-            font-size: 14px;
-            color: #64748b;
-            line-height: 1.6;
-            margin: 0;
-        }
-
-        /* FAQ Section */
-        .faq-section {
-            padding: 80px 24px;
-            background: white;
-        }
-
-        .faq-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .faq-item {
-            margin-bottom: 24px;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 24px;
-        }
-
-        .faq-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-
-        .faq-question {
-            font-weight: 600;
-            color: #1a202c;
-            font-size: 16px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .faq-icon {
-            width: 24px;
-            height: 24px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 14px;
-            flex-shrink: 0;
-        }
-
-        .faq-answer {
-            font-size: 14px;
-            color: #64748b;
-            line-height: 1.7;
-            margin: 0;
-        }
-
-        /* CTA Banner */
-        .cta-banner {
-            padding: 80px 24px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            text-align: center;
-        }
-
-        .cta-banner-content {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .cta-banner h2 {
-            font-family: 'Fraunces', serif;
-            font-size: 42px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 16px;
-            letter-spacing: -0.8px;
-        }
-
-        .cta-banner p {
-            font-size: 16px;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 32px;
-            line-height: 1.7;
-        }
-
-        .cta-banner .btn-primary {
-            background: white;
-            color: #667eea;
-            display: inline-block;
-        }
-
-        .cta-banner .btn-primary:hover {
-            background: #f7fafc;
-        }
-
-        /* Footer */
-        footer {
-            padding: 32px 24px;
-            background: #1a202c;
-            color: #cbd5e0;
-            text-align: center;
-            font-size: 13px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            nav { padding: 12px 16px; }
-            .nav-links { gap: 16px; }
-            .nav-links a { display: none; }
-            .hero { padding: 80px 20px 60px; }
-            .hero h1 { font-size: 36px; }
-            .hero-subtitle { font-size: 16px; }
-            .hero-image { width: 220px; height: 220px; font-size: 80px; }
-            .hero-cta { flex-direction: column; }
-            .section-title { font-size: 32px; }
-            .features-grid { gap: 20px; }
-            .cta-banner h2 { font-size: 32px; }
-        }
-
-        @media (max-width: 480px) {
-            .hero h1 { font-size: 28px; }
-            .section-title { font-size: 24px; }
-            .btn-primary, .btn-secondary { padding: 12px 20px; font-size: 13px; }
-            .features-grid { grid-template-columns: 1fr; }
-            .steps-grid { grid-template-columns: 1fr; }
-            .cta-banner h2 { font-size: 24px; }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/../assets/css/glassmorphism.css">
+    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/../assets/css/feedback-modal.css">
 </head>
 <body>
     <!-- Navigation -->
     <nav>
         <div class="nav-content">
             <div class="nav-logo">
-                <img src="<?php echo $baseUrl; ?>/../assets/images/Disperindag_Asisstant.png" alt="DISA" class="nav-logo-img">
+                <img src="<?php echo $baseUrl; ?>/../assets/images/Discha.png" alt="DISA" class="nav-logo-img">
                 <div class="nav-logo-text">
                     <div class="nav-logo-main">DISA</div>
                     <div class="nav-logo-sub">Disperindag Assistant</div>
@@ -505,63 +31,85 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
                 <a href="#fitur">Fitur</a>
                 <a href="#tutorial">Tutorial</a>
                 <a href="#faq">FAQ</a>
-                <a href="<?php echo $baseUrl; ?>/chat.php" class="nav-cta">Mulai Chat</a>
+                <a href="#" onclick="openChatModal(event)" class="nav-cta">Mulai Chat</a>
+            </div>
+            <div class="nav-view-toggle">
+                <button class="view-toggle-btn" onclick="toggleViewMode()" title="Toggle Mobile/Desktop View">
+                    <span class="toggle-icon">📱</span>
+                    <span class="toggle-label">Desktop</span>
+                </button>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero Section - Asymmetric Layout -->
     <section class="hero">
-        <div class="hero-content">
-            <div class="hero-badge">✨ Solusi Digital untuk Anda</div>
-            <div class="hero-image">
-                <img src="<?php echo $baseUrl; ?>/../assets/images/Disperindag_Asisstant.png" alt="DISA Bot">
+        <div class="hero-container">
+            <div class="hero-left">
+                <div class="hero-badge">✨ Inovasi Digital Disperindag Jateng</div>
+                <h1>Asisten Cerdas Siap Membantu Anda</h1>
+                <p class="hero-subtitle">Dapatkan informasi lengkap tentang layanan, program UMKM, dan perizinan usaha dari Disperindag Jawa Tengah kapan saja, di mana saja.</p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Tersedia</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">98%</span>
+                        <span class="stat-label">Akurat</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">&lt;2s</span>
+                        <span class="stat-label">Respons</span>
+                    </div>
+                </div>
+
+                <div class="hero-cta">
+                    <a href="#" onclick="openChatModal(event)" class="nav-cta">Mulai Chat</a>
+                </div>
             </div>
-            <h1>Selamat Datang di DISA</h1>
-            <p class="hero-subtitle">Asisten digital cerdas yang siap membantu Anda 24/7 dengan informasi lengkap tentang layanan, program, dan perizinan Disperindag Jawa Tengah.</p>
-            <div class="hero-cta">
-                <a href="<?php echo $baseUrl; ?>/chat.php" class="btn-primary">Mulai Chat Sekarang →</a>
-                <a href="#fitur" class="btn-secondary">Pelajari Lebih Lanjut</a>
+
+            <div class="hero-right">
+                <div class="hero-image-card">
+                    <div class="hero-image-glow"></div>
+                    <img src="<?php echo $baseUrl; ?>/../assets/images/Discha.png" alt="DISA Bot" class="hero-image">
+                </div>
+                
+                <div class="hero-features-quick">
+                    <div class="quick-feature">
+                        <div>Respon Instan</div>
+                    </div>
+                    <div class="quick-feature">
+                        <div>Akurat & Tepat</div>
+                    </div>
+                    <div class="quick-feature">
+                        <div>Aman Terjamin</div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
     <section class="features-section" id="fitur">
-        <div class="section-header">
-            <h2 class="section-title">Keunggulan DISA</h2>
-            <p class="section-subtitle">Nikmati pengalaman berinteraksi dengan chatbot yang cerdas dan responsif</p>
-        </div>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3>Respon Instan</h3>
-                <p>Dapatkan jawaban langsung tanpa perlu menunggu. DISA bekerja 24/7 untuk membantu Anda kapan saja.</p>
+        <div class="features-content">
+            <div class="section-header">
+                <h2 class="section-title">Fitur Unggulan</h2>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎯</div>
-                <h3>Akurat & Terpercaya</h3>
-                <p>Semua informasi diambil dari database resmi Disperindag Jawa Tengah untuk memastikan akurasi maksimal.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🌍</div>
-                <h3>Mudah Digunakan</h3>
-                <p>Interface yang intuitif dan user-friendly membuat siapa saja bisa menggunakan DISA dengan mudah.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📱</div>
-                <h3>Responsif</h3>
-                <p>Akses DISA dari perangkat apa pun - laptop, tablet, atau smartphone Anda.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">💡</div>
-                <h3>Rekomendasi Cerdas</h3>
-                <p>DISA memberikan saran pertanyaan yang relevan untuk membantu Anda menemukan informasi yang dicari.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔒</div>
-                <h3>Aman & Terjamin</h3>
-                <p>Data Anda dilindungi dengan standar keamanan tinggi untuk privasi dan kenyamanan maksimal.</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Respons Cepat</h3>
+                    <p>Dapatkan jawaban instan untuk semua pertanyaan Anda</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Akurat & Terpercaya</h3>
+                    <p>Informasi dari data resmi Disperindag Jawa Tengah</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Aman & Privat</h3>
+                    <p>Keamanan data Anda adalah prioritas utama kami</p>
+                </div>
             </div>
         </div>
     </section>
@@ -605,7 +153,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
                 <h2 class="section-title">Pertanyaan Umum</h2>
                 <p class="section-subtitle">Temukan jawaban atas pertanyaan yang sering diajukan tentang DISA</p>
             </div>
-            <div style="margin-top: 48px;">
+            <div class="faq-items">
                 <div class="faq-item">
                     <div class="faq-question">
                         <div class="faq-icon">?</div>
@@ -637,29 +185,129 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
                 <div class="faq-item">
                     <div class="faq-question">
                         <div class="faq-icon">?</div>
-                        <span>Apakah informasi dari NUSA akurat?</span>
+                        <span>Apakah informasi dari DISA akurat?</span>
                     </div>
-                    <p class="faq-answer">Semua informasi yang diberikan NUSA bersumber dari database resmi Disperindag Jawa Tengah dan diperbarui secara berkala untuk memastikan akurasi dan relevansi.</p>
+                    <p class="faq-answer">Semua informasi yang diberikan DISA bersumber dari database resmi Disperindag Jawa Tengah dan diperbarui secara berkala untuk memastikan akurasi dan relevansi.</p>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
                         <div class="faq-icon">?</div>
                         <span>Apakah data saya aman?</span>
                     </div>
-                    <p class="faq-answer">Ya, keamanan data Anda adalah prioritas utama kami. Semua interaksi dengan NUSA dilindungi dengan standar keamanan tinggi untuk menjaga privasi Anda.</p>
+                    <p class="faq-answer">Ya, keamanan data Anda adalah prioritas utama kami. Semua interaksi dengan DISA dilindungi dengan standar keamanan tinggi untuk menjaga privasi Anda.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- CTA Banner -->
-    <section class="cta-banner">
-        <div class="cta-banner-content">
-            <h2>Siap Memulai?</h2>
-            <p>Jangan ragu untuk menghubungi NUSA sekarang dan dapatkan informasi yang Anda butuhkan dalam hitungan detik.</p>
-            <a href="<?php echo $baseUrl; ?>/chat.php" class="btn-primary">Mulai Chat Sekarang →</a>
+    <!-- Chat Modal -->
+    <div id="chatModal" class="chat-modal">
+        <div class="chat-modal-content">
+            <!-- Left Sidebar - Questions -->
+            <div class="chat-questions-sidebar">
+                <h4>Pertanyaan Populer</h4>
+                <div class="chat-questions-list" id="chatQuestionsList">
+                    <!-- Questions loaded here -->
+                </div>
+                <button class="view-all-btn-sidebar" onclick="loadAllQuestions()">Lihat Semua Pertanyaan</button>
+            </div>
+
+            <!-- Right Container - Chat -->
+            <div class="chat-right-container">
+                <!-- Header -->
+                <div class="chat-header">
+                    <div class="chat-header-left">
+                        <img src="<?php echo $baseUrl; ?>/../assets/images/Discha.png" alt="DISA" class="chat-avatar">
+                        <div class="chat-info">
+                            <h3 class="chat-name">DISA</h3>
+                            <span class="chat-status">Online 24/7</span>
+                        </div>
+                    </div>
+                    <button class="finish-btn" onclick="openFeedbackModal()" title="Tutup chat dan kirim feedback">
+                        <span class="finish-btn-text">Selesai</span>
+                        <span class="finish-btn-icon">✓</span>
+                    </button>
+                </div>
+
+                <!-- Messages Area -->
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot-msg">
+                        <div class="msg-content">Halo! 👋 Ada yang bisa saya bantu?</div>
+                    </div>
+                </div>
+
+                <!-- Input Area -->
+                <div class="chat-input-area">
+                    <div class="input-wrapper">
+                        <input type="text" id="chatInput" class="chat-input" placeholder="Tanya sesuatu..." onkeypress="handleChatKeypress(event)">
+                        <button class="send-btn" onclick="sendChatMessage()">➤</button>
+                    </div>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div id="feedbackModal">
+        <div class="feedback-modal-overlay" onclick="closeFeedbackModal()"></div>
+        <div class="feedback-modal-content">
+            <div class="feedback-header">
+                <h3>Umpan Balik Anda</h3>
+                <button class="feedback-close-btn" onclick="closeFeedbackModal()" type="button">✕</button>
+            </div>
+            <form id="feedbackForm" onsubmit="submitFeedback(event)">
+                <div class="form-group">
+                    <label for="feedbackName">Nama (Opsional)</label>
+                    <input type="text" id="feedbackName" name="name" placeholder="Masukkan nama Anda">
+                </div>
+                <div class="form-group">
+                    <label for="feedbackEmail">Email (Opsional)</label>
+                    <input type="email" id="feedbackEmail" name="email" placeholder="masukkan@email.anda">
+                </div>
+                <div class="form-group">
+                    <label for="feedbackMessage">Umpan Balik <span class="required">*</span></label>
+                    <textarea id="feedbackMessage" name="message" placeholder="Bagikan umpan balik Anda..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Kepuasan</label>
+                    <div class="rating-group-modal">
+                        <input type="radio" name="rating" value="5" id="rating5m">
+                        <label for="rating5m">😍</label>
+                        <input type="radio" name="rating" value="4" id="rating4m">
+                        <label for="rating4m">😊</label>
+                        <input type="radio" name="rating" value="3" id="rating3m">
+                        <label for="rating3m">😐</label>
+                        <input type="radio" name="rating" value="2" id="rating2m">
+                        <label for="rating2m">😕</label>
+                        <input type="radio" name="rating" value="1" id="rating1m">
+                        <label for="rating1m">😞</label>
+                    </div>
+                </div>
+                <div class="form-actions-modal">
+                    <button type="button" class="btn-cancel-modal" onclick="closeFeedbackModal()">Batal</button>
+                    <button type="submit" class="btn-submit-modal">Kirim</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- All Questions Modal -->
+    <div id="allQuestionsModal" class="questions-modal">
+        <div class="questions-modal-content">
+            <div class="questions-header">
+                <h3>Semua Pertanyaan</h3>
+                <button class="close-btn" onclick="closeAllQuestionsModal()">✕</button>
+            </div>
+            <div class="questions-grid" id="allQuestionsList">
+                <!-- Questions loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Chat Button -->
+    <button class="floating-chat-btn" onclick="openChatModal()" title="Buka Chat">
+        <span class="chat-bubble-icon">💬</span>
+    </button>
 
     <!-- Footer -->
     <footer>
@@ -667,13 +315,360 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
     </footer>
 
     <script>
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Modal Functions - Defined at global scope
+        function openChatModal(e) {
+            if (e) e.preventDefault();
+            const modal = document.getElementById('chatModal');
+            if (modal) {
+                modal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+                const input = document.getElementById('chatInput');
+                if (input) {
+                    setTimeout(() => input.focus(), 100);
                 }
+                loadTemplateSuggestions();
+            }
+        }
+
+        function closeChatModal() {
+            const modal = document.getElementById('chatModal');
+            if (modal) {
+                modal.classList.remove('open');
+                document.body.style.overflow = 'auto';
+            }
+            closeAllQuestionsModal();
+        }
+
+        function openFeedbackModal() {
+            console.log('Opening feedback modal');
+            closeChatModal();
+            const feedbackModal = document.getElementById('feedbackModal');
+            if (feedbackModal) {
+                feedbackModal.style.display = 'flex';
+                feedbackModal.style.visibility = 'visible';
+                feedbackModal.style.opacity = '1';
+                console.log('Feedback modal displayed - display:', feedbackModal.style.display);
+                console.log('Feedback modal element:', feedbackModal);
+            } else {
+                console.error('Feedback modal element not found!');
+            }
+        }
+
+        function closeFeedbackModal() {
+            console.log('Closing feedback modal');
+            const feedbackModal = document.getElementById('feedbackModal');
+            if (feedbackModal) {
+                feedbackModal.style.display = 'none';
+                feedbackModal.style.visibility = 'hidden';
+                feedbackModal.style.opacity = '0';
+            }
+            const form = document.getElementById('feedbackForm');
+            if (form) form.reset();
+        }
+
+        let currentViewMode = 'desktop'; // default desktop
+
+        // View Mode Toggle Function
+        function toggleViewMode() {
+            const body = document.body;
+            const btn = document.querySelector('.view-toggle-btn');
+            const label = btn.querySelector('.toggle-label');
+            const icon = btn.querySelector('.toggle-icon');
+            
+            if (currentViewMode === 'desktop') {
+                currentViewMode = 'mobile';
+                body.classList.add('mobile-view');
+                body.classList.remove('desktop-view');
+                label.textContent = 'Mobile';
+                icon.textContent = '🖥️';
+                localStorage.setItem('viewMode', 'mobile');
+            } else {
+                currentViewMode = 'desktop';
+                body.classList.remove('mobile-view');
+                body.classList.add('desktop-view');
+                label.textContent = 'Desktop';
+                icon.textContent = '📱';
+                localStorage.setItem('viewMode', 'desktop');
+            }
+        }
+
+        // Restore view mode from localStorage
+        function restoreViewMode() {
+            const saved = localStorage.getItem('viewMode') || 'desktop';
+            const body = document.body;
+            const btn = document.querySelector('.view-toggle-btn');
+            const label = btn.querySelector('.toggle-label');
+            const icon = btn.querySelector('.toggle-icon');
+            
+            currentViewMode = saved;
+            if (saved === 'mobile') {
+                body.classList.add('mobile-view');
+                label.textContent = 'Mobile';
+                icon.textContent = '🖥️';
+            } else {
+                body.classList.add('desktop-view');
+                label.textContent = 'Desktop';
+                icon.textContent = '📱';
+            }
+        }
+
+        // Call restore on page load
+        window.addEventListener('load', restoreViewMode);
+
+        // Load template suggestions from API
+        function loadTemplateSuggestions() {
+            fetch('<?php echo $baseUrl; ?>/get-templates.php')
+                .then(res => res.json())
+                .then(templates => {
+                    const container = document.getElementById('chatQuestionsList');
+                    container.innerHTML = '';
+                    
+                    if (!templates || templates.length === 0) {
+                        container.innerHTML = '<p style="color: var(--text-muted); font-size: 11px; text-align: center;">Tidak ada pertanyaan</p>';
+                        return;
+                    }
+                    
+                    templates.forEach(template => {
+                        const btn = document.createElement('button');
+                        btn.className = 'chat-question-item';
+                        btn.textContent = template.question;
+                        btn.onclick = () => sendMessage(template.question);
+                        container.appendChild(btn);
+                    });
+                })
+                .catch(err => {
+                    console.error('Error loading templates:', err);
+                });
+        }
+
+        // Load all questions from API
+        function loadAllQuestions() {
+            fetch('<?php echo $baseUrl; ?>/get-all-questions.php')
+                .then(res => res.json())
+                .then(questions => {
+                    const container = document.getElementById('allQuestionsList');
+                    container.innerHTML = '';
+                    
+                    if (!questions || questions.length === 0) {
+                        container.innerHTML = '<p>Tidak ada pertanyaan tersedia</p>';
+                        return;
+                    }
+                    
+                    questions.forEach(question => {
+                        const item = document.createElement('button');
+                        item.className = 'all-question-item';
+                        item.textContent = question;
+                        item.onclick = () => {
+                            sendMessage(question);
+                            closeAllQuestionsModal();
+                            focusChatInput();
+                        };
+                        container.appendChild(item);
+                    });
+                    
+                    document.getElementById('allQuestionsModal').classList.add('open');
+                })
+                .catch(err => {
+                    console.error('Error loading all questions:', err);
+                });
+        }
+
+        function closeAllQuestionsModal() {
+            document.getElementById('allQuestionsModal').classList.remove('open');
+        }
+
+        function focusChatInput() {
+            document.getElementById('chatInput').focus();
+        }
+
+        // Feedback Submission
+        function submitFeedback(e) {
+            e.preventDefault();
+            const name = document.getElementById('feedbackName').value.trim() || 'Anonim';
+            const email = document.getElementById('feedbackEmail').value.trim();
+            const message = document.getElementById('feedbackMessage').value.trim();
+            const rating = document.querySelector('input[name="rating"]:checked')?.value || 0;
+            
+            if (!message) {
+                alert('Mohon isi umpan balik Anda');
+                return;
+            }
+            
+            // Send feedback to server
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('message', message);
+            formData.append('rating', rating);
+            
+            fetch('<?php echo $baseUrl; ?>/feedback.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    closeFeedbackModal();
+                    showSuccessNotification();
+                } else {
+                    alert('Error: ' + (data.message || 'Terjadi kesalahan'));
+                }
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                alert('Maaf, terjadi kesalahan saat mengirim umpan balik.');
+            });
+        }
+
+        function showSuccessNotification() {
+            // Create success popup
+            const successDiv = document.createElement('div');
+            successDiv.style.cssText = `
+                position: fixed;
+                bottom: 30px;
+                right: 30px;
+                background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+                color: white;
+                padding: 20px 30px;
+                border-radius: 12px;
+                box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+                z-index: 3000;
+                animation: slideInUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+                max-width: 400px;
+                font-weight: 600;
+                font-size: 14px;
+            `;
+            
+            successDiv.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 20px;">✓</span>
+                    <div>
+                        <div style="font-weight: 700; margin-bottom: 4px;">Terima Kasih!</div>
+                        <div style="font-size: 12px; opacity: 0.9;">Umpan balik Anda telah kami terima</div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(successDiv);
+            
+            setTimeout(() => {
+                successDiv.style.animation = 'slideOutDown 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
+                setTimeout(() => successDiv.remove(), 400);
+            }, 4000);
+        }
+
+        // Chat Functions
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (message) {
+                sendMessage(message);
+                input.value = '';
+                input.focus();
+            }
+        }
+
+        function handleChatKeypress(e) {
+            if (e.key === 'Enter') {
+                sendChatMessage();
+            }
+        }
+
+        function sendMessage(message) {
+            const chatMessages = document.getElementById('chatMessages');
+            
+            // Add user message
+            const userMsgDiv = document.createElement('div');
+            userMsgDiv.className = 'message user-msg';
+            userMsgDiv.innerHTML = `<div class="msg-content">${escapeHtml(message)}</div>`;
+            chatMessages.appendChild(userMsgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Create bot message div with typing indicator
+            const botMsgDiv = document.createElement('div');
+            botMsgDiv.className = 'message bot-msg';
+            botMsgDiv.innerHTML = `<div class="msg-content typing-indicator"><span></span><span></span><span></span></div>`;
+            chatMessages.appendChild(botMsgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Send to server
+            fetch('<?php echo $baseUrl; ?>/proses.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'pesan=' + encodeURIComponent(message)
+            })
+            .then(res => res.text())
+            .then(data => {
+                if (data && data.trim()) {
+                    // Typing animation dengan character reveal
+                    const fullText = data.trim();
+                    const messageContent = botMsgDiv.querySelector('.msg-content');
+                    messageContent.innerHTML = '';
+                    messageContent.classList.remove('typing-indicator');
+                    
+                    let charIndex = 0;
+                    const typingSpeed = 20; // ms per character
+                    
+                    function typeText() {
+                        if (charIndex < fullText.length) {
+                            messageContent.innerHTML = escapeHtml(fullText.substring(0, charIndex + 1));
+                            charIndex++;
+                            chatMessages.scrollTop = chatMessages.scrollHeight;
+                            setTimeout(typeText, typingSpeed);
+                        }
+                    }
+                    
+                    typeText();
+                } else {
+                    botMsgDiv.innerHTML = `<div class="msg-content">Maaf, saya tidak dapat menjawab pertanyaan tersebut. Silakan coba dengan pertanyaan lain.</div>`;
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                botMsgDiv.innerHTML = `<div class="msg-content">Maaf, terjadi kesalahan koneksi. Silakan periksa koneksi internet Anda dan coba lagi.</div>`;
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            });
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Initialize event listeners when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatModal = document.getElementById('chatModal');
+            const feedbackModal = document.getElementById('feedbackModal');
+            
+            if (chatModal) {
+                chatModal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeChatModal();
+                    }
+                });
+            }
+
+            if (feedbackModal) {
+                feedbackModal.addEventListener('click', function(e) {
+                    if (e.target === this || e.target.classList.contains('feedback-modal-overlay')) {
+                        closeFeedbackModal();
+                    }
+                });
+            }
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    if (this.getAttribute('href') !== '#') {
+                        e.preventDefault();
+                        const target = document.querySelector(this.getAttribute('href'));
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    }
+                });
             });
         });
     </script>
