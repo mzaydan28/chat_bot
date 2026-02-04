@@ -457,9 +457,9 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
                     questions.forEach(question => {
                         const item = document.createElement('button');
                         item.className = 'all-question-item';
-                        item.textContent = question;
+                        item.textContent = question.question;
                         item.onclick = () => {
-                            sendMessage(question);
+                            sendMessage(question.question);
                             closeAllQuestionsModal();
                             focusChatInput();
                         };
