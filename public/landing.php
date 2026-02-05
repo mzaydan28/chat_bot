@@ -17,6 +17,29 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
     <link rel="stylesheet" href="<?php echo $baseUrl; ?>/../assets/css/glassmorphism.css">
     <link rel="stylesheet" href="<?php echo $baseUrl; ?>/../assets/css/feedback-modal.css">
     <style>
+        /* Anti-spam notification animations */
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -20px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
+        
+        @keyframes slideOutUp {
+            from {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+            to {
+                opacity: 0;
+                transform: translate(-50%, -20px);
+            }
+        }
+        
         /* Chat Suggestions Styles */
         .chat-suggestions {
             display: none;
@@ -706,6 +729,50 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 
         function sendMessage(message) {
             const chatMessages = document.getElementById('chatMessages');
+            const sendButton = document.querySelector('.chat-send-btn');
+            const chatInput = document.getElementById('pesan');
+            
+            // Anti-spam: Check cooldown
+            const now = Date.now();
+            const cooldownTime = 2000; // 2 detik
+            
+            if (window.lastMessageTime && (now - window.lastMessageTime) < cooldownTime) {
+                const remainingTime = Math.ceil((cooldownTime - (now - window.lastMessageTime)) / 1000);
+                
+                // Show cooldown notification
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: rgba(255, 87, 34, 0.95);
+                    color: white;
+                    padding: 12px 24px;
+                    border-radius: 8px;
+                    font-size: 14px;
+                    font-weight: 600;
+                    z-index: 10000;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                    animation: slideInDown 0.3s ease;
+                `;
+                notification.textContent = `⏳ Tunggu ${remainingTime} detik sebelum mengirim pesan lagi`;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.animation = 'slideOutUp 0.3s ease';
+                    setTimeout(() => notification.remove(), 300);
+                }, 1500);
+                
+                return;
+            }
+            
+            // Disable send button & input
+            if (sendButton) sendButton.disabled = true;
+            if (chatInput) chatInput.disabled = true;
+            
+            // Update last message time
+            window.lastMessageTime = now;
             
             // Add user message
             const userMsgDiv = document.createElement('div');
@@ -729,6 +796,9 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
             })
             .then(res => res.text())
             .then(data => {
+                // Re-enable send button & input
+                if (sendButton) sendButton.disabled = false;
+                if (chatInput) chatInput.disabled = false;
                 if (data && data.trim()) {
                     // Typing animation dengan character reveal
                     const fullText = data.trim();
@@ -755,6 +825,10 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
                 }
             })
             .catch(err => {
+                // Re-enable send button & input on error
+                if (sendButton) sendButton.disabled = false;
+                if (chatInput) chatInput.disabled = false;
+                
                 console.error('Error:', err);
                 botMsgDiv.innerHTML = `<div class="msg-content">Maaf, terjadi kesalahan koneksi. Silakan periksa koneksi internet Anda dan coba lagi.</div>`;
                 chatMessages.scrollTop = chatMessages.scrollHeight;

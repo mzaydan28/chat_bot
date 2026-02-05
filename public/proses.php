@@ -5,6 +5,7 @@ ini_set('display_errors', 1);
 
 // Pastikan path ke config benar
 include __DIR__ . "/../config/koneksi.php";
+include __DIR__ . "/ai-handler.php";
 
 if (!isset($_POST['pesan'])) {
     die("Error: Pesan tidak diterima");
@@ -29,8 +30,9 @@ if (isset($keywords_data['error'])) {
 $ketemu = false;
 $matched_keyword = '';
 $jawaban = '';
+$answer_source = 'none'; // 'database' or 'ai'
 
-// --- 2. LOGIKA PENCARIAN (PHP SIDE) ---
+// --- 2. LOGIKA PENCARIAN DATABASE (PHP SIDE) ---
 // Loop data dari Supabase (Array) menggantikan while mysqli_fetch_assoc
 if (!empty($keywords_data) && is_array($keywords_data)) {
     foreach ($keywords_data as $data) {
@@ -40,14 +42,19 @@ if (!empty($keywords_data) && is_array($keywords_data)) {
             echo $jawaban; // Kirim jawaban ke chat.php (AJAX)
             $ketemu = true;
             $matched_keyword = $data['keyword'];
+            $answer_source = 'database';
             break; // Berhenti jika ketemu
         }
     }
 }
 
-// --- 3. JIKA TIDAK KETEMU (INSERT KE SUPABASE) ---
+// --- 3. JIKA TIDAK KETEMU DI DATABASE, TANYA AI ---
 if (!$ketemu) {
-    echo "Maaf, saya belum mengerti pertanyaan itu.";
+    // Gunakan AI untuk menjawab
+    $jawaban = handleAIQuery($pesan);
+    echo $jawaban;
+    $answer_source = 'ai';
+    $ketemu = true; // Mark as answered by AI
     
     // Siapkan data untuk INSERT ke tabel unanswered_questions
     $data_unanswered = [
@@ -66,10 +73,11 @@ $is_answered = $ketemu ? 1 : 0;
 $data_history = [
     'session_id'      => $session_id,
     'user_question'   => $pesan,
-    'bot_answer'      => $jawaban ?: "Maaf, saya belum mengerti pertanyaan itu.",
-    'matched_keyword' => $matched_keyword,
+    'bot_answer'      => $jawaban,
+    'matched_keyword' => $matched_keyword ?: null,
     'is_answered'     => $is_answered,
-    'user_ip'         => $user_ip
+    'user_ip'         => $user_ip,
+    'answer_source'   => $answer_source // Track if from database or AI
 ];
 
 // Eksekusi POST request ke tabel chat_history
