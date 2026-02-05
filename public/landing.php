@@ -1,3 +1,4 @@
+
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -9,22 +10,66 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DISA - Chatbot Layanan Disperindag</title>
+    <title>DISCHA - Chatbot Layanan Disperindag</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo $baseUrl; ?>/../assets/css/glassmorphism.css">
     <link rel="stylesheet" href="<?php echo $baseUrl; ?>/../assets/css/feedback-modal.css">
+    <style>
+        /* Chat Suggestions Styles */
+        .chat-suggestions {
+            display: none;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            max-height: 120px;
+            overflow-y: auto;
+        }
+        
+        .chat-suggestions.show {
+            display: block;
+        }
+        
+        .suggestions-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        
+        .suggestion-chip {
+            display: inline-block;
+            padding: 5px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            font-size: 12px;
+            color: #9CA3AF;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        
+        .suggestion-chip:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #E5E7EB;
+            border-color: rgba(255, 255, 255, 0.12);
+        }
+        
+        /* Hero button position adjustment */
+        .hero-cta {
+            margin-top: -40px !important;
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav>
         <div class="nav-content">
             <div class="nav-logo">
-                <img src="<?php echo $baseUrl; ?>/../assets/images/Discha.png" alt="DISA" class="nav-logo-img">
+                <img src="<?php echo $baseUrl; ?>/../assets/images/Discha.png" alt="DISCHA" class="nav-logo-img">
                 <div class="nav-logo-text">
-                    <div class="nav-logo-main">DISA</div>
-                    <div class="nav-logo-sub">Disperindag Assistant</div>
+                    <div class="nav-logo-main">DISCHA</div>
+                    <div class="nav-logo-sub">Disperindag Jateng Chat Assistant</div>
                 </div>
             </div>
             <div class="nav-links">
@@ -73,7 +118,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
             <div class="hero-right">
                 <div class="hero-image-card">
                     <div class="hero-image-glow"></div>
-                    <img src="<?php echo $baseUrl; ?>/../assets/images/Discha.png" alt="DISA Bot" class="hero-image">
+                    <img src="<?php echo $baseUrl; ?>/../assets/images/Discha.png" alt="DISCHA Bot" class="hero-image">
                 </div>
                 
                 <div class="hero-features-quick">
@@ -118,14 +163,14 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
     <section class="tutorial-section" id="tutorial">
         <div class="tutorial-content">
             <div class="section-header">
-                <h2 class="section-title">Cara Menggunakan DISA</h2>
+                <h2 class="section-title">Cara Menggunakan DISCHA</h2>
                 <p class="section-subtitle">Ikuti langkah-langkah sederhana ini untuk mendapatkan informasi yang Anda butuhkan</p>
             </div>
             <div class="steps-grid">
                 <div class="step-card">
                     <div class="step-number">1</div>
                     <h4>Mulai Chat</h4>
-                    <p>Klik tombol "Mulai Chat Sekarang" untuk membuka jendela percakapan dengan DISA.</p>
+                    <p>Klik tombol "Mulai Chat Sekarang" untuk membuka jendela percakapan dengan DISCHA.</p>
                 </div>
                 <div class="step-card">
                     <div class="step-number">2</div>
@@ -135,7 +180,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
                 <div class="step-card">
                     <div class="step-number">3</div>
                     <h4>Dapatkan Jawaban</h4>
-                    <p>DISA akan segera memberikan jawaban yang akurat dan lengkap untuk pertanyaan Anda.</p>
+                    <p>DISCHA akan segera memberikan jawaban yang akurat dan lengkap untuk pertanyaan Anda.</p>
                 </div>
                 <div class="step-card">
                     <div class="step-number">4</div>
@@ -151,50 +196,50 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
         <div class="faq-content">
             <div class="section-header">
                 <h2 class="section-title">Pertanyaan Umum</h2>
-                <p class="section-subtitle">Temukan jawaban atas pertanyaan yang sering diajukan tentang DISA</p>
+                <p class="section-subtitle">Temukan jawaban atas pertanyaan yang sering diajukan tentang DISCHA</p>
             </div>
             <div class="faq-items">
                 <div class="faq-item">
                     <div class="faq-question">
                         <div class="faq-icon">?</div>
-                        <span>Apa itu DISA?</span>
+                        <span>Apa itu DISCHA?</span>
                     </div>
-                    <p class="faq-answer">DISA adalah chatbot cerdas yang dikembangkan oleh Disperindag Jawa Tengah untuk memberikan informasi terkini tentang layanan, program UMKM, dan perizinan usaha. DISA tersedia 24/7 untuk membantu Anda.</p>
+                    <p class="faq-answer">DISCHA adalah chatbot cerdas yang dikembangkan oleh Disperindag Jawa Tengah untuk memberikan informasi terkini tentang layanan, program UMKM, dan perizinan usaha. DISCHA tersedia 24/7 untuk membantu Anda.</p>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
                         <div class="faq-icon">?</div>
-                        <span>Apakah DISA benar-benar tersedia 24/7?</span>
+                        <span>Apakah DISCHA benar-benar tersedia 24/7?</span>
                     </div>
-                    <p class="faq-answer">Ya! DISA dapat diakses kapan saja, 24 jam sehari, 7 hari seminggu. Anda tidak perlu menunggu jam kerja kantor untuk mendapatkan informasi yang dibutuhkan.</p>
+                    <p class="faq-answer">Ya! DISCHA dapat diakses kapan saja, 24 jam sehari, 7 hari seminggu. Anda tidak perlu menunggu jam kerja kantor untuk mendapatkan informasi yang dibutuhkan.</p>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
                         <div class="faq-icon">?</div>
-                        <span>Informasi apa yang bisa saya dapatkan dari DISA?</span>
+                        <span>Informasi apa yang bisa saya dapatkan dari DISCHA?</span>
                     </div>
-                    <p class="faq-answer">DISA menyediakan informasi tentang jam operasional, lokasi kantor, program UMKM, proses perizinan usaha, layanan Disperindag, dan berbagai pertanyaan lain terkait dengan industri dan perdagangan.</p>
+                    <p class="faq-answer">DISCHA menyediakan informasi tentang jam operasional, lokasi kantor, program UMKM, proses perizinan usaha, layanan Disperindag, dan berbagai pertanyaan lain terkait dengan industri dan perdagangan.</p>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
                         <div class="faq-icon">?</div>
                         <span>Bagaimana jika saya tidak menemukan jawaban yang saya cari?</span>
                     </div>
-                    <p class="faq-answer">Jika DISA tidak dapat menjawab pertanyaan Anda, coba rephrase pertanyaan dengan kata-kata yang berbeda atau kunjungi kantor Disperindag secara langsung untuk bantuan lebih lanjut.</p>
+                    <p class="faq-answer">Jika DISCHA tidak dapat menjawab pertanyaan Anda, coba rephrase pertanyaan dengan kata-kata yang berbeda atau kunjungi kantor Disperindag secara langsung untuk bantuan lebih lanjut.</p>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
                         <div class="faq-icon">?</div>
-                        <span>Apakah informasi dari DISA akurat?</span>
+                        <span>Apakah informasi dari DISCHA akurat?</span>
                     </div>
-                    <p class="faq-answer">Semua informasi yang diberikan DISA bersumber dari database resmi Disperindag Jawa Tengah dan diperbarui secara berkala untuk memastikan akurasi dan relevansi.</p>
+                    <p class="faq-answer">Semua informasi yang diberikan DISCHA bersumber dari database resmi Disperindag Jawa Tengah dan diperbarui secara berkala untuk memastikan akurasi dan relevansi.</p>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
                         <div class="faq-icon">?</div>
                         <span>Apakah data saya aman?</span>
                     </div>
-                    <p class="faq-answer">Ya, keamanan data Anda adalah prioritas utama kami. Semua interaksi dengan DISA dilindungi dengan standar keamanan tinggi untuk menjaga privasi Anda.</p>
+                    <p class="faq-answer">Ya, keamanan data Anda adalah prioritas utama kami. Semua interaksi dengan DISCHA dilindungi dengan standar keamanan tinggi untuk menjaga privasi Anda.</p>
                 </div>
             </div>
         </div>
@@ -217,9 +262,9 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
                 <!-- Header -->
                 <div class="chat-header">
                     <div class="chat-header-left">
-                        <img src="<?php echo $baseUrl; ?>/../assets/images/Discha.png" alt="DISA" class="chat-avatar">
+                        <img src="<?php echo $baseUrl; ?>/../assets/images/Discha.png" alt="DISCHA" class="chat-avatar">
                         <div class="chat-info">
-                            <h3 class="chat-name">DISA</h3>
+                            <h3 class="chat-name">DISCHA</h3>
                             <span class="chat-status">Online 24/7</span>
                         </div>
                     </div>
@@ -238,8 +283,12 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 
                 <!-- Input Area -->
                 <div class="chat-input-area">
+                    <!-- Suggestions Container -->
+                    <div id="chatSuggestions" class="chat-suggestions">
+                        <div id="suggestionsList" class="suggestions-list"></div>
+                    </div>
                     <div class="input-wrapper">
-                        <input type="text" id="chatInput" class="chat-input" placeholder="Tanya sesuatu..." onkeypress="handleChatKeypress(event)">
+                        <input type="text" id="pesan" class="chat-input" placeholder="Tanya sesuatu..." autocomplete="off" onkeypress="handleChatKeypress(event)">
                         <button class="send-btn" onclick="sendChatMessage()">➤</button>
                     </div>
                 </div>
@@ -311,22 +360,27 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2026 DISA Chatbot - Dinas Perindustrian dan Perdagangan Jawa Tengah. Semua hak dilindungi.</p>
+        <p>&copy; 2026 DISCHA Chatbot - Dinas Perindustrian dan Perdagangan Jawa Tengah. Semua hak dilindungi.</p>
     </footer>
 
     <script>
+        console.log('🚀 Landing.php script loaded');
+        
         // Modal Functions - Defined at global scope
         function openChatModal(e) {
+            console.log('💬 Opening modal...');
             if (e) e.preventDefault();
             const modal = document.getElementById('chatModal');
             if (modal) {
                 modal.classList.add('open');
                 document.body.style.overflow = 'hidden';
-                const input = document.getElementById('chatInput');
-                if (input) {
-                    setTimeout(() => input.focus(), 100);
-                }
                 loadTemplateSuggestions();
+                setTimeout(() => {
+                    const input = document.getElementById('pesan');
+                    if (input) input.focus();
+                    initChatSuggestions();
+                    console.log('✓ Modal ready');
+                }, 150);
             }
         }
 
@@ -435,6 +489,8 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
                         btn.onclick = () => sendMessage(template.question);
                         container.appendChild(btn);
                     });
+                        // Simpan semua pertanyaan untuk suggested question
+                        window.allQuestionsForSuggest = templates.map(t => t.question);
                 })
                 .catch(err => {
                     console.error('Error loading templates:', err);
@@ -498,7 +554,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
             const formData = new FormData();
             formData.append('name', name);
             formData.append('email', email);
-            formData.append('message', message);
+            formData.append('saran', message);
             formData.append('rating', rating);
             
             fetch('<?php echo $baseUrl; ?>/feedback.php', {
@@ -559,11 +615,16 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 
         // Chat Functions
         function sendChatMessage() {
-            const input = document.getElementById('chatInput');
+            const input = document.getElementById('pesan');
             const message = input.value.trim();
             if (message) {
                 sendMessage(message);
                 input.value = '';
+                // Hide suggestions saat kirim
+                const suggestionsContainer = document.getElementById('chatSuggestions');
+                if (suggestionsContainer) {
+                    suggestionsContainer.classList.remove('show');
+                }
                 input.focus();
             }
         }
@@ -572,6 +633,75 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
             if (e.key === 'Enter') {
                 sendChatMessage();
             }
+        }
+
+        // Load template questions function
+        function loadTemplateQuestions() {
+            console.log('📡 Loading questions...');
+            fetch('get-all-questions.php')
+                .then(response => response.json())
+                .then(questions => {
+                    console.log('✓ Loaded ' + questions.length + ' questions');
+                    window.chatTemplates = questions;
+                })
+                .catch(error => console.error('✗ Error:', error));
+        }
+        
+        // Update suggestions display
+        function updateSuggestions(templates) {
+            const list = document.getElementById('suggestionsList');
+            if (!list) return;
+            list.innerHTML = '';
+            templates.forEach(t => {
+                const chip = document.createElement('div');
+                chip.className = 'suggestion-chip';
+                chip.textContent = t.question;
+                chip.onclick = () => {
+                    document.getElementById('pesan').value = t.question;
+                    document.getElementById('chatSuggestions').classList.remove('show');
+                };
+                list.appendChild(chip);
+            });
+        }
+        
+        // Initialize suggestions
+        function initChatSuggestions() {
+            console.log('🚀 Init suggestions');
+            
+            if (window.suggestionsInitialized) return;
+            
+            const input = document.getElementById('pesan');
+            const box = document.getElementById('chatSuggestions');
+            
+            if (!input || !box) {
+                console.error('❌ Elements not found');
+                return;
+            }
+            
+            console.log('✓ Elements ready');
+            
+            input.addEventListener('input', function() {
+                const q = this.value.trim().toLowerCase();
+                if (!q) {
+                    box.classList.remove('show');
+                    return;
+                }
+                if (window.chatTemplates) {
+                    const filtered = window.chatTemplates.filter(t => t.question.toLowerCase().includes(q));
+                    console.log(q + ' → ' + filtered.length);
+                    if (filtered.length > 0) {
+                        updateSuggestions(filtered.slice(0, 8));
+                        box.classList.add('show');
+                    } else {
+                        box.classList.remove('show');
+                    }
+                }
+            });
+            
+            input.addEventListener('blur', () => setTimeout(() => box.classList.remove('show'), 200));
+            
+            window.suggestionsInitialized = true;
+            loadTemplateQuestions();
         }
 
         function sendMessage(message) {
@@ -637,8 +767,12 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
             return div.innerHTML;
         }
 
+
+
         // Initialize event listeners when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing...');
+            
             const chatModal = document.getElementById('chatModal');
             const feedbackModal = document.getElementById('feedbackModal');
             

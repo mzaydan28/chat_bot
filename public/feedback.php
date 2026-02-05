@@ -39,13 +39,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kritik & Saran - DISA Chatbot</title>
+    <title>Kritik & Saran - DISCHA Chatbot</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;600;700&family=Fraunces:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
         /* ... Style CSS Anda tetap sama ... */
-        /* Pastikan CSS Anda disalin penuh di sini */
+        /* Pastikan CSS Anda DISCHAlin penuh di sini */
         /* Tambahan perbaikan aksesibilitas untuk radio button */
         .rating-option input[type="radio"] {
             opacity: 0;
@@ -164,7 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="popup-overlay" id="popupOverlay">
         <div class="popup-content">
-            <img src="<?php echo $baseUrl; ?>/../assets/images/DISA_Terimakasih.png" alt="Thank You" style="width: 140px; height: auto; margin-bottom: 20px; animation: bounce 0.6s ease-out;">
+            <img src="<?php echo $baseUrl; ?>/../assets/images/DISCHA_Terimakasih.png" alt="Thank You" style="width: 140px; height: auto; margin-bottom: 20px; animation: bounce 0.6s ease-out;">
             <h2 class="popup-title">Terima Kasih!</h2>
             <p class="popup-text">Kritik dan saran Anda sangat berharga bagi kami untuk terus berkembang.</p>
             <button id="backBtn" class="btn" style="margin-top: 30px;">Kembali ke Halaman Utama</button>
@@ -183,8 +183,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             const formData = new FormData(form);
             const submitBtn = form.querySelector('button[type="submit"]');
             
-            // Disable button loading state
-            submitBtn.disabled = true;
+            // DISCHAble button loading state
+            submitBtn.DISCHAbled = true;
             submitBtn.innerHTML = 'Mengirim...';
             
             // Submit form via AJAX
@@ -207,7 +207,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 alert('Terjadi kesalahan koneksi. Silakan coba lagi.');
             })
             .finally(() => {
-                submitBtn.disabled = false;
+                submitBtn.DISCHAbled = false;
                 submitBtn.innerHTML = 'Kirim Kritik & Saran';
             });
         });
