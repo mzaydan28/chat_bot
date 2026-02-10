@@ -11,6 +11,7 @@ $DISPERINDAG_URLS = [
     'profil' => 'https://disperindag.jatengprov.go.id/v3/publik/web/profil',
     'layanan' => 'https://disperindag.jatengprov.go.id/v3/publik/web/layanan',
     'berita' => 'https://disperindag.jatengprov.go.id/v3/publik/web/berita',
+    'ppid_faq' => 'https://disperindag.jatengprov.go.id/v3/ppid/post_baca/Y2FhMzBmZWQyYTE1MTRjYzEzYWVhODgzNDFjZDRmZThhZmU1NWUyMDQ0OTNiNzYxNmNkM2Y3ZWU4M2NmNDRk',
     // Tambahkan URL lain di sini
 ];
 
@@ -99,11 +100,21 @@ function getWebsiteKnowledge() {
         $content = cacheWebsiteContent($url, 3600); // Cache 1 jam
         
         if ($content !== false) {
-            $knowledge .= "Sumber: $url\n";
-            $knowledge .= substr($content, 0, 2000) . "...\n\n"; // Ambil 2000 karakter pertama
+            $knowledge .= "[Sumber: {$key}]\n";
+            // Untuk PPID FAQ ambil lebih banyak konten (10000 karakter)
+            $maxLength = ($key === 'ppid_faq') ? 10000 : 2000;
+            $knowledge .= substr($content, 0, $maxLength) . "...\n\n";
         }
     }
     
     return $knowledge;
+}
+
+/**
+ * Get website URL by key
+ */
+function getWebsiteURL($key) {
+    global $DISPERINDAG_URLS;
+    return $DISPERINDAG_URLS[$key] ?? null;
 }
 ?>

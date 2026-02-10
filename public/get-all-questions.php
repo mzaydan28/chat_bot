@@ -1,53 +1,178 @@
 <?php
-header('Content-Type: application/json');
+// Suppress all errors and warnings
+error_reporting(0);
+ini_set('display_errors', 0);
+
+// Clean output buffer
+if (ob_get_level()) ob_end_clean();
+ob_start();
+
+// Set JSON header
+header('Content-Type: application/json; charset=utf-8');
+
+// Include Supabase connection
 require_once __DIR__ . '/../config/koneksi.php';
 
-try {
-    // Ambil SEMUA data dari Supabase dengan keyword + jawaban
-    $data = supabase_request(
-        'GET',
-        'chatbot?select=keyword,jawaban&order=id.asc'
-    );
+// Try to get data from Supabase first
+$supabaseData = supabase_request('GET', 'chatbot?select=category,question');
+$useSupabase = !isset($supabaseData['error']) && !empty($supabaseData);
 
-    if (isset($data['error'])) {
-        throw new Exception('Supabase error');
+if ($useSupabase) {
+    // Format data from Supabase
+    $categoriesMap = [];
+    
+    foreach ($supabaseData as $row) {
+        $category = $row['category'] ?? 'Umum';
+        $question = $row['question'] ?? '';
+        
+        if (!empty($question)) {
+            if (!isset($categoriesMap[$category])) {
+                $categoriesMap[$category] = [];
+            }
+            $categoriesMap[$category][] = $question;
+        }
     }
-
-    // Excluded greeting keywords
-    $excluded = [
-        'halo','hai','pagi','siang','sore','malam','malem',
-        'dadah','bye','ok','oke','terima kasih','makasih',
-        'apa kabar','lagi apa','kamu siapa','nama kamu siapa'
+    
+    // Format output
+    $output = [
+        'status' => 'success',
+        'source' => 'supabase',
+        'categories' => []
     ];
-
-    // Function untuk transform keyword menjadi pertanyaan natural
-    function keywordToQuestion($keyword) {
-        // Normalize
-        $keyword_lower = strtolower(trim($keyword, ',. '));
-
-        // Map ke pertanyaan natural (lebih banyak pola)
-        $mapping = [
-            'jam' => 'Jam berapa kantor Disperindag buka?',
-            'jam buka tutup' => 'Jam berapa kantor Disperindag buka?',
-            'jam operasional' => 'Jam berapa jam operasional Disperindag?',
-            'buka tutup' => 'Jam berapa kantor Disperindag buka?',
-            'alamat' => 'Di mana lokasi kantor Disperindag?',
-            'lokasi' => 'Di mana lokasi kantor Disperindag?',
-            'umkm' => 'Apa itu UMKM?',
-            'perizinan' => 'Bagaimana cara mengurus perizinan di Disperindag?',
-            'izin perizinan' => 'Bagaimana cara mengurus perizinan di Disperindag?',
-            'izin usaha' => 'Bagaimana cara mengurus izin usaha?',
-            'izin' => 'Bagaimana cara mengurus izin usaha?',
-            'program' => 'Apa saja program yang ditawarkan Disperindag?',
-            'layanan' => 'Apa saja layanan yang tersedia di Disperindag?',
-            'pelayanan' => 'Apa saja layanan yang tersedia di Disperindag?',
-            'disperindag melayani apa' => 'Apa saja yang dilayani oleh Disperindag?',
-            'bisa ngapain' => 'Apa yang bisa saya lakukan di Disperindag?',
-            'kamu bisa apa' => 'Apa yang bisa kamu bantu?',
-            'kontak' => 'Bagaimana cara menghubungi Disperindag?',
-            'hubungi' => 'Bagaimana cara menghubungi Disperindag?',
-            'pengaduan' => 'Bagaimana cara menyampaikan pengaduan?',
+    
+    foreach ($categoriesMap as $category => $questions) {
+        $output['categories'][] = [
+            'name' => $category,
+            'questions' => $questions,
+            'count' => count($questions)
         ];
+    }
+    
+    // Clean output and send
+    ob_clean();
+    echo json_encode($output, JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+// Fallback: Hardcoded data pertanyaan template
+$questionTemplates = [
+    'Informasi Tentang Badan Publik' => [
+        'Di mana alamat lengkap kantor Dinas Perindustrian dan Perdagangan Jawa Tengah?',
+        'Apa visi dan misi Dinas Perindustrian dan Perdagangan Jawa Tengah?',
+        'Bagaimana struktur organisasi Dinas Perindustrian dan Perdagangan?',
+        'Siapa Kepala Dinas dan pejabat struktural saat ini?',
+        'Apa tugas dan fungsi Dinas Perindustrian dan Perdagangan?',
+        'Berapa anggaran Dinas tahun berjalan (DPA/DIPA)?',
+        'Bagaimana profil balai dan UPT yang ada?',
+        'Apa maklumat pelayanan Dinas?'
+    ],
+    'Informasi Pelayanan' => [
+        'Apa saja layanan perizinan yang tersedia?',
+        'Bagaimana profil SKPD dan Balai?',
+        'Apa agenda pimpinan SKPD saat ini?',
+        'Bagaimana agenda berjalan/RKO Dinas?',
+        'Apa saja Surat Keputusan (SK) terbaru?',
+        'Bagaimana rencana strategis (RENSTRA) dan rencana kerja (RENJA)?',
+        'Apa inovasi layanan informasi publik yang ada?'
+    ],
+    'Ringkasan Program dan Kegiatan' => [
+        'Apa saja nama program dan kegiatan Dinas?',
+        'Siapa penanggung jawab program dan kegiatan?',
+        'Bagaimana target dan capaian program kegiatan (RKO)?',
+        'Kapan jadwal pelaksanaan program kegiatan?',
+        'Berapa nilai anggaran per program (DPA/DIPA)?'
+    ],
+    'Ringkasan Kinerja' => [
+        'Bagaimana laporan kinerja Dinas Perindag (LKJIP)?',
+        'Apa hasil penilaian kinerja Disperindag tahun sebelumnya?',
+        'Bagaimana efisiensi yang dicapai?',
+        'Bagaimana laporan evaluasi kinerja kegiatan tahun berjalan?',
+        'Bagaimana target dan penyerapan kegiatan (POK)?',
+        'Apa laporan keuangan dan realisasi PAD?',
+        'Bagaimana grafik kinerja keuangan Dinas?'
+    ],
+    'Bantuan Keuangan dan Sosial' => [
+        'Apa saja bantuan keuangan/sosial yang tersedia?',
+        'Bagaimana transparansi bantuan keuangan/sosial?',
+        'Siapa yang berhak mendapat bantuan keuangan?',
+        'Bagaimana cara mengajukan bantuan keuangan/sosial?'
+    ],
+    'Akses Informasi Publik' => [
+        'Bagaimana cara mengajukan permohonan informasi publik?',
+        'Apa hak dan tata cara memperoleh informasi publik?',
+        'Bagaimana prosedur pengaduan dan penyalahgunaan wewenang?',
+        'Berapa kecepatan layanan informasi publik?',
+        'Bagaimana cara mengajukan keberatan informasi publik?',
+        'Apa saja formulir layanan informasi yang tersedia?'
+    ],
+    'Peraturan dan Kebijakan' => [
+        'Apa saja rencana peraturan yang akan ditetapkan?',
+        'Bagaimana rancangan peraturan atau kebijakan yang dibentuk?',
+        'Apa saja Peraturan Gubernur Jawa Tengah terkait?',
+        'Bagaimana peraturan tentang keterbukaan informasi publik?',
+        'Apa regulasi SKPD terbaru?'
+    ],
+    'Data Statistik Industri dan Perdagangan' => [
+        'Bagaimana informasi perdagangan luar negeri?',
+        'Apa data perdagangan dalam negeri terkini?',
+        'Bagaimana informasi standarisasi dan perlindungan konsumen?',
+        'Apa informasi tentang industri non-agro?',
+        'Bagaimana data industri agro?',
+        'Apa layanan Balai Industri Produk Tekstil dan Alas Kaki?',
+        'Bagaimana Balai Industri Kreatif Digital dan Kemasan?',
+        'Apa informasi Balai Sertifikasi Mutu Barang?'
+    ],
+    'SOP dan Standar Layanan' => [
+        'Apa saja Standar dan Prosedur Operasional Pelayanan (SOP)?',
+        'Berapa standar biaya permintaan informasi?',
+        'Bagaimana prosedur peringatan dini keadaan darurat?',
+        'Apa SOP layanan publik untuk disabilitas?'
+    ],
+    'PPID Pelaksana' => [
+        'Apa profil dan struktur PPID Pelaksana?',
+        'Bagaimana dukungan anggaran PPID?',
+        'Apa agenda kegiatan PPID Pelaksana?',
+        'Bagaimana laporan tahunan PPID?',
+        'Apa aplikasi dan sarana prasarana PPID?',
+        'Bagaimana tata cara permohonan informasi online?'
+    ],
+    'Pengadaan Barang dan Jasa' => [
+        'Bagaimana informasi pengadaan barang dan jasa (RUP)?',
+        'Apa pengadaan barang dan jasa melalui tender/lelang?',
+        'Bagaimana pengadaan melalui swakelola dan penunjukan langsung?',
+        'Apa dokumen pengadaan barang/jasa tahun berjalan?',
+        'Bagaimana tahapan pengadaan barang dan jasa?'
+    ],
+    'Link dan Layanan Digital' => [
+        'Bagaimana formulir fasilitas produk kemasan?',
+        'Apa info harga kebutuhan pokok masyarakat (Kepokmas)?',
+        'Bagaimana implementasi Open Data/Satu Data Jateng?',
+        'Apa link terkait layanan digital lainnya?'
+    ]
+];
+
+// Format output dengan struktur kategori
+$output = [
+    'status' => 'success',
+    'source' => 'fallback',
+    'categories' => []
+];
+
+foreach ($questionTemplates as $category => $questions) {
+    $output['categories'][] = [
+        'name' => $category,
+        'questions' => $questions,
+        'count' => count($questions)
+    ];
+}
+
+// Clean any remaining output
+ob_clean();
+
+// Output clean JSON
+echo json_encode($output, JSON_UNESCAPED_UNICODE);
+exit;
+?>
 
         if (isset($mapping[$keyword_lower])) {
             return $mapping[$keyword_lower];

@@ -1,4 +1,3 @@
-
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -10,12 +9,127 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>DISCHA - Chatbot Layanan Disperindag</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/../assets/css/glassmorphism.css">
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/../assets/css/feedback-modal.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/../assets/css/modern-light.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/../assets/css/feedback-modal.css?v=<?php echo time(); ?>">
+    <style>
+        /* FORCE QUESTION HOVER EFFECTS - HIGHEST PRIORITY */
+        .chat-question-item:hover,
+        .category-questions .chat-question-item:hover,
+        button.chat-question-item:hover {
+            background: #6366f1 !important;
+            color: white !important;
+            transform: translateX(2px) !important;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3) !important;
+        }
+        
+        .all-question-item:hover,
+        button.all-question-item:hover {
+            background: #6366f1 !important;
+            color: white !important;
+            transform: translateX(4px) !important;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3) !important;
+        }
+        
+        /* FORCE OVERRIDE STYLES - UX IMPROVEMENTS */
+        .nav-cta {
+            background: transparent !important;
+            color: #6366f1 !important;
+            border: 2px solid #6366f1 !important;
+        }
+        .nav-cta:hover {
+            background: #6366f1 !important;
+            color: white !important;
+        }
+        .hero-cta-btn {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
+            color: white !important;
+            padding: 16px 32px !important;
+            font-size: 16px !important;
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4) !important;
+        }
+        .features-list {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 20px !important;
+        }
+        .feature-item {
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 16px !important;
+            background: none !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+        .feature-icon {
+            font-size: 20px !important;
+        }
+        .stat-icon {
+            font-size: 18px !important;
+            margin-bottom: 4px !important;
+        }
+        .stat-label {
+            color: #374151 !important;
+            font-weight: 500 !important;
+        }
+        .hero-image {
+            filter: drop-shadow(0 10px 30px rgba(99, 102, 241, 0.3)) !important;
+            width: 300px !important;
+            height: 300px !important;
+            transition: all 0.3s ease !important;
+        }
+        .hero-image:hover {
+            transform: scale(1.05) !important;
+        }
+        .speech-bubble {
+            position: absolute !important;
+            top: -90px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
+            color: white !important;
+            padding: 18px 24px !important;
+            border-radius: 20px !important;
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4) !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+            z-index: 1000 !important;
+            min-width: 280px !important;
+            max-width: 320px !important;
+            text-align: center !important;
+            white-space: normal !important;
+        }
+        .speech-bubble.show {
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: translateX(-50%) translateY(-10px) !important;
+        }
+        .speech-text {
+            font-size: 15px !important;
+            line-height: 1.5 !important;
+            font-weight: 500 !important;
+            letter-spacing: 0.3px !important;
+            word-spacing: 1px !important;
+        }
+        .speech-arrow {
+            position: absolute !important;
+            bottom: -8px !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            width: 0 !important;
+            height: 0 !important;
+            border-left: 8px solid transparent !important;
+            border-right: 8px solid transparent !important;
+            border-top: 8px solid #8b5cf6 !important;
+        }
+    </style>"
     <style>
         /* Anti-spam notification animations */
         @keyframes slideInDown {
@@ -80,7 +194,46 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
         
         /* Hero button position adjustment */
         .hero-cta {
-            margin-top: -40px !important;
+            margin-top: 20px !important;
+        }
+
+        /* Mobile Responsive for Speech Bubble and Hero */
+        @media (max-width: 768px) {
+            .speech-bubble {
+                min-width: 220px !important;
+                max-width: 280px !important;
+                padding: 14px 18px !important;
+                font-size: 13px !important;
+                top: -70px !important;
+            }
+
+            .speech-text {
+                font-size: 13px !important;
+                line-height: 1.4 !important;
+            }
+
+            .hero-image-card {
+                margin-top: 20px;
+            }
+
+            .hero-image-glow {
+                width: 200px;
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .speech-bubble {
+                min-width: 200px !important;
+                max-width: 250px !important;
+                padding: 12px 16px !important;
+                font-size: 12px !important;
+                top: -60px !important;
+            }
+
+            .speech-text {
+                font-size: 12px !important;
+            }
         }
     </style>
 </head>
@@ -89,7 +242,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
     <nav>
         <div class="nav-content">
             <div class="nav-logo">
-                <img src="<?php echo $baseUrl; ?>/../assets/images/Discha.png" alt="DISCHA" class="nav-logo-img">
+                <img src="<?php echo $baseUrl; ?>/../assets/images/Discha-removebg-preview.png" alt="DISCHA" class="nav-logo-img">
                 <div class="nav-logo-text">
                     <div class="nav-logo-main">DISCHA</div>
                     <div class="nav-logo-sub">Disperindag Jateng Chat Assistant</div>
@@ -100,12 +253,6 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
                 <a href="#tutorial">Tutorial</a>
                 <a href="#faq">FAQ</a>
                 <a href="#" onclick="openChatModal(event)" class="nav-cta">Mulai Chat</a>
-            </div>
-            <div class="nav-view-toggle">
-                <button class="view-toggle-btn" onclick="toggleViewMode()" title="Toggle Mobile/Desktop View">
-                    <span class="toggle-icon">📱</span>
-                    <span class="toggle-label">Desktop</span>
-                </button>
             </div>
         </div>
     </nav>
@@ -120,39 +267,37 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
                 
                 <div class="hero-stats">
                     <div class="stat-item">
+                        <span class="stat-icon">🕰️</span>
                         <span class="stat-number">24/7</span>
-                        <span class="stat-label">Tersedia</span>
+                        <span class="stat-label">Selalu Tersedia</span>
                     </div>
                     <div class="stat-item">
+                        <span class="stat-icon">🎯</span>
                         <span class="stat-number">98%</span>
-                        <span class="stat-label">Akurat</span>
+                        <span class="stat-label">Tingkat Akurasi</span>
                     </div>
                     <div class="stat-item">
+                        <span class="stat-icon">⚡</span>
                         <span class="stat-number">&lt;2s</span>
-                        <span class="stat-label">Respons</span>
+                        <span class="stat-label">Waktu Respons</span>
                     </div>
                 </div>
 
                 <div class="hero-cta">
-                    <a href="#" onclick="openChatModal(event)" class="nav-cta">Mulai Chat</a>
+                    <a href="#" onclick="openChatModal(event)" class="hero-cta-btn">Mulai Chat Sekarang</a>
                 </div>
             </div>
 
             <div class="hero-right">
                 <div class="hero-image-card">
                     <div class="hero-image-glow"></div>
-                    <img src="<?php echo $baseUrl; ?>/../assets/images/Discha.png" alt="DISCHA Bot" class="hero-image">
-                </div>
-                
-                <div class="hero-features-quick">
-                    <div class="quick-feature">
-                        <div>Respon Instan</div>
-                    </div>
-                    <div class="quick-feature">
-                        <div>Akurat & Tepat</div>
-                    </div>
-                    <div class="quick-feature">
-                        <div>Aman Terjamin</div>
+                    <img src="<?php echo $baseUrl; ?>/../assets/images/Discha-removebg-preview.png" alt="DISCHA Bot" class="hero-image" onclick="toggleDischaSpeech()" style="cursor: pointer;">
+                    <div id="dischaSpeechBubble" class="speech-bubble">
+                        <div class="speech-text">
+                            👋 Halo! Perkenalkan, aku DISCHA.<br>
+                            Aku siap membantu kamu!
+                        </div>
+                        <div class="speech-arrow"></div>
                     </div>
                 </div>
             </div>
@@ -165,18 +310,27 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
             <div class="section-header">
                 <h2 class="section-title">Fitur Unggulan</h2>
             </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <h3>Respons Cepat</h3>
-                    <p>Dapatkan jawaban instan untuk semua pertanyaan Anda</p>
+            <div class="features-list">
+                <div class="feature-item">
+                    <span class="feature-icon">✅</span>
+                    <div class="feature-text">
+                        <h3>Respons Cepat</h3>
+                        <p>Dapatkan jawaban instan untuk semua pertanyaan Anda</p>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <h3>Akurat & Terpercaya</h3>
-                    <p>Informasi dari data resmi Disperindag Jawa Tengah</p>
+                <div class="feature-item">
+                    <span class="feature-icon">✅</span>
+                    <div class="feature-text">
+                        <h3>Akurat & Terpercaya</h3>
+                        <p>Informasi dari data resmi Disperindag Jawa Tengah</p>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <h3>Aman & Privat</h3>
-                    <p>Keamanan data Anda adalah prioritas utama kami</p>
+                <div class="feature-item">
+                    <span class="feature-icon">✅</span>
+                    <div class="feature-text">
+                        <h3>Aman & Privat</h3>
+                        <p>Keamanan data Anda adalah prioritas utama kami</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -279,13 +433,18 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
                 </div>
                 <button class="view-all-btn-sidebar" onclick="loadAllQuestions()">Lihat Semua Pertanyaan</button>
             </div>
+            
+            <!-- Mobile Floating Button for Questions -->
+            <button class="mobile-questions-btn" onclick="loadAllQuestions()">
+                📋 Lihat Semua Pertanyaan
+            </button>
 
             <!-- Right Container - Chat -->
             <div class="chat-right-container">
                 <!-- Header -->
                 <div class="chat-header">
                     <div class="chat-header-left">
-                        <img src="<?php echo $baseUrl; ?>/../assets/images/Discha.png" alt="DISCHA" class="chat-avatar">
+                        <img src="<?php echo $baseUrl; ?>/../assets/images/Discha-removebg-preview.png" alt="DISCHA" class="chat-avatar">
                         <div class="chat-info">
                             <h3 class="chat-name">DISCHA</h3>
                             <span class="chat-status">Online 24/7</span>
@@ -325,7 +484,6 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
         <div class="feedback-modal-content">
             <div class="feedback-header">
                 <h3>Umpan Balik Anda</h3>
-                <button class="feedback-close-btn" onclick="closeFeedbackModal()" type="button">✕</button>
             </div>
             <form id="feedbackForm" onsubmit="submitFeedback(event)">
                 <div class="form-group">
@@ -356,7 +514,6 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
                     </div>
                 </div>
                 <div class="form-actions-modal">
-                    <button type="button" class="btn-cancel-modal" onclick="closeFeedbackModal()">Batal</button>
                     <button type="submit" class="btn-submit-modal">Kirim</button>
                 </div>
             </form>
@@ -367,7 +524,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
     <div id="allQuestionsModal" class="questions-modal">
         <div class="questions-modal-content">
             <div class="questions-header">
-                <h3>Semua Pertanyaan</h3>
+                <h3>📋 Daftar Pertanyaan</h3>
                 <button class="close-btn" onclick="closeAllQuestionsModal()">✕</button>
             </div>
             <div class="questions-grid" id="allQuestionsList">
@@ -398,6 +555,15 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
                 modal.classList.add('open');
                 document.body.style.overflow = 'hidden';
                 loadTemplateSuggestions();
+                
+                // Show mobile button if on mobile device
+                setTimeout(() => {
+                    const mobileBtn = document.querySelector('.mobile-questions-btn');
+                    if (mobileBtn && window.innerWidth <= 768) {
+                        mobileBtn.style.display = 'flex';
+                    }
+                }, 100);
+                
                 setTimeout(() => {
                     const input = document.getElementById('pesan');
                     if (input) input.focus();
@@ -412,6 +578,12 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
             if (modal) {
                 modal.classList.remove('open');
                 document.body.style.overflow = 'auto';
+                
+                // Hide mobile button when chat modal closes
+                const mobileBtn = document.querySelector('.mobile-questions-btn');
+                if (mobileBtn) {
+                    mobileBtn.style.display = 'none';
+                }
             }
             closeAllQuestionsModal();
         }
@@ -443,117 +615,274 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
             if (form) form.reset();
         }
 
-        let currentViewMode = 'desktop'; // default desktop
-
-        // View Mode Toggle Function
-        function toggleViewMode() {
-            const body = document.body;
-            const btn = document.querySelector('.view-toggle-btn');
-            const label = btn.querySelector('.toggle-label');
-            const icon = btn.querySelector('.toggle-icon');
+        // DISCHA Interactive Speech
+        let speechTimeout;
+        function toggleDischaSpeech() {
+            const bubble = document.getElementById('dischaSpeechBubble');
             
-            if (currentViewMode === 'desktop') {
-                currentViewMode = 'mobile';
-                body.classList.add('mobile-view');
-                body.classList.remove('desktop-view');
-                label.textContent = 'Mobile';
-                icon.textContent = '🖥️';
-                localStorage.setItem('viewMode', 'mobile');
-            } else {
-                currentViewMode = 'desktop';
-                body.classList.remove('mobile-view');
-                body.classList.add('desktop-view');
-                label.textContent = 'Desktop';
-                icon.textContent = '📱';
-                localStorage.setItem('viewMode', 'desktop');
+            // Clear any existing timeout
+            if (speechTimeout) {
+                clearTimeout(speechTimeout);
             }
-        }
-
-        // Restore view mode from localStorage
-        function restoreViewMode() {
-            const saved = localStorage.getItem('viewMode') || 'desktop';
-            const body = document.body;
-            const btn = document.querySelector('.view-toggle-btn');
-            const label = btn.querySelector('.toggle-label');
-            const icon = btn.querySelector('.toggle-icon');
             
-            currentViewMode = saved;
-            if (saved === 'mobile') {
-                body.classList.add('mobile-view');
-                label.textContent = 'Mobile';
-                icon.textContent = '🖥️';
-            } else {
-                body.classList.add('desktop-view');
-                label.textContent = 'Desktop';
-                icon.textContent = '📱';
-            }
+            // Show speech bubble
+            bubble.classList.add('show');
+            
+            // Hide after 4 seconds
+            speechTimeout = setTimeout(() => {
+                bubble.classList.remove('show');
+            }, 4000);
         }
+        
+        // Auto show speech bubble on page load (optional)
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                toggleDischaSpeech();
+            }, 2000);
+        });
 
-        // Call restore on page load
-        window.addEventListener('load', restoreViewMode);
-
-        // Load template suggestions from API
+        // Load template suggestions from API with categories
         function loadTemplateSuggestions() {
             fetch('<?php echo $baseUrl; ?>/get-templates.php')
                 .then(res => res.json())
-                .then(templates => {
+                .then(data => {
                     const container = document.getElementById('chatQuestionsList');
                     container.innerHTML = '';
                     
-                    if (!templates || templates.length === 0) {
+                    if (!data || !data.categories || data.categories.length === 0) {
                         container.innerHTML = '<p style="color: var(--text-muted); font-size: 11px; text-align: center;">Tidak ada pertanyaan</p>';
                         return;
                     }
                     
-                    templates.forEach(template => {
-                        const btn = document.createElement('button');
-                        btn.className = 'chat-question-item';
-                        btn.textContent = template.question;
-                        btn.onclick = () => sendMessage(template.question);
-                        container.appendChild(btn);
+                    data.categories.forEach((category, index) => {
+                        // Create category container
+                        const categoryDiv = document.createElement('div');
+                        categoryDiv.className = 'question-category';
+                        
+                        // Create category header
+                        const categoryHeader = document.createElement('button');
+                        categoryHeader.className = 'category-header';
+                        categoryHeader.innerHTML = `
+                            <span class="category-title">${category.name}</span>
+                            <span class="category-count">(${category.count})</span>
+                            <span class="category-arrow">▼</span>
+                        `;
+                        
+                        // Create questions container
+                        const questionsContainer = document.createElement('div');
+                        questionsContainer.className = 'category-questions';
+                        questionsContainer.style.display = index === 0 ? 'block' : 'none'; // First category expanded by default
+                        
+                        // Add questions
+                        category.questions.forEach(question => {
+                            const btn = document.createElement('button');
+                            btn.className = 'chat-question-item';
+                            btn.textContent = question;
+                            btn.onclick = () => sendMessage(question);
+                            
+                            // Set initial style
+                            btn.style.background = '#F9FAFB';
+                            btn.style.color = '#1F2937';
+                            
+                            // Force hover effects
+                            btn.onmouseover = function() {
+                                this.style.background = '#6366f1';
+                                this.style.color = 'white';
+                                this.style.transform = 'translateX(2px)';
+                                this.style.boxShadow = '0 2px 8px rgba(99, 102, 241, 0.3)';
+                            };
+                            btn.onmouseout = function() {
+                                this.style.background = '#F9FAFB';
+                                this.style.color = '#1F2937';
+                                this.style.transform = 'translateX(0)';
+                                this.style.boxShadow = 'none';
+                            };
+                            
+                            questionsContainer.appendChild(btn);
+                        });
+                        
+                        // Toggle functionality
+                        categoryHeader.onclick = () => {
+                            const isVisible = questionsContainer.style.display === 'block';
+                            questionsContainer.style.display = isVisible ? 'none' : 'block';
+                            categoryHeader.querySelector('.category-arrow').textContent = isVisible ? '▶' : '▼';
+                            categoryHeader.classList.toggle('collapsed', isVisible);
+                        };
+                        
+                        categoryDiv.appendChild(categoryHeader);
+                        categoryDiv.appendChild(questionsContainer);
+                        container.appendChild(categoryDiv);
                     });
-                        // Simpan semua pertanyaan untuk suggested question
-                        window.allQuestionsForSuggest = templates.map(t => t.question);
+                    
+                    // Collect all questions for suggestions
+                    const allQuestions = data.categories.flatMap(cat => cat.questions);
+                    window.allQuestionsForSuggest = allQuestions;
                 })
                 .catch(err => {
                     console.error('Error loading templates:', err);
+                    document.getElementById('chatQuestionsList').innerHTML = 
+                        '<p style="color: var(--error-color); font-size: 11px; text-align: center;">Error loading templates</p>';
                 });
         }
 
-        // Load all questions from API
+        // Load all questions from API with categories
         function loadAllQuestions() {
+            console.log('🔄 Loading all questions...');
+            console.log('📍 Fetching from:', '<?php echo $baseUrl; ?>/get-all-questions.php');
+            
+            // Hide mobile button when modal opens
+            const mobileBtn = document.querySelector('.mobile-questions-btn');
+            if (mobileBtn) {
+                mobileBtn.style.display = 'none';
+            }
+            
             fetch('<?php echo $baseUrl; ?>/get-all-questions.php')
-                .then(res => res.json())
-                .then(questions => {
+                .then(res => {
+                    console.log('📡 Response status:', res.status);
+                    return res.json();
+                })
+                .then(data => {
+                    console.log('📊 Data received:', data);
+                    
                     const container = document.getElementById('allQuestionsList');
+                    if (!container) {
+                        console.error('❌ Container allQuestionsList not found!');
+                        return;
+                    }
+                    
                     container.innerHTML = '';
                     
-                    if (!questions || questions.length === 0) {
+                    if (!data || !data.categories || data.categories.length === 0) {
                         container.innerHTML = '<p>Tidak ada pertanyaan tersedia</p>';
                         return;
                     }
                     
-                    questions.forEach(question => {
-                        const item = document.createElement('button');
-                        item.className = 'all-question-item';
-                        item.textContent = question.question;
-                        item.onclick = () => {
-                            sendMessage(question.question);
-                            closeAllQuestionsModal();
-                            focusChatInput();
+                    console.log(`📋 Creating ${data.categories.length} categories...`);
+                    
+                    // Create categories with expand/collapse
+                    data.categories.forEach((category, index) => {
+                        // Create category container
+                        const categoryDiv = document.createElement('div');
+                        categoryDiv.className = 'all-question-category';
+                        
+                        // Create category header
+                        const categoryHeader = document.createElement('button');
+                        categoryHeader.className = 'all-category-header';
+                        if (index === 0) categoryHeader.classList.add('expanded'); // First category expanded by default
+                        
+                        categoryHeader.innerHTML = `
+                            <span class="all-category-title">${category.name}</span>
+                            <span class="all-category-count">(${category.count} pertanyaan)</span>
+                            <span class="all-category-arrow">${index === 0 ? '▼' : '▶'}</span>
+                        `;
+                        
+                        // Create questions container
+                        const questionsContainer = document.createElement('div');
+                        questionsContainer.className = 'all-category-questions';
+                        questionsContainer.style.cssText = `
+                            padding: ${index === 0 ? '12px' : '0 12px'};
+                            max-height: ${index === 0 ? '300px' : '0'};
+                        `;
+                        
+                        // Add questions
+                        category.questions.forEach(question => {
+                            const btn = document.createElement('button');
+                            btn.className = 'all-question-item';
+                            btn.textContent = question;
+                            
+                            btn.onclick = () => {
+                                sendMessage(question);
+                                closeAllQuestionsModal();
+                                focusChatInput();
+                            };
+                            
+                            // Set initial style
+                            btn.style.background = '#FFFFFF';
+                            btn.style.color = '#1F2937';
+                            
+                            // Force hover effects
+                            btn.onmouseover = function() {
+                                this.style.background = '#6366f1';
+                                this.style.color = 'white';
+                                this.style.transform = 'translateX(4px)';
+                                this.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)';
+                            };
+                            btn.onmouseout = function() {
+                                this.style.background = '#FFFFFF';
+                                this.style.color = '#1F2937';
+                                this.style.transform = 'translateX(0)';
+                                this.style.boxShadow = 'none';
+                            };
+                            
+                            questionsContainer.appendChild(btn);
+                        });
+                        
+                        // Toggle functionality
+                        categoryHeader.onclick = () => {
+                            const isExpanded = questionsContainer.style.maxHeight !== '0px';
+                            const arrow = categoryHeader.querySelector('.all-category-arrow');
+                            
+                            if (isExpanded) {
+                                // Collapse
+                                questionsContainer.style.maxHeight = '0px';
+                                questionsContainer.style.padding = '0 12px';
+                                arrow.textContent = '▶';
+                                categoryHeader.classList.remove('expanded');
+                            } else {
+                                // Expand
+                                questionsContainer.style.maxHeight = '300px';
+                                questionsContainer.style.padding = '12px';
+                                arrow.textContent = '▼';
+                                categoryHeader.classList.add('expanded');
+                            }
                         };
-                        container.appendChild(item);
+                        
+                        // Hover effects for collapsed categories only
+                        categoryHeader.onmouseover = () => {
+                            if (!categoryHeader.classList.contains('expanded')) {
+                                categoryHeader.style.background = 'var(--primary-light)';
+                                categoryHeader.style.color = 'white';
+                            }
+                        };
+                        
+                        categoryHeader.onmouseout = () => {
+                            if (!categoryHeader.classList.contains('expanded')) {
+                                categoryHeader.style.background = 'var(--bg-tertiary)';
+                                categoryHeader.style.color = 'var(--text-primary)';
+                            }
+                        };
+                        
+                        categoryDiv.appendChild(categoryHeader);
+                        categoryDiv.appendChild(questionsContainer);
+                        container.appendChild(categoryDiv);
                     });
                     
-                    document.getElementById('allQuestionsModal').classList.add('open');
+                    console.log('✅ Categories created, opening modal...');
+                    const modal = document.getElementById('allQuestionsModal');
+                    if (modal) {
+                        modal.classList.add('open');
+                        console.log('✅ Modal opened!');
+                    } else {
+                        console.error('❌ Modal allQuestionsModal not found!');
+                    }
                 })
                 .catch(err => {
-                    console.error('Error loading all questions:', err);
+                    console.error('❌ Error loading all questions:', err);
+                    const container = document.getElementById('allQuestionsList');
+                    if (container) {
+                        container.innerHTML = '<p style="color: var(--danger); text-align: center;">Error memuat pertanyaan: ' + err.message + '</p>';
+                    }
                 });
         }
 
         function closeAllQuestionsModal() {
             document.getElementById('allQuestionsModal').classList.remove('open');
+            
+            // Show mobile button again when modal closes
+            const mobileBtn = document.querySelector('.mobile-questions-btn');
+            if (mobileBtn && window.innerWidth <= 768) {
+                mobileBtn.style.display = 'flex';
+            }
         }
 
         function focusChatInput() {
@@ -580,7 +909,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
             formData.append('saran', message);
             formData.append('rating', rating);
             
-            fetch('<?php echo $baseUrl; ?>/feedback.php', {
+            fetch('feedback.php', {
                 method: 'POST',
                 body: formData
             })
@@ -811,7 +1140,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
                     
                     function typeText() {
                         if (charIndex < fullText.length) {
-                            messageContent.innerHTML = escapeHtml(fullText.substring(0, charIndex + 1));
+                            messageContent.innerHTML = linkifyText(fullText.substring(0, charIndex + 1));
                             charIndex++;
                             chatMessages.scrollTop = chatMessages.scrollHeight;
                             setTimeout(typeText, typingSpeed);
@@ -839,6 +1168,28 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
+        }
+        
+        // Convert URLs to clickable links while preserving line breaks and escaping other HTML
+        function linkifyText(text) {
+            // First escape HTML
+            let safe = escapeHtml(text);
+            
+            // Convert line breaks to <br>
+            safe = safe.replace(/\n/g, '<br>');
+            
+            // URL regex pattern - matches http:// and https://
+            const urlPattern = /(https?:\/\/[^\s<>"]+)/gi;
+            
+            // Replace URLs with clickable links
+            safe = safe.replace(urlPattern, function(url) {
+                // Clean up URL (remove trailing punctuation if any)
+                let cleanUrl = url.replace(/[.,;!?)]$/, '');
+                
+                return `<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; word-break: break-all; overflow-wrap: anywhere;">${cleanUrl}</a>`;
+            });
+            
+            return safe;
         }
 
 

@@ -6,7 +6,7 @@
 
 // Project Supabase
 define('SUPABASE_PROJECT_ID', 'wbuwkgspuyoqibgsvswr');
-define('SUPABASE_URL', 'https://' . SUPABASE_PROJECT_ID . '.supabase.co');
+define('SUPABASE_URL', 'https://wbuwkgspuyoqibgsvswr.supabase.co');
 
 // Anon Public API Key (AMAN untuk frontend/backend ringan + RLS)
 define('SUPABASE_KEY', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndidXdrZ3NwdXlvcWliZ3N2c3dyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk5NzcwMDMsImV4cCI6MjA4NTU1MzAwM30.U9M-kCST-ZPFuZLi2uIUcQ4ncU75r3J4CqYkXuRfIFw');
