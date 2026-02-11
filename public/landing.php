@@ -2,7 +2,6 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 include __DIR__ . "/../config/koneksi.php";
-$baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -16,10 +15,9 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/../assets/css/modern-light.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="<?php echo $baseUrl; ?>/../assets/css/feedback-modal.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="/assets/css/modern-light.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="/assets/css/feedback-modal.css?v=<?php echo time(); ?>">
     <style>
-        /* FORCE QUESTION HOVER EFFECTS - HIGHEST PRIORITY */
         .chat-question-item:hover,
         .category-questions .chat-question-item:hover,
         button.chat-question-item:hover {
@@ -242,7 +240,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
     <nav>
         <div class="nav-content">
             <div class="nav-logo">
-                <img src="<?php echo $baseUrl; ?>/../assets/images/Discha-removebg-preview.png" alt="DISCHA" class="nav-logo-img">
+            <img src="/assets/images/Discha-removebg-preview.png" alt="DISCHA" class="nav-logo-img">
                 <div class="nav-logo-text">
                     <div class="nav-logo-main">DISCHA</div>
                     <div class="nav-logo-sub">Disperindag Jateng Chat Assistant</div>
@@ -291,7 +289,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
             <div class="hero-right">
                 <div class="hero-image-card">
                     <div class="hero-image-glow"></div>
-                    <img src="<?php echo $baseUrl; ?>/../assets/images/Discha-removebg-preview.png" alt="DISCHA Bot" class="hero-image" onclick="toggleDischaSpeech()" style="cursor: pointer;">
+                    <img src="/assets/images/Discha-removebg-preview.png" alt="DISCHA Bot" class="hero-image" ... >
                     <div id="dischaSpeechBubble" class="speech-bubble">
                         <div class="speech-text">
                             👋 Halo! Perkenalkan, aku DISCHA.<br>
@@ -643,7 +641,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 
         // Load template suggestions from API with categories
         function loadTemplateSuggestions() {
-            fetch('<?php echo $baseUrl; ?>/get-templates.php')
+            fetch('/public/get-templates.php')
                 .then(res => res.json())
                 .then(data => {
                     const container = document.getElementById('chatQuestionsList');
@@ -728,7 +726,8 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
         // Load all questions from API with categories
         function loadAllQuestions() {
             console.log('🔄 Loading all questions...');
-            console.log('📍 Fetching from:', '<?php echo $baseUrl; ?>/get-all-questions.php');
+            console.log('📍 Fetching from:', '/public/get-all-questions.php');
+            
             
             // Hide mobile button when modal opens
             const mobileBtn = document.querySelector('.mobile-questions-btn');
@@ -736,7 +735,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
                 mobileBtn.style.display = 'none';
             }
             
-            fetch('<?php echo $baseUrl; ?>/get-all-questions.php')
+            fetch('/public/get-all-questions.php')
                 .then(res => {
                     console.log('📡 Response status:', res.status);
                     return res.json();
@@ -1118,7 +1117,7 @@ $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
             // Send to server
-            fetch('<?php echo $baseUrl; ?>/proses.php', {
+            fetch('/public/proses.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: 'pesan=' + encodeURIComponent(message)
