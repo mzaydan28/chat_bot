@@ -62,12 +62,12 @@ function extractTextFromHTML($html) {
  * Cache website content
  */
 function cacheWebsiteContent($url, $duration = 3600) {
-    $cacheDir = __DIR__ . '/../cache';
+    $cacheDir = sys_get_temp_dir();
     if (!is_dir($cacheDir)) {
         mkdir($cacheDir, 0755, true);
     }
     
-    $cacheFile = $cacheDir . '/web_' . md5($url) . '.txt';
+    $cacheFile = $cacheDir . '/' . md5($url) . '.txt';
     
     // Check if cache exists and is still valid
     if (file_exists($cacheFile) && (time() - filemtime($cacheFile) < $duration)) {
