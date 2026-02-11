@@ -41,7 +41,7 @@ define('SUPABASE_KEY', $_ENV['SUPABASE_KEY'] ?? 'eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp
 
 // Environment settings
 define('ENVIRONMENT', $_ENV['ENVIRONMENT'] ?? 'development');
-define('ENABLE_SSL_VERIFY', $_ENV['ENABLE_SSL_VERIFY'] === 'true');
+define('ENABLE_SSL_VERIFY', ($_ENV['ENABLE_SSL_VERIFY'] ?? 'false') === 'true');
 
 /**
  * Supabase REST Request Helper
