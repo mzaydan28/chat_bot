@@ -753,12 +753,18 @@ $cacheBuster = time() . rand(10000, 99999);
         .chat-questions-sidebar {
             width: 350px;
             background: linear-gradient(180deg, #dbeafe 0%, #eff6ff 50%, #ffffff 100%);
-            padding: 20px;
             border-right: 2px solid #bfdbfe;
-            overflow-y: auto;
             display: flex;
             flex-direction: column;
             max-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .sidebar-scrollable-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            padding-bottom: 10px;
         }
 
         .chat-questions-sidebar h4 {
@@ -1165,9 +1171,20 @@ $cacheBuster = time() . rand(10000, 99999);
             height: 135px;
             margin: 0 auto 24px;
             position: relative;
-            animation: fadeInUp 0.8s ease-out;
+            animation: fadeInScale 0.8s ease-out !important;
         }
 
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -1183,13 +1200,13 @@ $cacheBuster = time() . rand(10000, 99999);
             width: 100%;
             height: 100%;
             object-fit: contain;
-            filter: drop-shadow(0 10px 30px rgba(59,130,246,0.3));
+            filter: drop-shadow(0 10px 30px rgba(59,130,246,0.3)) !important;
             transition: all 0.3s ease;
         }
 
         .welcome-icon img:hover {
-            transform: scale(1.05);
-            filter: drop-shadow(0 15px 40px rgba(59,130,246,0.4));
+            transform: scale(1.05) !important;
+            filter: drop-shadow(0 15px 40px rgba(59,130,246,0.5)) !important;
         }
 
         .welcome-banner h1 {
@@ -1676,16 +1693,25 @@ $cacheBuster = time() . rand(10000, 99999);
 
             .chat-questions-sidebar {
                 width: 100%;
-                max-height: none;
+                max-height: 400px;
                 min-height: auto;
                 border-right: none;
                 border-bottom: 2px solid #e5e7eb;
-                overflow-y: visible;
-                padding: 16px;
+                overflow: hidden;
                 order: 1;
-                display: block;
+                display: flex;
+                flex-direction: column;
                 position: relative;
                 z-index: 10;
+            }
+            
+            .sidebar-scrollable-content {
+                padding: 16px;
+            }
+            
+            .view-all-btn {
+                width: calc(100% - 32px);
+                margin: 10px 16px 16px 16px;
             }
 
             .chat-right-container {
@@ -1766,6 +1792,7 @@ $cacheBuster = time() . rand(10000, 99999);
             .welcome-icon {
                 width: 70px;
                 height: 70px;
+                animation: fadeInScale 0.8s ease-out !important;
             }
 
             .feature-grid {
@@ -1834,24 +1861,28 @@ $cacheBuster = time() . rand(10000, 99999);
 
         /* Custom Scrollbar */
         .chat-messages::-webkit-scrollbar,
-        .chat-questions-sidebar::-webkit-scrollbar {
+        .chat-questions-sidebar::-webkit-scrollbar,
+        .sidebar-scrollable-content::-webkit-scrollbar {
             width: 8px;
         }
 
         .chat-messages::-webkit-scrollbar-track,
-        .chat-questions-sidebar::-webkit-scrollbar-track {
+        .chat-questions-sidebar::-webkit-scrollbar-track,
+        .sidebar-scrollable-content::-webkit-scrollbar-track {
             background: #f1f1f1;
             border-radius: 10px;
         }
 
         .chat-messages::-webkit-scrollbar-thumb,
-        .chat-questions-sidebar::-webkit-scrollbar-thumb {
+        .chat-questions-sidebar::-webkit-scrollbar-thumb,
+        .sidebar-scrollable-content::-webkit-scrollbar-thumb {
             background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
             border-radius: 10px;
         }
 
         .chat-messages::-webkit-scrollbar-thumb:hover,
-        .chat-questions-sidebar::-webkit-scrollbar-thumb:hover {
+        .chat-questions-sidebar::-webkit-scrollbar-thumb:hover,
+        .sidebar-scrollable-content::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
         }
 
@@ -1909,7 +1940,7 @@ $cacheBuster = time() . rand(10000, 99999);
 
         /* View All Button */
         .view-all-btn {
-            width: 100%;
+            width: calc(100% - 40px);
             background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
             color: white;
             border: none;
@@ -1918,8 +1949,9 @@ $cacheBuster = time() . rand(10000, 99999);
             font-weight: 600;
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
             transition: all 0.3s ease;
-            margin-top: 20px;
+            margin: 10px 20px 20px 20px;
             cursor: pointer;
+            flex-shrink: 0;
         }
 
         .view-all-btn:hover {
@@ -2135,8 +2167,10 @@ $cacheBuster = time() . rand(10000, 99999);
         <div class="chat-container">
             <!-- Left Sidebar - Popular Questions -->
             <div class="chat-questions-sidebar" id="faq">
-                <!-- Informasi Publik Section -->
-                <div class="public-info-section">
+                <!-- Scrollable Content Wrapper -->
+                <div class="sidebar-scrollable-content">
+                    <!-- Informasi Publik Section -->
+                    <div class="public-info-section">
                     <h4>
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 8px;">
                             <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
@@ -2205,6 +2239,10 @@ $cacheBuster = time() . rand(10000, 99999);
                     <!-- Questions will be loaded dynamically -->
                     <p style="color: #6b7280; font-size: 13px; text-align: center; padding: 20px;">Memuat pertanyaan...</p>
                 </div>
+                </div>
+                <!-- End Scrollable Content -->
+                
+                <!-- Fixed Button at Bottom -->
                 <button class="view-all-btn" onclick="loadAllQuestions()">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 6px;">
                         <line x1="8" y1="6" x2="21" y2="6"></line>
