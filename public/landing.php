@@ -2368,7 +2368,7 @@ $cacheBuster = time() . rand(10000, 99999);
                             </div>
                             <div class="form-group-inline">
                                 <label for="feedbackEmailInline">Email (Opsional)</label>
-                                <input type="email" id="feedbackEmailInline" name="email" placeholder="email@anda.com">
+                                <input type="email" id="feedbackEmailInline" name="email" placeholder="emailanda@.com">
                             </div>
                         </div>
                         <div class="form-group-inline">
