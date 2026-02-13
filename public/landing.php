@@ -2623,8 +2623,10 @@ $cacheBuster = time() . rand(10000, 99999);
             event.preventDefault();
             const form = document.getElementById('feedbackFormInline');
             const formData = new FormData(form);
+            // Pastikan textarea dikirim sebagai 'saran' agar backend menerima
             const message = form.querySelector('textarea[name="message"]').value.trim();
             const rating = form.querySelector('input[name="rating"]:checked');
+            formData.set('saran', message); // overwrite atau tambahkan field 'saran'
             if (!message) {
                 alert('Mohon isi umpan balik Anda');
                 return;
@@ -2637,7 +2639,6 @@ $cacheBuster = time() . rand(10000, 99999);
             const originalText = submitBtn.innerHTML;
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span>Mengirim...</span>';
-            // Kirim ke database feedback.php
             fetch('feedback.php', {
                 method: 'POST',
                 body: formData
