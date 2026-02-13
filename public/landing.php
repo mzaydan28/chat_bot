@@ -2663,10 +2663,7 @@ $cacheBuster = time() . rand(10000, 99999);
                 alert('Mohon beri rating');
                 return;
             }
-            // Get selected category
-            const activePill = document.querySelector('.feedback-pill.active');
-            const category = activePill ? activePill.getAttribute('data-type') : 'umum';
-            formData.append('category', category);
+            // Tidak perlu kategori pill, langsung submit
             // Show loading state
             const submitBtn = form.querySelector('.submit-feedback-btn');
             const originalText = submitBtn.innerHTML;
