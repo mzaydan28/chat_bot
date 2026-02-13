@@ -1802,6 +1802,20 @@ $cacheBuster = time() . rand(10000, 99999);
             .feedback-form-inline {
                 padding: 20px;
             }
+            
+            .star-rating {
+                font-size: 32px !important;
+                gap: 6px !important;
+            }
+            
+            .star-rating label {
+                font-size: 32px !important;
+            }
+            
+            .submit-feedback-btn {
+                padding: 12px 24px;
+                font-size: 14px;
+            }
 
             .chat-suggestions {
                 max-height: 200px;
