@@ -2623,7 +2623,6 @@ $cacheBuster = time() . rand(10000, 99999);
             event.preventDefault();
             const form = document.getElementById('feedbackFormInline');
             const formData = new FormData(form);
-            // Validasi manual
             const message = form.querySelector('textarea[name="message"]').value.trim();
             const rating = form.querySelector('input[name="rating"]:checked');
             if (!message) {
@@ -2634,23 +2633,25 @@ $cacheBuster = time() . rand(10000, 99999);
                 alert('Mohon beri rating');
                 return;
             }
-            // Tidak perlu kategori pill, langsung submit
-            // Show loading state
             const submitBtn = form.querySelector('.submit-feedback-btn');
             const originalText = submitBtn.innerHTML;
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span>Mengirim...</span>';
+            // Kirim ke database feedback.php
             fetch('feedback.php', {
                 method: 'POST',
                 body: formData
             })
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
-                    alert('✓ Terima kasih! Umpan balik Anda telah terkirim.');
-                    form.reset();
-                    document.querySelectorAll('.feedback-pill').forEach(p => p.classList.remove('active'));
-                    document.querySelectorAll('.star-rating input').forEach(r => r.checked = false);
+                if (data.status === 'success' || data.success) {
+                    // Tampilkan pesan terima kasih
+                    submitBtn.innerHTML = '<span>✓ Terima kasih! Umpan balik Anda telah terkirim.</span>';
+                    setTimeout(() => {
+                        submitBtn.innerHTML = originalText;
+                        form.reset();
+                        document.querySelectorAll('.star-rating input').forEach(r => r.checked = false);
+                    }, 2000);
                 } else {
                     alert('❌ Maaf, terjadi kesalahan. Silakan coba lagi.');
                 }
@@ -2661,7 +2662,6 @@ $cacheBuster = time() . rand(10000, 99999);
             })
             .finally(() => {
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = originalText;
             });
         }
 
