@@ -2585,37 +2585,7 @@ $cacheBuster = time() . rand(10000, 99999);
         }
         
         // Inline Feedback Form - Pill Selection
-        document.addEventListener('DOMContentLoaded', function() {
-            const pills = document.querySelectorAll('.feedback-pill');
-            const messageField = document.getElementById('feedbackMessageInline');
-            
-            if (pills.length > 0 && messageField) {
-                pills.forEach(pill => {
-                    pill.addEventListener('click', function() {
-                        // Toggle active state
-                        pills.forEach(p => p.classList.remove('active'));
-                        this.classList.add('active');
-                        
-                        // Update placeholder based on type
-                        const type = this.getAttribute('data-type');
-                        switch(type) {
-                            case 'rating':
-                                messageField.placeholder = 'Ceritakan pengalaman Anda menggunakan DISCHA...';
-                                break;
-                            case 'saran':
-                                messageField.placeholder = 'Sampaikan saran Anda untuk meningkatkan layanan DISCHA...';
-                                break;
-                            case 'masalah':
-                                messageField.placeholder = 'Jelaskan masalah yang Anda temui saat menggunakan DISCHA...';
-                                break;
-                            case 'testimoni':
-                                messageField.placeholder = 'Bagikan testimoni dan pengalaman positif Anda dengan DISCHA...';
-                                break;
-                        }
-                    });
-                });
-            }
-        });
+        // Pills dan event listener dihapus, form langsung bisa diisi
         
         // Submit Feedback Function
         function submitFeedback(event) {
