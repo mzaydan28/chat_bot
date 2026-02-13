@@ -2650,21 +2650,28 @@ $cacheBuster = time() . rand(10000, 99999);
         // Submit Feedback Function
         function submitFeedback(event) {
             event.preventDefault();
-            
             const form = document.getElementById('feedbackFormInline');
             const formData = new FormData(form);
-            
+            // Validasi manual
+            const message = form.querySelector('textarea[name="message"]').value.trim();
+            const rating = form.querySelector('input[name="rating"]:checked');
+            if (!message) {
+                alert('Mohon isi umpan balik Anda');
+                return;
+            }
+            if (!rating) {
+                alert('Mohon beri rating');
+                return;
+            }
             // Get selected category
             const activePill = document.querySelector('.feedback-pill.active');
             const category = activePill ? activePill.getAttribute('data-type') : 'umum';
             formData.append('category', category);
-            
             // Show loading state
             const submitBtn = form.querySelector('.submit-feedback-btn');
             const originalText = submitBtn.innerHTML;
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span>Mengirim...</span>';
-            
             fetch('feedback.php', {
                 method: 'POST',
                 body: formData
@@ -2756,6 +2763,21 @@ $cacheBuster = time() . rand(10000, 99999);
                             questionsContainer.style.display = isVisible ? 'none' : 'block';
                             categoryHeader.querySelector('.category-arrow').textContent = isVisible ? '▶' : '▼';
                             categoryHeader.classList.toggle('collapsed', isVisible);
+                        };
+                        
+                        // Hover effects for collapsed categories only
+                        categoryHeader.onmouseover = () => {
+                            if (!categoryHeader.classList.contains('expanded')) {
+                                categoryHeader.style.background = 'var(--primary-light)';
+                                categoryHeader.style.color = 'white';
+                            }
+                        };
+                        
+                        categoryHeader.onmouseout = () => {
+                            if (!categoryHeader.classList.contains('expanded')) {
+                                categoryHeader.style.background = 'var(--bg-tertiary)';
+                                categoryHeader.style.color = 'var(--text-primary)';
+                            }
                         };
                         
                         categoryDiv.appendChild(categoryHeader);
@@ -2936,6 +2958,10 @@ $cacheBuster = time() . rand(10000, 99999);
             
             if (!message) {
                 alert('Mohon isi umpan balik Anda');
+                return;
+            }
+            if (!rating) {
+                alert('Mohon beri rating');
                 return;
             }
             
