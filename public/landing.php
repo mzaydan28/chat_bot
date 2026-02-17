@@ -2475,25 +2475,43 @@ $cacheBuster = time() . rand(10000, 99999);
             </div>
             <form id="feedbackForm" onsubmit="submitFeedback(event)">
                 <input type="hidden" id="feedbackCategory" name="category" value="saran">
+                <input type="hidden" id="feedbackEmoji" name="emoji" value="">
 
-                <!-- Category pills -->
-                <div class="category-pills" role="tablist" aria-label="Kategori umpan balik">
-                    <button type="button" class="category-pill active" data-cat="saran">Saran</button>
-                    <button type="button" class="category-pill" data-cat="masalah">Masalah</button>
-                    <button type="button" class="category-pill" data-cat="testimoni">Testimoni</button>
-                    <button type="button" class="category-pill" data-cat="lainnya">Lainnya</button>
-                </div>
-
-                <!-- Suggestion chips (quick fill) -->
-                <div class="suggestion-chips" aria-hidden="false">
-                    <button type="button" class="suggestion-chip" data-text="Respon lambat pada jawaban">Respon lambat</button>
-                    <button type="button" class="suggestion-chip" data-text="Informasi tidak akurat">Info tidak akurat</button>
-                    <button type="button" class="suggestion-chip" data-text="Sangat membantu, terima kasih">Sangat membantu</button>
-                    <button type="button" class="suggestion-chip" data-text="Saya ingin fitur X ditambahkan">Minta fitur</button>
-                </div>
-
+                <!-- Prominent rating -->
                 <div class="form-group">
-                    <label for="feedbackMessage">Umpan Balik <span class="required">*</span></label>
+                    <label class="form-label">Nilai Layanan <span class="required">*</span></label>
+                    <div class="rating-group-modal" role="radiogroup" aria-label="Pilih rating">
+                        <input type="radio" name="rating" value="5" id="rating5m">
+                        <label for="rating5m" title="Sangat Puas">😍</label>
+                        <input type="radio" name="rating" value="4" id="rating4m">
+                        <label for="rating4m" title="Puas">😊</label>
+                        <input type="radio" name="rating" value="3" id="rating3m">
+                        <label for="rating3m" title="Biasa">😐</label>
+                        <input type="radio" name="rating" value="2" id="rating2m">
+                        <label for="rating2m" title="Tidak Puas">😕</label>
+                        <input type="radio" name="rating" value="1" id="rating1m">
+                        <label for="rating1m" title="Sangat Tidak Puas">😞</label>
+                    </div>
+                </div>
+
+                <!-- Ulasan (review) -->
+                <div class="form-group">
+                    <label for="feedbackMessage">Ulasan Anda <span class="required">*</span></label>
+                    <textarea id="feedbackMessage" name="message" maxlength="500" placeholder="Tulis ulasan singkat Anda..." required></textarea>
+                    <div class="char-counter"><span id="fbCharCount">0</span>/500</div>
+                </div>
+
+                <!-- Emoticon reactions (quick select) -->
+                <div class="form-group">
+                    <label>Pilih Emotikon</label>
+                    <div class="emoji-row" role="list" aria-label="Pilih emotikon"> 
+                        <button type="button" class="emoji-btn" data-emoji="😍" aria-label="Sangat puas">😍</button>
+                        <button type="button" class="emoji-btn" data-emoji="😊" aria-label="Puas">😊</button>
+                        <button type="button" class="emoji-btn" data-emoji="😐" aria-label="Biasa">😐</button>
+                        <button type="button" class="emoji-btn" data-emoji="😕" aria-label="Tidak puas">😕</button>
+                        <button type="button" class="emoji-btn" data-emoji="😞" aria-label="Sangat tidak puas">😞</button>
+                    </div>
+                </div>
                     <textarea id="feedbackMessage" name="message" maxlength="500" placeholder="Ceritakan pengalaman singkat Anda..." required></textarea>
                     <div class="char-counter"><span id="fbCharCount">0</span>/500</div>
                 </div>
@@ -3400,6 +3418,8 @@ $cacheBuster = time() . rand(10000, 99999);
                 const optionalFields = document.getElementById('optionalFields');
                 const categoryPills = document.querySelectorAll('.category-pill');
                 const hiddenCategory = document.getElementById('feedbackCategory');
+                const emojiBtns = document.querySelectorAll('.emoji-btn');
+                const hiddenEmoji = document.getElementById('feedbackEmoji');
 
                 function updateChar() {
                     if (!textarea || !charCount) return;
@@ -3428,6 +3448,18 @@ $cacheBuster = time() . rand(10000, 99999);
                     categoryPills.forEach(x => x.classList.remove('active'));
                     this.classList.add('active');
                     if (hiddenCategory) hiddenCategory.value = this.dataset.cat || 'saran';
+                }));
+
+                // emoji selection
+                emojiBtns.forEach(b => b.addEventListener('click', function() {
+                    emojiBtns.forEach(x => x.classList.remove('active'));
+                    this.classList.add('active');
+                    if (hiddenEmoji) hiddenEmoji.value = this.dataset.emoji || '';
+                }));
+
+                // keyboard accessibility for emoji (Enter/Space)
+                emojiBtns.forEach(b => b.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.click(); }
                 }));
 
             }, 50);

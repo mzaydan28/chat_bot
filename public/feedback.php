@@ -7,22 +7,29 @@ require_once __DIR__ . '/../config/koneksi.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Content-Type: application/json');
 
-    $rating = (int)($_POST['rating'] ?? 0);
-    $saran  = trim($_POST['saran'] ?? '');
+    $rating   = (int)($_POST['rating'] ?? 0);
+    $saran    = trim($_POST['saran'] ?? '');
+    $emoji    = trim($_POST['emoji'] ?? '');
+    $category = trim($_POST['category'] ?? '');
 
     if ($rating <= 0 || $saran === '') {
         echo json_encode(['status'=>'error','message'=>'Data tidak valid']);
         exit;
     }
 
+    $payload = [
+        'komentar' => $saran,
+        'rating'   => $rating,
+        'status'   => 'pending'
+    ];
+
+    if ($emoji !== '') $payload['emoji'] = $emoji;
+    if ($category !== '') $payload['category'] = $category;
+
     $insert = supabase_request(
         'POST',
         'feedback',
-        [
-            'komentar' => $saran,
-            'rating'   => $rating,
-            'status'   => 'pending'
-        ]
+        $payload
     );
 
     if (isset($insert['error'])) {
@@ -30,6 +37,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         echo json_encode(['status'=>'success','message'=>'Feedback tersimpan']);
     }
+    exit;
+}
+
+// Redirect GET requests to landing.php — feedback is modal-only now
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    header('Location: landing.php');
     exit;
 }
 
