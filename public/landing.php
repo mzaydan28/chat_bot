@@ -3295,6 +3295,34 @@ $cacheBuster = time() . rand(10000, 99999);
                     }
                 });
             });
+
+            // Cleanup legacy feedback elements and enforce floating position (small delay to account for other scripts)
+            setTimeout(() => {
+                document.querySelectorAll('[class*="feedback"]').forEach(el => {
+                    if (!el || !el.classList) return;
+                    if (el.classList.contains('floating-feedback-btn') || el.id === 'feedbackModal' || el.classList.contains('feedback-modal-content')) return;
+                    el.style.display = 'none';
+                    el.style.visibility = 'hidden';
+                    el.style.pointerEvents = 'none';
+                });
+
+                const btn = document.querySelector('.floating-feedback-btn');
+                if (btn) {
+                    btn.style.display = 'flex';
+                    btn.style.position = 'fixed';
+                    btn.style.right = '20px';
+                    btn.style.bottom = '22px';
+                    btn.style.zIndex = '2147483647';
+                    btn.style.visibility = 'visible';
+                }
+
+                const content = document.querySelector('.feedback-modal-content');
+                if (content) {
+                    content.style.right = '20px';
+                    content.style.bottom = 'calc(22px + 64px + 12px)';
+                    content.style.zIndex = '10001';
+                }
+            }, 50);
         });
     </script>
 </body>
