@@ -2474,18 +2474,39 @@ $cacheBuster = time() . rand(10000, 99999);
                 </div>
             </div>
             <form id="feedbackForm" onsubmit="submitFeedback(event)">
+                <input type="hidden" id="feedbackCategory" name="category" value="saran">
+
+                <!-- Category pills -->
+                <div class="category-pills" role="tablist" aria-label="Kategori umpan balik">
+                    <button type="button" class="category-pill active" data-cat="saran">Saran</button>
+                    <button type="button" class="category-pill" data-cat="masalah">Masalah</button>
+                    <button type="button" class="category-pill" data-cat="testimoni">Testimoni</button>
+                    <button type="button" class="category-pill" data-cat="lainnya">Lainnya</button>
+                </div>
+
+                <!-- Suggestion chips (quick fill) -->
+                <div class="suggestion-chips" aria-hidden="false">
+                    <button type="button" class="suggestion-chip" data-text="Respon lambat pada jawaban">Respon lambat</button>
+                    <button type="button" class="suggestion-chip" data-text="Informasi tidak akurat">Info tidak akurat</button>
+                    <button type="button" class="suggestion-chip" data-text="Sangat membantu, terima kasih">Sangat membantu</button>
+                    <button type="button" class="suggestion-chip" data-text="Saya ingin fitur X ditambahkan">Minta fitur</button>
+                </div>
+
                 <div class="form-group">
+                    <label for="feedbackMessage">Umpan Balik <span class="required">*</span></label>
+                    <textarea id="feedbackMessage" name="message" maxlength="500" placeholder="Ceritakan pengalaman singkat Anda..." required></textarea>
+                    <div class="char-counter"><span id="fbCharCount">0</span>/500</div>
+                </div>
+
+                <div class="form-group optional-fields" id="optionalFields">
                     <label for="feedbackName">Nama (Opsional)</label>
                     <input type="text" id="feedbackName" name="name" placeholder="Masukkan nama Anda">
-                </div>
-                <div class="form-group">
                     <label for="feedbackEmail">Email (Opsional)</label>
                     <input type="email" id="feedbackEmail" name="email" placeholder="masukkan@email.anda">
                 </div>
-                <div class="form-group">
-                    <label for="feedbackMessage">Umpan Balik <span class="required">*</span></label>
-                    <textarea id="feedbackMessage" name="message" placeholder="Bagikan umpan balik Anda..." required></textarea>
-                </div>
+
+                <button type="button" class="optional-toggle" id="toggleOptional">Tambahkan informasi (opsional)</button>
+
                 <div class="form-group">
                     <label>Kepuasan</label>
                     <div class="rating-group-modal">
@@ -2501,8 +2522,13 @@ $cacheBuster = time() . rand(10000, 99999);
                         <label for="rating1m">😞</label>
                     </div>
                 </div>
+
                 <div class="form-actions-modal">
-                    <button type="submit" class="btn-submit-modal">Kirim</button>
+                    <div style="display:flex;align-items:center;gap:8px">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity:.9"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                        <div style="font-size:12px;color:#6b7280">Feedback akan tersimpan anonym jika tidak diisi nama/email</div>
+                    </div>
+                    <button type="submit" class="btn-submit-modal" id="fbSubmitBtn">Kirim</button>
                 </div>
             </form>
         </div>
@@ -2983,31 +3009,28 @@ $cacheBuster = time() . rand(10000, 99999);
         // Feedback Submission
         function submitFeedback(e) {
             e.preventDefault();
-            const name = document.getElementById('feedbackName').value.trim() || 'Anonim';
-            const email = document.getElementById('feedbackEmail').value.trim();
+            const name = document.getElementById('feedbackName')?.value.trim() || 'Anonim';
+            const email = document.getElementById('feedbackEmail')?.value.trim() || '';
             const message = document.getElementById('feedbackMessage').value.trim();
             const rating = document.querySelector('input[name="rating"]:checked')?.value || 0;
-            
-            if (!message) {
-                alert('Mohon isi umpan balik Anda');
-                return;
-            }
-            if (!rating) {
-                alert('Mohon beri rating');
-                return;
-            }
-            
+            const category = document.getElementById('feedbackCategory')?.value || 'saran';
+            const submitBtn = document.getElementById('fbSubmitBtn');
+
+            if (!message) { alert('Mohon isi umpan balik Anda'); return; }
+            if (!rating) { alert('Mohon beri rating'); return; }
+
+            // disable button
+            if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Mengirim...'; }
+
             // Send feedback to server
             const formData = new FormData();
             formData.append('name', name);
             formData.append('email', email);
             formData.append('saran', message);
             formData.append('rating', rating);
-            
-            fetch('feedback.php', {
-                method: 'POST',
-                body: formData
-            })
+            formData.append('category', category);
+
+            fetch('feedback.php', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
                 if (data.status === 'success') {
@@ -3020,6 +3043,9 @@ $cacheBuster = time() . rand(10000, 99999);
             .catch(err => {
                 console.error('Error:', err);
                 alert('Maaf, terjadi kesalahan saat mengirim umpan balik.');
+            })
+            .finally(() => {
+                if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Kirim'; }
             });
         }
 
@@ -3365,6 +3391,45 @@ $cacheBuster = time() . rand(10000, 99999);
                     content.style.bottom = 'calc(22px + 64px + 12px)';
                     content.style.zIndex = '10001';
                 }
+
+                // --- New interactivity for feedback container ---
+                const chips = document.querySelectorAll('.suggestion-chip');
+                const textarea = document.getElementById('feedbackMessage');
+                const charCount = document.getElementById('fbCharCount');
+                const optionalToggle = document.getElementById('toggleOptional');
+                const optionalFields = document.getElementById('optionalFields');
+                const categoryPills = document.querySelectorAll('.category-pill');
+                const hiddenCategory = document.getElementById('feedbackCategory');
+
+                function updateChar() {
+                    if (!textarea || !charCount) return;
+                    charCount.textContent = textarea.value.length;
+                }
+
+                if (textarea) textarea.addEventListener('input', updateChar);
+                updateChar();
+
+                chips.forEach(c => c.addEventListener('click', function() {
+                    if (!textarea) return;
+                    textarea.value = this.dataset.text || '';
+                    textarea.focus();
+                    updateChar();
+                }));
+
+                if (optionalToggle && optionalFields) {
+                    optionalToggle.addEventListener('click', () => {
+                        const open = optionalFields.style.display !== 'flex';
+                        optionalFields.style.display = open ? 'flex' : 'none';
+                        optionalToggle.textContent = open ? 'Sembunyikan informasi (opsional)' : 'Tambahkan informasi (opsional)';
+                    });
+                }
+
+                categoryPills.forEach(p => p.addEventListener('click', function() {
+                    categoryPills.forEach(x => x.classList.remove('active'));
+                    this.classList.add('active');
+                    if (hiddenCategory) hiddenCategory.value = this.dataset.cat || 'saran';
+                }));
+
             }, 50);
         });
     </script>
