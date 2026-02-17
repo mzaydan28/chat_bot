@@ -2415,7 +2415,7 @@ $cacheBuster = time() . rand(10000, 99999);
 
     <!-- Feedback: converted to modal-only (inline card removed) -->
     <!-- Floating feedback button (icon-only) -->
-    <button class="floating-feedback-btn" type="button" aria-controls="feedbackModal" aria-label="Beri umpan balik" aria-expanded="false" onclick="openFeedbackModal()">
+    <button class="floating-feedback-btn" type="button" aria-controls="feedbackModal" aria-label="Beri umpan balik" aria-expanded="false" onclick="openFeedbackModal()" style="position:fixed;right:20px;bottom:22px;left:auto;z-index:2147483647;">
         <span class="icon-wrap" aria-hidden="true">
             <!-- fallback image icon (ensures visible logo on all browsers) -->
             <img src="<?php echo $baseUrl; ?>/../assets/images/Discha-removebg-preview.png" alt="DISCHA" style="width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,0.95);padding:2px;display:block;object-fit:cover;" />
@@ -2426,7 +2426,7 @@ $cacheBuster = time() . rand(10000, 99999);
     <!-- Feedback Modal -->
     <div id="feedbackModal">
         <div class="feedback-modal-overlay" onclick="closeFeedbackModal()"></div>
-        <div class="feedback-modal-content">
+        <div class="feedback-modal-content" style="position:fixed; right:20px; bottom:calc(22px + 64px + 12px); z-index:10001;">
             <div class="feedback-header">
                 <h3>Umpan Balik Anda</h3>
             </div>
