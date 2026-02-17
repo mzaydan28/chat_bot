@@ -1815,6 +1815,81 @@ $cacheBuster = time() . rand(10000, 99999);
             .feedback-pills {
                 gap: 8px;
             }
+
+            /* Floating feedback button (icon-only) */
+            .floating-feedback-btn {
+                position: fixed !important;
+                right: 20px !important;
+                bottom: 22px !important;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 64px;
+                height: 64px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+                color: #fff;
+                border: none;
+                cursor: pointer;
+                box-shadow: 0 20px 50px rgba(15,23,42,0.25);
+                z-index: 9999;
+                transition: transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms ease;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .floating-feedback-btn:focus-visible {
+                outline: 3px solid rgba(99,102,241,0.18);
+                outline-offset: 4px;
+            }
+
+            .floating-feedback-btn:hover {
+                transform: translateY(-6px) scale(1.02);
+                box-shadow: 0 26px 60px rgba(2,6,23,0.28);
+            }
+
+            .floating-feedback-btn .icon-wrap svg { width: 28px; height: 28px; display: block; }
+
+            /* pulse badge */
+            .floating-feedback-btn .pulse {
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: #ff7a66;
+                border: 2px solid rgba(255,255,255,0.95);
+                box-shadow: 0 8px 20px rgba(255,122,102,0.28);
+                animation: fbPulse 1.6s infinite ease-in-out;
+            }
+
+            @keyframes fbPulse {
+                0% { transform: scale(0.9); opacity: 0.95; }
+                50% { transform: scale(1.25); opacity: 0.6; }
+                100% { transform: scale(0.9); opacity: 0.95; }
+            }
+
+            /* visually-hidden for screen readers */
+            .sr-only {
+                position: absolute !important;
+                width: 1px !important;
+                height: 1px !important;
+                padding: 0 !important;
+                margin: -1px !important;
+                overflow: hidden !important;
+                clip: rect(0, 0, 0, 0) !important;
+                white-space: nowrap !important;
+                border: 0 !important;
+            }
+
+            /* responsive */
+            @media (max-width: 640px) {
+                .floating-feedback-btn { width: 56px; height: 56px; right: 14px; bottom: 16px; }
+                .floating-feedback-btn .pulse { right: 8px; top: 8px; width: 8px; height: 8px; }
+            }
+
+            .floating-feedback-btn svg { transform: translateY(0); }
+
             
             .feedback-pill {
                 padding: 8px 14px;
@@ -2113,54 +2188,7 @@ $cacheBuster = time() . rand(10000, 99999);
         </div>
     </nav>
 
-    <!-- Welcome Banner - Redesigned -->
-    <section id="welcome" class="welcome-banner-new">
-        <div class="welcome-overlay"></div>
-        <div class="welcome-content-new">
-            <!-- Content tanpa card wrapper -->
-            <div class="hero-icon-container">
-                <div class="hero-icon-glow"></div>
-                <img src="<?php echo $baseUrl; ?>/../assets/images/Discha-removebg-preview.png" alt="DISCHA Bot" class="hero-icon">
-            </div>
-            <h1 class="hero-title">
-                <span class="hero-title-main">DISCHA</span>
-                <span class="hero-title-separator">•</span>
-                <span class="hero-title-sub">Asisten Digital Disperindag Jateng</span>
-            </h1>
-            <p class="hero-subtitle">Informasi layanan, program UMKM, dan perizinan usaha - tersedia 24/7</p>
-            
-            <!-- Feature Pills -->
-            <div class="hero-features">
-                <div class="feature-pill">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                    </svg>
-                    <span>Respons Cepat</span>
-                </div>
-                <div class="feature-pill">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                    </svg>
-                    <span>Data Akurat</span>
-                </div>
-                <div class="feature-pill">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                    </svg>
-                    <span>Aman & Privat</span>
-                </div>
-                <div class="feature-pill">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                    <span>24/7 Online</span>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
     <!-- Chat Section - Priority Position -->
     <section id="chat" class="chat-section">
@@ -2311,98 +2339,74 @@ $cacheBuster = time() . rand(10000, 99999);
         </div>
     </section>
 
-    <!-- Feedback Section -->
-    <section class="info-section" id="fitur">
-        <div class="info-container">
-            <div class="info-card feedback-cta-card">
-                <h3>
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 8px;">
-                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+    <!-- Welcome Banner - Redesigned -->
+    <section id="welcome" class="welcome-banner-new">
+        <div class="welcome-overlay"></div>
+        <div class="welcome-content-new">
+            <!-- Content tanpa card wrapper -->
+            <div class="hero-icon-container">
+                <div class="hero-icon-glow"></div>
+                <img src="<?php echo $baseUrl; ?>/../assets/images/Discha-removebg-preview.png" alt="DISCHA Bot" class="hero-icon">
+            </div>
+            <h1 class="hero-title">
+                <span class="hero-title-main">DISCHA</span>
+                <span class="hero-title-separator">•</span>
+                <span class="hero-title-sub">Asisten Digital Disperindag Jateng</span>
+            </h1>
+            <p class="hero-subtitle">Informasi layanan, program UMKM, dan perizinan usaha - tersedia 24/7</p>
+            
+            <!-- Feature Pills -->
+            <div class="hero-features">
+                <div class="feature-pill">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                     </svg>
-                    Berikan Umpan Balik Anda
-                </h3>
-                <p class="feedback-description">
-                    Pendapat Anda sangat berarti bagi kami! Bantu kami meningkatkan layanan DISCHA.
-                </p>
-                
-                <!-- Feedback Category Pills -->
-                <!-- Feedback Category Pills -->
-                <div class="feedback-pills">
-                    <button class="feedback-pill" data-type="rating">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                        </svg>
-                        <span>Rating</span>
-                    </button>
-                    <button class="feedback-pill" data-type="saran">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-                        </svg>
-                        <span>Saran</span>
-                    </button>
-                    <button class="feedback-pill" data-type="masalah">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="8" x2="12" y2="12"></line>
-                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                        </svg>
-                        <span>Masalah</span>
-                    </button>
-                    <button class="feedback-pill" data-type="testimoni">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
-                            <line x1="9" y1="9" x2="9.01" y2="9"></line>
-                            <line x1="15" y1="9" x2="15.01" y2="9"></line>
-                        </svg>
-                        <span>Testimoni</span>
-                    </button>
+                    <span>Respons Cepat</span>
                 </div>
-                
-                <!-- Inline Feedback Form -->
-                <div class="feedback-form-inline">
-                    <form id="feedbackFormInline" onsubmit="submitFeedback(event)">
-                        <div class="form-row">
-                            <div class="form-group-inline">
-                                <label for="feedbackNameInline">Nama (Opsional)</label>
-                                <input type="text" id="feedbackNameInline" name="name" placeholder="Nama Anda">
-                            </div>
-                            <div class="form-group-inline">
-                                <label for="feedbackEmailInline">Email (Opsional)</label>
-                                <input type="email" id="feedbackEmailInline" name="email" placeholder="emailanda@.com">
-                            </div>
-                        </div>
-                        <div class="form-group-inline">
-                            <label for="feedbackRating">Rating <span class="required">*</span></label>
-                            <div class="star-rating" style="font-size: 40px !important; gap: 8px;">
-                                <input type="radio" id="star5" name="rating" value="5" required>
-                                <label for="star5" title="5 bintang" style="font-size: 40px !important;">★</label>
-                                <input type="radio" id="star4" name="rating" value="4">
-                                <label for="star4" title="4 bintang" style="font-size: 40px !important;">★</label>
-                                <input type="radio" id="star3" name="rating" value="3">
-                                <label for="star3" title="3 bintang" style="font-size: 40px !important;">★</label>
-                                <input type="radio" id="star2" name="rating" value="2">
-                                <label for="star2" title="2 bintang" style="font-size: 40px !important;">★</label>
-                                <input type="radio" id="star1" name="rating" value="1">
-                                <label for="star1" title="1 bintang" style="font-size: 40px !important;">★</label>
-                            </div>
-                        </div>
-                        <div class="form-group-inline">
-                            <label for="feedbackMessageInline">Umpan Balik <span class="required">*</span></label>
-                            <textarea id="feedbackMessageInline" name="message" placeholder="Bagikan umpan balik Anda..." required rows="4"></textarea>
-                        </div>
-                        <button type="submit" class="submit-feedback-btn">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <line x1="22" y1="2" x2="11" y2="13"></line>
-                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                            </svg>
-                            <span>Kirim Umpan Balik</span>
-                        </button>
-                    </form>
+                <div class="feature-pill">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    <span>Data Akurat</span>
+                </div>
+                <div class="feature-pill">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                    <span>Aman & Privat</span>
+                </div>
+                <div class="feature-pill">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    <span>24/7 Online</span>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Feedback: converted to modal-only (inline card removed) -->
+    <!-- Floating feedback button (icon-only) -->
+    <button class="floating-feedback-btn" type="button" aria-controls="feedbackModal" aria-label="Beri umpan balik" aria-expanded="false" onclick="openFeedbackModal()">
+        <span class="icon-wrap" aria-hidden="true">
+            <!-- simple branded logo: chat + star inside gradient circle -->
+            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+                <defs>
+                    <linearGradient id="gf1" x1="0" x2="1">
+                        <stop offset="0" stop-color="#6366f1"/>
+                        <stop offset="1" stop-color="#8b5cf6"/>
+                    </linearGradient>
+                </defs>
+                <circle cx="24" cy="24" r="22" fill="url(#gf1)" opacity="0.98"></circle>
+                <path d="M14 18a10 10 0 0 1 10-10 10 10 0 0 1 10 10 10 10 0 0 1-10 10H19l-5 5z" fill="rgba(255,255,255,0.95)"></path>
+                <path d="M24 14l1.2 2.6L28 17l-2 1.4L27 21l-3-1.9L21 21l0.9-2.6L19 17l3-0.4L24 14z" fill="#ffd166"></path>
+            </svg>
+        </span>
+        <span class="pulse" aria-hidden="true"></span>
+    </button>
 
     <!-- Feedback Modal -->
     <div id="feedbackModal">
@@ -2578,6 +2582,14 @@ $cacheBuster = time() . rand(10000, 99999);
             // Load popular questions - this also loads allQuestionsForSuggest
             loadTemplateSuggestions();
             
+            // Keyboard: close modal on Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeFeedbackModal();
+                    closeAllQuestionsModal();
+                }
+            });
+
             // Wait a bit to ensure questions are loaded
             setTimeout(() => {
                 const input = document.getElementById('pesan');
@@ -2590,81 +2602,50 @@ $cacheBuster = time() . rand(10000, 99999);
         });
 
         function openFeedbackModal() {
-            console.log('Opening feedback modal');
             const feedbackModal = document.getElementById('feedbackModal');
-            if (feedbackModal) {
-                feedbackModal.style.display = 'flex';
-                feedbackModal.style.visibility = 'visible';
-                feedbackModal.style.opacity = '1';
-                console.log('Feedback modal displayed - display:', feedbackModal.style.display);
-                console.log('Feedback modal element:', feedbackModal);
-            } else {
-                console.error('Feedback modal element not found!');
-            }
+            const trigger = document.querySelector('.floating-feedback-btn');
+            if (!feedbackModal) return console.error('Feedback modal element not found!');
+
+            // show overlay + floating card (positioned via CSS)
+            feedbackModal.style.display = 'flex';
+            feedbackModal.style.visibility = 'visible';
+            feedbackModal.style.opacity = '1';
+
+            // set aria on trigger
+            if (trigger) trigger.setAttribute('aria-expanded', 'true');
+
+            // focus first input for accessibility
+            const firstInput = feedbackModal.querySelector('textarea, input, [tabindex]');
+            if (firstInput) firstInput.focus();
+
+            // prevent page scroll while modal open on larger screens
+            document.documentElement.style.overflow = 'hidden';
         }
 
         function closeFeedbackModal() {
-            console.log('Closing feedback modal');
             const feedbackModal = document.getElementById('feedbackModal');
-            if (feedbackModal) {
-                feedbackModal.style.display = 'none';
-                feedbackModal.style.visibility = 'hidden';
-                feedbackModal.style.opacity = '0';
-            }
+            const trigger = document.querySelector('.floating-feedback-btn');
+            if (!feedbackModal) return;
+
+            feedbackModal.style.opacity = '0';
+            feedbackModal.style.visibility = 'hidden';
+            feedbackModal.style.display = 'none';
+
             const form = document.getElementById('feedbackForm');
             if (form) form.reset();
+
+            if (trigger) {
+                trigger.setAttribute('aria-expanded', 'false');
+                trigger.focus();
+            }
+
+            document.documentElement.style.overflow = '';
         }
         
         // Inline Feedback Form - Pill Selection
         // Pills dan event listener dihapus, form langsung bisa diisi
         
-        // Submit Feedback Function
-        function submitFeedback(event) {
-            event.preventDefault();
-            const form = document.getElementById('feedbackFormInline');
-            const formData = new FormData(form);
-            // Pastikan textarea dikirim sebagai 'saran' agar backend menerima
-            const message = form.querySelector('textarea[name="message"]').value.trim();
-            const rating = form.querySelector('input[name="rating"]:checked');
-            formData.set('saran', message); // overwrite atau tambahkan field 'saran'
-            if (!message) {
-                alert('Mohon isi umpan balik Anda');
-                return;
-            }
-            if (!rating) {
-                alert('Mohon beri rating');
-                return;
-            }
-            const submitBtn = form.querySelector('.submit-feedback-btn');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span>Mengirim...</span>';
-            fetch('feedback.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success' || data.success) {
-                    // Tampilkan pesan terima kasih
-                    submitBtn.innerHTML = '<span>✓ Terima kasih! Umpan balik Anda telah terkirim.</span>';
-                    setTimeout(() => {
-                        submitBtn.innerHTML = originalText;
-                        form.reset();
-                        document.querySelectorAll('.star-rating input').forEach(r => r.checked = false);
-                    }, 2000);
-                } else {
-                    alert('❌ Maaf, terjadi kesalahan. Silakan coba lagi.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('❌ Terjadi kesalahan jaringan. Silakan coba lagi.');
-            })
-            .finally(() => {
-                submitBtn.disabled = false;
-            });
-        }
+
 
         // Load template suggestions from API with categories
         function loadTemplateSuggestions() {
