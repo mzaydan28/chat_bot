@@ -2441,7 +2441,7 @@ $cacheBuster = time() . rand(10000, 99999);
     <button class="floating-feedback-btn" type="button" aria-controls="feedbackModal" aria-label="Beri umpan balik" aria-expanded="false" onclick="openFeedbackModal()" style="position:fixed;right:20px;bottom:22px;left:auto;z-index:2147483647;">
         <span class="icon-wrap" aria-hidden="true">
             <!-- modern feedback icon: chat card + spark -->
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <!-- use solid blue fill for consistent desktop/laptop rendering -->
                 <rect x="2" y="4" width="20" height="14" rx="3" fill="#06b6d4" opacity="1"/>
                 <path d="M7 10h10M7 13h6" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
