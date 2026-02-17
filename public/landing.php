@@ -1816,7 +1816,7 @@ $cacheBuster = time() . rand(10000, 99999);
                 gap: 8px;
             }
 
-            /* Floating feedback button (icon-only) */
+            /* Floating feedback button (stylish rounded square + halo) */
             .floating-feedback-btn {
                 position: fixed !important;
                 right: 20px !important;
@@ -1824,18 +1824,41 @@ $cacheBuster = time() . rand(10000, 99999);
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                width: 64px;
-                height: 64px;
-                border-radius: 50%;
-                background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+                width: 72px;
+                height: 56px;
+                border-radius: 14px; /* rounded rectangle */
+                background: linear-gradient(135deg,#06b6d4 0%, #7c3aed 100%);
                 color: #fff;
                 border: none;
                 cursor: pointer;
-                box-shadow: 0 20px 50px rgba(15,23,42,0.25);
-                z-index: 9999;
-                transition: transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms ease;
+                box-shadow: 0 18px 48px rgba(12,22,68,0.28), 0 6px 18px rgba(124,58,237,0.18);
+                z-index: 2147483647;
+                padding: 8px 12px;
+                gap: 8px;
+                transition: transform 200ms cubic-bezier(.2,.9,.2,1), box-shadow 200ms ease;
                 -webkit-tap-highlight-color: transparent;
+                overflow: visible;
             }
+
+            .floating-feedback-btn::after {
+                content: '';
+                position: absolute;
+                inset: -6px;
+                border-radius: 20px;
+                background: radial-gradient(circle at 30% 30%, rgba(124,58,237,0.14), transparent 40%);
+                filter: blur(6px);
+                z-index: -1;
+                animation: fbHalo 2.2s infinite linear;
+                pointer-events: none;
+            }
+
+            .floating-feedback-btn:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 26px 70px rgba(12,22,68,0.32); }
+
+            .floating-feedback-btn .icon-wrap img { width: 28px; height: 28px; border-radius: 6px; display:block; }
+
+            .floating-feedback-btn .pulse { display: block; width:10px; height:10px; border-radius:50%; background:#ff7a66; box-shadow:0 6px 18px rgba(255,122,102,0.28); position:absolute; right:10px; top:8px; border:2px solid rgba(255,255,255,0.95); animation: fbPulse 1.6s infinite ease-in-out; }
+
+            .floating-feedback-btn[aria-expanded="true"] { transform: translateY(-2px) scale(0.99); box-shadow: 0 20px 50px rgba(12,22,68,0.32); }
 
             .floating-feedback-btn:focus-visible {
                 outline: 3px solid rgba(99,102,241,0.18);
@@ -2417,8 +2440,15 @@ $cacheBuster = time() . rand(10000, 99999);
     <!-- Floating feedback button (icon-only) -->
     <button class="floating-feedback-btn" type="button" aria-controls="feedbackModal" aria-label="Beri umpan balik" aria-expanded="false" onclick="openFeedbackModal()" style="position:fixed;right:20px;bottom:22px;left:auto;z-index:2147483647;">
         <span class="icon-wrap" aria-hidden="true">
-            <!-- fallback image icon (ensures visible logo on all browsers) -->
-            <img src="<?php echo $baseUrl; ?>/../assets/images/Discha-removebg-preview.png" alt="DISCHA" style="width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,0.95);padding:2px;display:block;object-fit:cover;" />
+            <!-- modern feedback icon: chat card + spark -->
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <defs>
+                    <linearGradient id="fbG1" x1="0" x2="1"><stop offset="0" stop-color="#06b6d4"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+                </defs>
+                <rect x="2" y="4" width="20" height="14" rx="3" fill="url(#fbG1)" opacity="0.95"/>
+                <path d="M7 10h10M7 13h6" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M18 6.5l0.9 1.9L21 9l-1.7 1.2L20 12l-1.9-1.1L16 12l0.6-1.4L15 9l2-0.4L18 6.5z" fill="#ffd166"/>
+            </svg>
         </span>
         <span class="pulse" aria-hidden="true"></span>
     </button>
@@ -2428,7 +2458,20 @@ $cacheBuster = time() . rand(10000, 99999);
         <div class="feedback-modal-overlay" onclick="closeFeedbackModal()"></div>
         <div class="feedback-modal-content" style="position:fixed; right:20px; bottom:calc(22px + 64px + 12px); z-index:10001;">
             <div class="feedback-header">
-                <h3>Umpan Balik Anda</h3>
+                <div class="modal-icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <defs>
+                            <linearGradient id="mg1" x1="0" x2="1"><stop offset="0" stop-color="#06b6d4"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
+                        </defs>
+                        <rect x="2" y="3" width="20" height="14" rx="3" fill="url(#mg1)" opacity="0.98"/>
+                        <path d="M8 10h8M8 13h5" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>
+                        <circle cx="18.2" cy="6.2" r="1.2" fill="#ffd166"/>
+                    </svg>
+                </div>
+                <div class="modal-title-wrap">
+                    <h3>Umpan Balik Anda</h3>
+                    <div class="modal-subtitle">Beri tahu pengalaman Anda — singkat & mudah</div>
+                </div>
             </div>
             <form id="feedbackForm" onsubmit="submitFeedback(event)">
                 <div class="form-group">
