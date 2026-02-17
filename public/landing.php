@@ -2482,23 +2482,35 @@ $cacheBuster = time() . rand(10000, 99999);
                     <label class="form-label">Nilai Layanan <span class="required">*</span></label>
                     <div class="rating-group-modal" role="radiogroup" aria-label="Pilih rating">
                         <input type="radio" name="rating" value="5" id="rating5m">
-                        <label for="rating5m" title="Sangat Puas">😍</label>
+                        <label for="rating5m" title="5 bintang" class="star-label">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 .587l3.668 7.431L23.327 9.6l-5.659 5.518L18.735 24 12 20.02 5.265 24l1.067-8.882L.673 9.6l7.659-1.582L12 .587z"/></svg>
+                        </label>
                         <input type="radio" name="rating" value="4" id="rating4m">
-                        <label for="rating4m" title="Puas">😊</label>
+                        <label for="rating4m" title="4 bintang" class="star-label">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 .587l3.668 7.431L23.327 9.6l-5.659 5.518L18.735 24 12 20.02 5.265 24l1.067-8.882L.673 9.6l7.659-1.582L12 .587z"/></svg>
+                        </label>
                         <input type="radio" name="rating" value="3" id="rating3m">
-                        <label for="rating3m" title="Biasa">😐</label>
+                        <label for="rating3m" title="3 bintang" class="star-label">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 .587l3.668 7.431L23.327 9.6l-5.659 5.518L18.735 24 12 20.02 5.265 24l1.067-8.882L.673 9.6l7.659-1.582L12 .587z"/></svg>
+                        </label>
                         <input type="radio" name="rating" value="2" id="rating2m">
-                        <label for="rating2m" title="Tidak Puas">😕</label>
+                        <label for="rating2m" title="2 bintang" class="star-label">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 .587l3.668 7.431L23.327 9.6l-5.659 5.518L18.735 24 12 20.02 5.265 24l1.067-8.882L.673 9.6l7.659-1.582L12 .587z"/></svg>
+                        </label>
                         <input type="radio" name="rating" value="1" id="rating1m">
-                        <label for="rating1m" title="Sangat Tidak Puas">😞</label>
+                        <label for="rating1m" title="1 bintang" class="star-label">
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 .587l3.668 7.431L23.327 9.6l-5.659 5.518L18.735 24 12 20.02 5.265 24l1.067-8.882L.673 9.6l7.659-1.582L12 .587z"/></svg>
+                        </label>
                     </div>
                 </div>
 
                 <!-- Ulasan (review) -->
                 <div class="form-group">
                     <label for="feedbackMessage">Ulasan Anda <span class="required">*</span></label>
-                    <textarea id="feedbackMessage" name="message" maxlength="500" placeholder="Tulis ulasan singkat Anda..." required></textarea>
-                    <div class="char-counter"><span id="fbCharCount">0</span>/500</div>
+                    <textarea id="feedbackMessage" name="message" maxlength="500" placeholder="" required></textarea>
+                    <div class="form-actions-inline" style="display:flex; justify-content:flex-end; margin-top:8px;">
+                        <button type="submit" class="btn-submit-modal" id="fbInlineSendBtn">Kirim</button>
+                    </div>
                 </div>
 
                 <!-- Emoticon reactions (quick select) -->
@@ -2512,10 +2524,7 @@ $cacheBuster = time() . rand(10000, 99999);
                         <button type="button" class="emoji-btn" data-emoji="😞" aria-label="Sangat tidak puas">😞</button>
                     </div>
                 </div>
-                    <textarea id="feedbackMessage" name="message" maxlength="500" placeholder="Ceritakan pengalaman singkat Anda..." required></textarea>
-                    <div class="char-counter"><span id="fbCharCount">0</span>/500</div>
-                </div>
-
+                
                 <div class="form-group optional-fields" id="optionalFields">
                     <label for="feedbackName">Nama (Opsional)</label>
                     <input type="text" id="feedbackName" name="name" placeholder="Masukkan nama Anda">
@@ -2525,28 +2534,10 @@ $cacheBuster = time() . rand(10000, 99999);
 
                 <button type="button" class="optional-toggle" id="toggleOptional">Tambahkan informasi (opsional)</button>
 
-                <div class="form-group">
-                    <label>Kepuasan</label>
-                    <div class="rating-group-modal">
-                        <input type="radio" name="rating" value="5" id="rating5m">
-                        <label for="rating5m">😍</label>
-                        <input type="radio" name="rating" value="4" id="rating4m">
-                        <label for="rating4m">😊</label>
-                        <input type="radio" name="rating" value="3" id="rating3m">
-                        <label for="rating3m">😐</label>
-                        <input type="radio" name="rating" value="2" id="rating2m">
-                        <label for="rating2m">😕</label>
-                        <input type="radio" name="rating" value="1" id="rating1m">
-                        <label for="rating1m">😞</label>
-                    </div>
-                </div>
-
-                <div class="form-actions-modal">
-                    <div style="display:flex;align-items:center;gap:8px">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity:.9"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                        <div style="font-size:12px;color:#6b7280">Feedback akan tersimpan anonym jika tidak diisi nama/email</div>
-                    </div>
-                    <button type="submit" class="btn-submit-modal" id="fbSubmitBtn">Kirim</button>
+                <!-- bottom actions removed — inline send button replaces character counter area -->
+                <div style="display:flex;align-items:center;gap:8px;margin-top:8px;font-size:12px;color:#6b7280;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity:.9"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    <div>Feedback akan tersimpan anonym jika tidak diisi nama/email</div>
                 </div>
             </form>
         </div>
@@ -3032,7 +3023,7 @@ $cacheBuster = time() . rand(10000, 99999);
             const message = document.getElementById('feedbackMessage').value.trim();
             const rating = document.querySelector('input[name="rating"]:checked')?.value || 0;
             const category = document.getElementById('feedbackCategory')?.value || 'saran';
-            const submitBtn = document.getElementById('fbSubmitBtn');
+            const submitBtn = document.getElementById('fbInlineSendBtn') || document.getElementById('fbSubmitBtn');
 
             if (!message) { alert('Mohon isi umpan balik Anda'); return; }
             if (!rating) { alert('Mohon beri rating'); return; }
