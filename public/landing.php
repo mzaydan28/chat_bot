@@ -1842,6 +1842,12 @@ $cacheBuster = time() . rand(10000, 99999);
                 outline-offset: 4px;
             }
 
+            /* visual state when popup is open */
+            .floating-feedback-btn[aria-expanded="true"] {
+                transform: translateY(-2px) scale(0.99);
+                box-shadow: 0 20px 48px rgba(2,6,23,0.30);
+            }
+
             .floating-feedback-btn:hover {
                 transform: translateY(-6px) scale(1.02);
                 box-shadow: 0 26px 60px rgba(2,6,23,0.28);
@@ -2615,13 +2621,29 @@ $cacheBuster = time() . rand(10000, 99999);
             const trigger = document.querySelector('.floating-feedback-btn');
             if (!feedbackModal) return console.error('Feedback modal element not found!');
 
-            // show overlay + floating card (positioned via CSS)
+            // show overlay + floating card
             feedbackModal.style.display = 'flex';
             feedbackModal.style.visibility = 'visible';
             feedbackModal.style.opacity = '1';
 
             // set aria on trigger
             if (trigger) trigger.setAttribute('aria-expanded', 'true');
+
+            // position popup near the trigger on desktop
+            const content = feedbackModal.querySelector('.feedback-modal-content');
+            if (content && trigger && window.innerWidth > 640) {
+                const rect = trigger.getBoundingClientRect();
+                const rightPx = Math.max(window.innerWidth - rect.right, 12);
+                const bottomPx = Math.max(window.innerHeight - rect.top + 12, 20);
+                content.style.right = rightPx + 'px';
+                content.style.bottom = bottomPx + 'px';
+                content.style.zIndex = '10001';
+            } else if (content) {
+                // mobile/bottom-sheet — clear inline placement so CSS handles it
+                content.style.right = '';
+                content.style.bottom = '';
+                content.style.zIndex = '';
+            }
 
             // focus first input for accessibility
             const firstInput = feedbackModal.querySelector('textarea, input, [tabindex]');
@@ -2635,6 +2657,14 @@ $cacheBuster = time() . rand(10000, 99999);
             const feedbackModal = document.getElementById('feedbackModal');
             const trigger = document.querySelector('.floating-feedback-btn');
             if (!feedbackModal) return;
+
+            // reset inline placement
+            const content = feedbackModal.querySelector('.feedback-modal-content');
+            if (content) {
+                content.style.right = '';
+                content.style.bottom = '';
+                content.style.zIndex = '';
+            }
 
             feedbackModal.style.opacity = '0';
             feedbackModal.style.visibility = 'hidden';
