@@ -1890,6 +1890,25 @@ $cacheBuster = time() . rand(10000, 99999);
 
             .floating-feedback-btn svg { transform: translateY(0); }
 
+            /* Force-hide legacy inline feedback UI (keep modal & floating button only) */
+            .feedback-cta-card,
+            .feedback-cta-actions,
+            .feedback-pills,
+            .feedback-cta-button,
+            .feedback-form-inline {
+                display: none !important;
+            }
+
+            /* Ensure only floating icon is visible and on top */
+            .floating-feedback-btn {
+                display: inline-flex !important;
+                right: 20px !important;
+                left: auto !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+                z-index: 99999 !important;
+            }
+
             
             .feedback-pill {
                 padding: 8px 14px;
@@ -2392,18 +2411,8 @@ $cacheBuster = time() . rand(10000, 99999);
     <!-- Floating feedback button (icon-only) -->
     <button class="floating-feedback-btn" type="button" aria-controls="feedbackModal" aria-label="Beri umpan balik" aria-expanded="false" onclick="openFeedbackModal()">
         <span class="icon-wrap" aria-hidden="true">
-            <!-- simple branded logo: chat + star inside gradient circle -->
-            <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
-                <defs>
-                    <linearGradient id="gf1" x1="0" x2="1">
-                        <stop offset="0" stop-color="#6366f1"/>
-                        <stop offset="1" stop-color="#8b5cf6"/>
-                    </linearGradient>
-                </defs>
-                <circle cx="24" cy="24" r="22" fill="url(#gf1)" opacity="0.98"></circle>
-                <path d="M14 18a10 10 0 0 1 10-10 10 10 0 0 1 10 10 10 10 0 0 1-10 10H19l-5 5z" fill="rgba(255,255,255,0.95)"></path>
-                <path d="M24 14l1.2 2.6L28 17l-2 1.4L27 21l-3-1.9L21 21l0.9-2.6L19 17l3-0.4L24 14z" fill="#ffd166"></path>
-            </svg>
+            <!-- fallback image icon (ensures visible logo on all browsers) -->
+            <img src="<?php echo $baseUrl; ?>/../assets/images/Discha-removebg-preview.png" alt="DISCHA" style="width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,0.95);padding:2px;display:block;object-fit:cover;" />
         </span>
         <span class="pulse" aria-hidden="true"></span>
     </button>
