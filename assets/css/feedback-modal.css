@@ -253,8 +253,7 @@
 .emoji-btn.active { background: linear-gradient(135deg,#fff,#f8fafc); border-color: rgba(124,58,237,0.16); transform:translateY(-2px); box-shadow: 0 10px 24px rgba(124,58,237,0.10); }
 
 /* Keep optional fields hidden by default */
-.optional-fields { display:none; gap:8px; }
-.optional-toggle { background:transparent; border:none; color:#6b7280; font-size:13px; cursor:pointer; padding:6px 0; text-align:left; }
+
 
 /* responsive tweaks for emoji */
 @media (max-width:640px) { .emoji-row { gap:6px; } .emoji-btn { padding:6px 8px; font-size:16px; } }

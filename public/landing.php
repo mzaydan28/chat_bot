@@ -2477,6 +2477,14 @@ $cacheBuster = time() . rand(10000, 99999);
                 <input type="hidden" id="feedbackCategory" name="category" value="saran">
                 <input type="hidden" id="feedbackEmoji" name="emoji" value="">
 
+                <!-- Contact fields moved to top -->
+                <div class="form-group">
+                    <label for="feedbackName">Nama (Opsional)</label>
+                    <input type="text" id="feedbackName" name="name" placeholder="Masukkan nama Anda">
+                    <label for="feedbackEmail" style="margin-top:8px;">Email (Opsional)</label>
+                    <input type="email" id="feedbackEmail" name="email" placeholder="masukkan@email.anda">
+                </div>
+
                 <!-- Prominent rating -->
                 <div class="form-group">
                     <label class="form-label">Nilai Layanan <span class="required">*</span></label>
@@ -2508,9 +2516,6 @@ $cacheBuster = time() . rand(10000, 99999);
                 <div class="form-group">
                     <label for="feedbackMessage">Ulasan Anda <span class="required">*</span></label>
                     <textarea id="feedbackMessage" name="message" maxlength="500" placeholder="" required></textarea>
-                    <div class="form-actions-inline" style="display:flex; justify-content:flex-end; margin-top:8px;">
-                        <button type="submit" class="btn-submit-modal" id="fbInlineSendBtn">Kirim</button>
-                    </div>
                 </div>
 
                 <!-- Emoticon reactions (quick select) -->
@@ -2523,16 +2528,12 @@ $cacheBuster = time() . rand(10000, 99999);
                         <button type="button" class="emoji-btn" data-emoji="😕" aria-label="Tidak puas">😕</button>
                         <button type="button" class="emoji-btn" data-emoji="😞" aria-label="Sangat tidak puas">😞</button>
                     </div>
+                    <div class="form-actions-inline" style="display:flex; justify-content:flex-end; margin-top:10px;">
+                        <button type="submit" class="btn-submit-modal" id="fbSubmitBtn">Kirim</button>
+                    </div>
                 </div>
                 
-                <div class="form-group optional-fields" id="optionalFields">
-                    <label for="feedbackName">Nama (Opsional)</label>
-                    <input type="text" id="feedbackName" name="name" placeholder="Masukkan nama Anda">
-                    <label for="feedbackEmail">Email (Opsional)</label>
-                    <input type="email" id="feedbackEmail" name="email" placeholder="masukkan@email.anda">
-                </div>
 
-                <button type="button" class="optional-toggle" id="toggleOptional">Tambahkan informasi (opsional)</button>
 
                 <!-- bottom actions removed — inline send button replaces character counter area -->
                 <div style="display:flex;align-items:center;gap:8px;margin-top:8px;font-size:12px;color:#6b7280;">
@@ -3023,7 +3024,7 @@ $cacheBuster = time() . rand(10000, 99999);
             const message = document.getElementById('feedbackMessage').value.trim();
             const rating = document.querySelector('input[name="rating"]:checked')?.value || 0;
             const category = document.getElementById('feedbackCategory')?.value || 'saran';
-            const submitBtn = document.getElementById('fbInlineSendBtn') || document.getElementById('fbSubmitBtn');
+            const submitBtn = document.getElementById('fbSubmitBtn');
 
             if (!message) { alert('Mohon isi umpan balik Anda'); return; }
             if (!rating) { alert('Mohon beri rating'); return; }
@@ -3405,8 +3406,6 @@ $cacheBuster = time() . rand(10000, 99999);
                 const chips = document.querySelectorAll('.suggestion-chip');
                 const textarea = document.getElementById('feedbackMessage');
                 const charCount = document.getElementById('fbCharCount');
-                const optionalToggle = document.getElementById('toggleOptional');
-                const optionalFields = document.getElementById('optionalFields');
                 const categoryPills = document.querySelectorAll('.category-pill');
                 const hiddenCategory = document.getElementById('feedbackCategory');
                 const emojiBtns = document.querySelectorAll('.emoji-btn');
@@ -3427,13 +3426,7 @@ $cacheBuster = time() . rand(10000, 99999);
                     updateChar();
                 }));
 
-                if (optionalToggle && optionalFields) {
-                    optionalToggle.addEventListener('click', () => {
-                        const open = optionalFields.style.display !== 'flex';
-                        optionalFields.style.display = open ? 'flex' : 'none';
-                        optionalToggle.textContent = open ? 'Sembunyikan informasi (opsional)' : 'Tambahkan informasi (opsional)';
-                    });
-                }
+
 
                 categoryPills.forEach(p => p.addEventListener('click', function() {
                     categoryPills.forEach(x => x.classList.remove('active'));
