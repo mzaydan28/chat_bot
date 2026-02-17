@@ -2442,10 +2442,8 @@ $cacheBuster = time() . rand(10000, 99999);
         <span class="icon-wrap" aria-hidden="true">
             <!-- modern feedback icon: chat card + spark -->
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <defs>
-                    <linearGradient id="fbG1" x1="0" x2="1"><stop offset="0" stop-color="#06b6d4"/><stop offset="1" stop-color="#7c3aed"/></linearGradient>
-                </defs>
-                <rect x="2" y="4" width="20" height="14" rx="3" fill="url(#fbG1)" opacity="0.95"/>
+                <!-- use solid blue fill for consistent desktop/laptop rendering -->
+                <rect x="2" y="4" width="20" height="14" rx="3" fill="#06b6d4" opacity="1"/>
                 <path d="M7 10h10M7 13h6" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M18 6.5l0.9 1.9L21 9l-1.7 1.2L20 12l-1.9-1.1L16 12l0.6-1.4L15 9l2-0.4L18 6.5z" fill="#ffd166"/>
             </svg>

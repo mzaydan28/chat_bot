@@ -26,6 +26,9 @@
   opacity: 1 !important;
   visibility: visible !important;
   pointer-events: auto !important;
+  /* force blue gradient on all viewports */
+  background: linear-gradient(135deg,#06b6d4 0%, #7c3aed 100%) !important;
+  color: #fff !important;
 }
 
 #feedbackModal {
