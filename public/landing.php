@@ -2052,8 +2052,13 @@ $cacheBuster = time() . rand(10000, 99999);
         }
 
         /* Chat Section Full Screen ID Offset */
+        /* beri jarak agar header chat tidak tertutup navbar tetap */
         #chat {
-            scroll-margin-top: 0;
+            scroll-margin-top: 96px; /* offset untuk navbar fixed */
+            padding-top: 12px;      /* geser konten ke bawah sedikit */
+        }
+        @media (max-width: 640px) {
+            #chat { scroll-margin-top: 72px; padding-top: 8px; }
         }
 
         /* Loading State */
