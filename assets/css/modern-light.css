@@ -233,31 +233,16 @@ textarea {
   position: relative; /* allows temporary debug badge positioning */
 }
 
-/* Temporary DEV badge to confirm modified assets are loaded (remove after verification) */
-.dev-ui-badge-fixed {
-  position: fixed;
-  top: calc(var(--nav-height, 88px) + 12px);
-  right: 18px;
-  z-index: 99999;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #ff2d95; /* bright magenta */
-  box-shadow: 0 6px 20px rgba(255,45,149,0.28);
-  border: 2px solid white;
-  pointer-events: none;
-  transition: transform 200ms ease;
-}
-.dev-ui-badge-fixed:hover { transform: scale(1.05); }
+
 
 .chat-messages {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 24px;
+  padding: 16px; /* reduced so more messages are visible vertically */
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   max-width: 100%;
 }
 

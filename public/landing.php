@@ -733,7 +733,8 @@ $cacheBuster = time() . rand(10000, 99999);
 
         /* Chat Section Styles - Full Screen */
         .chat-section {
-            padding: 40px 20px;
+            /* reduced padding so chat area can use more vertical space */
+            padding: 20px 16px;
             background: #f8f9fa;
             position:relative;
             min-height: 100vh;
@@ -757,9 +758,9 @@ $cacheBuster = time() . rand(10000, 99999);
             overflow: hidden;
             /* allow inner flex children to constrain and scroll */
             min-height: 0;
-            /* use viewport-aware height so chat area is fixed and messages scroll */
-            height: calc(100vh - var(--nav-height) - 120px);
-            max-height: calc(100vh - var(--nav-height) - 80px);
+            /* use viewport-aware height so chat area is taller (less subtraction) */
+            height: calc(100vh - var(--nav-height) - 40px);
+            max-height: calc(100vh - var(--nav-height) - 16px);
             position: relative;
             z-index: 1;
             border: none;
@@ -2274,8 +2275,6 @@ $cacheBuster = time() . rand(10000, 99999);
     <!-- Chat Section - Priority Position -->
     <section id="chat" class="chat-section">
         <div class="chat-container">
-            <!-- DEV DEBUG BADGE (temporary) -->
-            <div class="dev-ui-badge-fixed" title="DEV: modified chat UI"></div>
             <!-- Left Sidebar - Popular Questions -->
             <div class="chat-questions-sidebar" id="faq">
                 <!-- Scrollable Content Wrapper -->
@@ -3399,7 +3398,6 @@ $cacheBuster = time() . rand(10000, 99999);
         // Initialize event listeners when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM loaded, initializing...');
-            console.log('DEV: landing.php loaded — debug badge should be visible (magenta dot near top-right)');
 
 
 
