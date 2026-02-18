@@ -1937,6 +1937,35 @@ footer p {
     gap: 8px;
   }
 
+  /* Mobile toggle button (placed in chat header) */
+  .mobile-questions-toggle {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(0,0,0,0.04);
+    color: var(--text-primary);
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background .18s ease, transform .12s ease;
+  }
+  .mobile-questions-toggle:hover { transform: translateY(-1px); background: rgba(255,255,255,0.10); }
+
+  /* Sidebar collapse state (mobile) */
+  .chat-container.sidebar-collapsed .chat-questions-sidebar {
+    max-height: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    border-bottom: none !important;
+    transition: max-height .28s ease, padding .2s ease;
+  }
+
+  @media (max-width: 768px) {
+    .mobile-questions-toggle { display: inline-flex !important; }
+  }
+
   /* FAQ alignment fix */
   .faq-question {
     text-align: left;
