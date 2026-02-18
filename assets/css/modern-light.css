@@ -1937,6 +1937,57 @@ footer p {
     gap: 8px;
   }
 
+  /* Mobile toggle for sidebar (visible in header) */
+  .mobile-questions-toggle {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.06);
+    color: var(--text-primary);
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background .18s ease, transform .12s ease;
+  }
+  .mobile-questions-toggle:hover { transform: translateY(-1px); background: rgba(255,255,255,0.12); }
+
+  /* Sidebar collapse state (mobile) */
+  .chat-container.sidebar-collapsed .chat-questions-sidebar {
+    max-height: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    border-bottom: none !important;
+    transition: max-height .28s ease, padding .2s ease;
+  }
+
+  /* Improve chat scrolling + input stickiness on mobile */
+  .chat-messages {
+    max-height: calc(100vh - var(--nav-height, 88px) - 220px) !important;
+    overflow-y: auto !important;
+  }
+
+  .chat-input-area {
+    position: sticky !important;
+    bottom: 0 !important;
+    z-index: 40 !important;
+    background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.98));
+    padding: 12px 16px !important;
+    box-shadow: 0 -6px 18px rgba(0,0,0,0.06);
+  }
+
+  /* Tighter message bubbles on mobile */
+  .msg-content { font-size: 13px !important; line-height: 1.45 !important; }
+  .chat-avatar { width: 32px !important; height: 32px !important; }
+  .chat-questions-sidebar { max-height: 260px !important; }
+  .chat-question-item { padding: 10px 12px !important; font-size: 13px !important; }
+
+  /* Show the new toggle button in header */
+  .chat-header { position: relative !important; }
+  .mobile-questions-toggle { display: inline-flex !important; position: absolute; right: 12px; top: 12px; }
+
+
   /* FAQ alignment fix */
   .faq-question {
     text-align: left;

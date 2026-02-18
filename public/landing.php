@@ -2355,6 +2355,10 @@ $cacheBuster = time() . rand(10000, 99999);
                         <div class="chat-info">
                             <h3 class="chat-name">DISCHA</h3>
                             <span class="chat-status">
+                    </div>
+                    <!-- Mobile: toggle popular questions / sidebar -->
+                    <button class="mobile-questions-toggle" type="button" aria-controls="faq" aria-expanded="true" title="Tampilkan Pertanyaan Populer">📋 Pertanyaan</button>
+                    
                                 <svg width="10" height="10" viewBox="0 0 24 24" fill="#10b981" style="display: inline-block; vertical-align: middle; margin-right: 4px;">
                                     <circle cx="12" cy="12" r="10"></circle>
                                 </svg>
@@ -2692,6 +2696,39 @@ $cacheBuster = time() . rand(10000, 99999);
                 }
                 console.log('✓ Chat ready');
             }, 500);
+
+            // Mobile sidebar toggle behavior (shows/hides popular questions on small screens)
+            (function mobileSidebarToggle(){
+                const toggle = document.querySelector('.mobile-questions-toggle');
+                const chatContainer = document.querySelector('.chat-container');
+                const sidebar = document.querySelector('.chat-questions-sidebar');
+                if (!toggle || !chatContainer || !sidebar) return;
+
+                toggle.addEventListener('click', () => {
+                    const collapsed = chatContainer.classList.toggle('sidebar-collapsed');
+                    toggle.setAttribute('aria-expanded', String(!collapsed));
+                    // accessibility: focus first question when opening
+                    if (!collapsed) {
+                        const first = sidebar.querySelector('.chat-question-item, .public-info-link');
+                        if (first) first.focus();
+                    }
+                });
+
+                // Close sidebar on outside tap for mobile
+                document.addEventListener('click', (e) => {
+                    if (window.innerWidth > 768) return;
+                    if (!chatContainer.classList.contains('sidebar-collapsed')) return;
+                    if (!sidebar.contains(e.target) && !toggle.contains(e.target)) {
+                        chatContainer.classList.add('sidebar-collapsed');
+                        toggle.setAttribute('aria-expanded', 'false');
+                    }
+                });
+
+                // ensure correct state on resize
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth > 768) chatContainer.classList.remove('sidebar-collapsed');
+                });
+            })();
         });
 
         function openFeedbackModal() {
