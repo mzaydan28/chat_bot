@@ -9,6 +9,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $rating   = (int)($_POST['rating'] ?? 0);
     $saran    = trim($_POST['saran'] ?? '');
+    $name     = trim($_POST['name'] ?? '');
+    $email    = trim($_POST['email'] ?? '');
     $emoji    = trim($_POST['emoji'] ?? '');
     $category = trim($_POST['category'] ?? '');
 
@@ -23,6 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'status'   => 'pending'
     ];
 
+    if ($name !== '') $payload['name'] = $name;
+    if ($email !== '') $payload['email'] = $email;
     if ($category !== '') $payload['category'] = $category;
     if ($emoji !== '') $payload['emoji'] = $emoji;
 
