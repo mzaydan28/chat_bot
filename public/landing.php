@@ -821,15 +821,15 @@ $cacheBuster = time() . rand(10000, 99999);
         .public-info-link {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 14px 16px;
+            gap: 10px;
+            padding: 12px 14px; /* slightly reduced */
             background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
             border: 2px solid #bfdbfe;
             border-radius: 10px;
             text-decoration: none;
             color: #1e40af;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px; /* reduced */
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
