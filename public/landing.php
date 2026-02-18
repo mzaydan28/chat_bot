@@ -2374,7 +2374,10 @@ $cacheBuster = time() . rand(10000, 99999);
                     </div>
 
                     <!-- Mobile toggle for sidebar -->
-                    <button class="mobile-questions-toggle" type="button" aria-controls="faq" aria-expanded="true" title="Tampilkan Pertanyaan Populer">📋 Pertanyaan</button>
+                    <button class="mobile-questions-toggle" type="button" aria-controls="faq" aria-expanded="false" title="Tampilkan Pertanyaan Populer">📋 Pertanyaan</button>
+
+                    <!-- Mobile dropdown (breakdown ke bawah) -->
+                    <div id="mobileQuestionsDropdown" class="mobile-questions-dropdown" aria-hidden="true"></div>
                 </div>
 
                 <!-- Messages Area -->
@@ -2714,18 +2717,43 @@ $cacheBuster = time() . rand(10000, 99999);
                 if (!toggle || !chatContainer || !sidebar) return;
 
                 toggle.addEventListener('click', () => {
-                    const collapsed = chatContainer.classList.toggle('sidebar-collapsed');
-                    toggle.setAttribute('aria-expanded', String(!collapsed));
-                    if (!collapsed) {
-                        const first = sidebar.querySelector('.chat-question-item, .public-info-link');
-                        if (first) first.focus();
+                    const isMobile = window.innerWidth <= 768;
+
+                    if (isMobile) {
+                        // show dropdown below header in chat-right-container
+                        const mobileDrop = document.getElementById('mobileQuestionsDropdown');
+                        if (!mobileDrop) return;
+                        const open = mobileDrop.classList.toggle('open');
+                        mobileDrop.setAttribute('aria-hidden', String(!open));
+                        toggle.setAttribute('aria-expanded', String(open));
+
+                        if (open) {
+                            // ensure content exists (copied from sidebar)
+                            const container = document.getElementById('chatQuestionsList');
+                            if (container && mobileDrop.innerHTML.trim() === '') mobileDrop.innerHTML = container.innerHTML;
+                        }
+                    } else {
+                        const collapsed = chatContainer.classList.toggle('sidebar-collapsed');
+                        toggle.setAttribute('aria-expanded', String(!collapsed));
+                        if (!collapsed) {
+                            const first = sidebar.querySelector('.chat-question-item, .public-info-link');
+                            if (first) first.focus();
+                        }
                     }
                 });
 
-                // Auto-collapse sidebar after selecting a question on mobile
+                // Auto-collapse sidebar / mobile dropdown after selecting a question on mobile
                 sidebar.addEventListener('click', (e) => {
                     const target = e.target.closest('.chat-question-item');
                     if (!target) return;
+
+                    // if mobile dropdown is visible, hide it
+                    const mobileDrop = document.getElementById('mobileQuestionsDropdown');
+                    if (mobileDrop && mobileDrop.classList.contains('open')) {
+                        mobileDrop.classList.remove('open');
+                        mobileDrop.setAttribute('aria-hidden', 'true');
+                    }
+
                     if (window.innerWidth <= 768) {
                         chatContainer.classList.add('sidebar-collapsed');
                         const toggleBtn = document.querySelector('.mobile-questions-toggle');
@@ -2740,7 +2768,41 @@ $cacheBuster = time() . rand(10000, 99999);
                 // ensure correct state on resize
                 window.addEventListener('resize', () => {
                     if (window.innerWidth > 768) chatContainer.classList.remove('sidebar-collapsed');
+                    const mobileDrop = document.getElementById('mobileQuestionsDropdown');
+                    if (mobileDrop && window.innerWidth > 768) {
+                        mobileDrop.classList.remove('open');
+                        mobileDrop.setAttribute('aria-hidden', 'true');
+                    }
                 });
+
+                // Mobile dropdown delegation for cloned content
+                const mobileDropEl = document.getElementById('mobileQuestionsDropdown');
+                if (mobileDropEl) {
+                    mobileDropEl.addEventListener('click', (e) => {
+                        const hdr = e.target.closest('.category-header');
+                        if (hdr) {
+                            const containerEl = hdr.nextElementSibling;
+                            if (containerEl) containerEl.classList.toggle('expanded');
+                            const arrow = hdr.querySelector('.category-arrow');
+                            if (arrow) arrow.textContent = containerEl.classList.contains('expanded') ? '▼' : '▶';
+                            return;
+                        }
+
+                        const btn = e.target.closest('.chat-question-item');
+                        if (btn) {
+                            sendMessage(btn.textContent || btn.innerText || '');
+                            // close dropdown after select
+                            mobileDropEl.classList.remove('open');
+                            mobileDropEl.setAttribute('aria-hidden', 'true');
+                            const toggleBtn = document.querySelector('.mobile-questions-toggle');
+                            if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
+                            setTimeout(() => {
+                                const chatInput = document.getElementById('pesan');
+                                if (chatInput) chatInput.focus();
+                            }, 120);
+                        }
+                    });
+                }
             })();
         });
 
