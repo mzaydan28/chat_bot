@@ -3342,17 +3342,40 @@ $cacheBuster = time() . rand(10000, 99999);
                 });
             }
 
-            // Smooth scroll for anchor links
+            // Smooth scroll for anchor links (account for fixed navbar)
+            function scrollToWithOffset(el) {
+                if (!el) return;
+                const nav = document.querySelector('.modern-navbar');
+                const navH = nav ? nav.offsetHeight : 88; // fallback
+                const extra = 12; // small spacing
+                const top = el.getBoundingClientRect().top + window.scrollY - navH - extra;
+                window.scrollTo({ top, behavior: 'smooth' });
+            }
+
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
-                    if (this.getAttribute('href') !== '#') {
-                        e.preventDefault();
-                        const target = document.querySelector(this.getAttribute('href'));
+                    const href = this.getAttribute('href');
+                    if (href && href !== '#') {
+                        const target = document.querySelector(href);
                         if (target) {
-                            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            e.preventDefault();
+                            scrollToWithOffset(target);
+                            // keep URL hash in sync
+                            history.replaceState(null, '', href);
                         }
                     }
                 });
+            });
+
+            // If page opens with a hash (e.g. #chat), ensure it's visible below the navbar
+            if (location.hash) {
+                const targetOnLoad = document.querySelector(location.hash);
+                if (targetOnLoad) setTimeout(() => scrollToWithOffset(targetOnLoad), 60);
+            }
+
+            window.addEventListener('hashchange', () => {
+                const t = document.querySelector(location.hash);
+                if (t) scrollToWithOffset(t);
             });
 
             // Cleanup legacy feedback elements and enforce floating position (small delay to account for other scripts)
