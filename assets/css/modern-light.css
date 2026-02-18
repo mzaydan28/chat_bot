@@ -850,9 +850,10 @@ textarea {
 }
 
 .chat-questions-sidebar {
-  width: 300px;
+  /* match embedded layout: reduce sidebar so chat gets more width */
+  width: 260px;
   background: var(--bg-secondary);
-  padding: 20px;
+  padding: 16px;
   border-right: 1px solid var(--border-light);
   overflow-y: auto;
 }

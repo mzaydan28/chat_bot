@@ -762,13 +762,15 @@ $cacheBuster = time() . rand(10000, 99999);
         }
 
         .chat-questions-sidebar {
-            width: 350px;
+            /* reduced width so chat area is wider and more comfortable */
+            width: 260px;
             background: linear-gradient(180deg, #dbeafe 0%, #eff6ff 50%, #ffffff 100%);
             border-right: 2px solid #bfdbfe;
             display: flex;
             flex-direction: column;
             max-height: 100vh;
             overflow: hidden;
+            padding: 16px; /* slightly reduced padding to fit content */
         }
         
         .sidebar-scrollable-content {
