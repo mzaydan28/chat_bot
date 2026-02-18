@@ -3256,18 +3256,6 @@ $cacheBuster = time() . rand(10000, 99999);
             const userContent = document.createElement('div');
             userContent.className = 'msg-content';
             userContent.textContent = normalizedMessage; // use textContent to avoid HTML
-
-            // DEBUG: log normalized message + node info (temporary)
-            console.log('CHAT USER MSG ->', { normalizedMessage, length: normalizedMessage.length, chars: Array.from(normalizedMessage).map(c => c.charCodeAt(0)) });
-            console.log('userContent childNodes:', userContent.childNodes.length, userContent.childNodes[0] && userContent.childNodes[0].nodeType);
-
-            // Force single-line rendering for small messages to avoid accidental per-character wrapping
-            if (normalizedMessage.length <= 60) {
-                userContent.style.whiteSpace = 'nowrap';
-                userContent.style.display = 'inline-block';
-                userContent.style.overflowX = 'auto';
-            }
-
             userMsgDiv.appendChild(userContent);
             chatMessages.appendChild(userMsgDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
