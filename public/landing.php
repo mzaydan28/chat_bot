@@ -733,8 +733,8 @@ $cacheBuster = time() . rand(10000, 99999);
 
         /* Chat Section Styles - Full Screen */
         .chat-section {
-            /* reduced padding so chat area can use more vertical space */
-            padding: 20px 16px;
+            /* further reduced padding so chat area occupies more vertical space */
+            padding: 8px 8px;
             background: #f8f9fa;
             position:relative;
             min-height: 100vh;
@@ -758,9 +758,9 @@ $cacheBuster = time() . rand(10000, 99999);
             overflow: hidden;
             /* allow inner flex children to constrain and scroll */
             min-height: 0;
-            /* use viewport-aware height so chat area is taller (less subtraction) */
-            height: calc(100vh - var(--nav-height) - 40px);
-            max-height: calc(100vh - var(--nav-height) - 16px);
+            /* use viewport-aware height so chat area uses nearly full available height */
+            height: calc(100vh - var(--nav-height) - 0px);
+            max-height: calc(100vh - var(--nav-height) - 0px);
             position: relative;
             z-index: 1;
             border: none;

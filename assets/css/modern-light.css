@@ -239,10 +239,10 @@ textarea {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 16px; /* reduced so more messages are visible vertically */
+  padding: 8px; /* further reduced so more messages are visible vertically */
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   max-width: 100%;
 }
 
@@ -363,7 +363,7 @@ textarea {
 }
 
 .chat-input-area {
-  padding: 20px;
+  padding: 10px 12px; /* smaller input area so messages get more vertical room */
   border-top: 1px solid var(--border-light);
   background: var(--bg-secondary);
 }
@@ -1000,7 +1000,7 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
+  padding: 8px 12px; /* reduce header padding to free vertical room */
   background: var(--bg-main);
   border-bottom: 1px solid var(--border-light);
 }
@@ -1121,7 +1121,7 @@ textarea {
 
 .chat-input {
   flex: 1;
-  padding: 12px 16px;
+  padding: 10px 12px; /* slightly smaller for tighter layout */
   border: 2px solid var(--border-light);
   border-radius: 25px;
   background: var(--bg-secondary);
