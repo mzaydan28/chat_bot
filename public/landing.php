@@ -2052,13 +2052,14 @@ $cacheBuster = time() . rand(10000, 99999);
         }
 
         /* Chat Section Full Screen ID Offset */
-        /* beri jarak agar header chat tidak tertutup navbar tetap */
+        /* use dynamic --nav-height so chat header never sits under the fixed navbar */
         #chat {
-            scroll-margin-top: 96px; /* offset untuk navbar fixed */
-            padding-top: 12px;      /* geser konten ke bawah sedikit */
+            --nav-height: 88px; /* fallback */
+            scroll-margin-top: calc(var(--nav-height) + 8px);
+            padding-top: calc(var(--nav-height) + 12px);
         }
         @media (max-width: 640px) {
-            #chat { scroll-margin-top: 72px; padding-top: 8px; }
+            #chat { scroll-margin-top: calc(var(--nav-height) - 16px); padding-top: calc(var(--nav-height) - 8px); }
         }
 
         /* Loading State */
@@ -3331,6 +3332,24 @@ $cacheBuster = time() . rand(10000, 99999);
         // Initialize event listeners when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM loaded, initializing...');
+
+            // expose navbar height as CSS variable so sections (like #chat) can offset themselves
+            (function setNavHeightVar() {
+                const nav = document.querySelector('.modern-navbar');
+                if (!nav) return;
+                function applyNavHeight() {
+                    const h = nav.offsetHeight || 88;
+                    document.documentElement.style.setProperty('--nav-height', h + 'px');
+                    const chat = document.getElementById('chat');
+                    if (chat) chat.style.scrollMarginTop = (h + 12) + 'px';
+                }
+                applyNavHeight();
+                window.addEventListener('resize', () => setTimeout(applyNavHeight, 80));
+                if (typeof ResizeObserver !== 'undefined') {
+                    const ro = new ResizeObserver(applyNavHeight);
+                    ro.observe(nav);
+                }
+            })();
             
             const feedbackModal = document.getElementById('feedbackModal');
 
