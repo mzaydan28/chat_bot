@@ -2566,11 +2566,10 @@ $cacheBuster = time() . rand(10000, 99999);
         // Live Search Function - IMPROVED
         function handleLiveSearch(event) {
             const input = event.target;
-            // sanitize input in real-time: remove control/zero-width chars and collapse whitespace
-            let raw = (input.value || '').replace(/[\x00-\x1F\x7F\u200B\u200C\u200D\uFEFF]+/g, '');
-            raw = raw.replace(/\s+/g, ' ');
-            if (raw !== input.value) input.value = raw;
-            const query = raw.trim().toLowerCase();
+            // sanitize input in real-time using centralized sanitizer
+            const cleaned = sanitizeForChat(input.value || '');
+            if (cleaned !== input.value) input.value = cleaned;
+            const query = cleaned.trim().toLowerCase();
 
             const suggestionsContainer = document.getElementById('chatSuggestions');
             const suggestionsList = document.getElementById('suggestionsList');
@@ -3244,12 +3243,20 @@ $cacheBuster = time() . rand(10000, 99999);
             // Update last message time
             window.lastMessageTime = now;
             
-            // Normalize user message (collapse newlines/spaces) and add user message
-            const normalizedMessage = String(message).replace(/\s+/g, ' ').trim();
+            // Strongly sanitize and normalize user message before render/send
+            const normalizedMessage = sanitizeForChat(message);
+            if (normalizedMessage.length === 0) {
+                if (sendButton) sendButton.disabled = false;
+                if (chatInput) chatInput.disabled = false;
+                return;
+            }
 
             const userMsgDiv = document.createElement('div');
             userMsgDiv.className = 'message user-msg';
-            userMsgDiv.innerHTML = `<div class="msg-content">${escapeHtml(normalizedMessage)}</div>`;
+            const userContent = document.createElement('div');
+            userContent.className = 'msg-content';
+            userContent.textContent = normalizedMessage; // use textContent to avoid HTML
+            userMsgDiv.appendChild(userContent);
             chatMessages.appendChild(userMsgDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
@@ -3318,6 +3325,17 @@ $cacheBuster = time() . rand(10000, 99999);
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
+        }
+
+        // Strong sanitization: remove control / zero-width / format characters and collapse whitespace
+        function sanitizeForChat(text) {
+            if (!text && text !== '') return '';
+            let s = String(text);
+            // remove C0/C1 control chars, DEL, common zero-width and bidi marks
+            s = s.replace(/[\x00-\x1F\x7F\u200B-\u200F\u2028-\u2029\u202A-\u202E\u2060-\u206F\uFEFF]/g, '');
+            // collapse any whitespace (including NBSP) to single space
+            s = s.replace(/[\s\u00A0]+/g, ' ');
+            return s.trim();
         }
         
         // Convert URLs to clickable links while preserving line breaks and escaping other HTML
