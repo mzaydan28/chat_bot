@@ -23,14 +23,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'status'   => 'pending'
     ];
 
-    if ($emoji !== '') $payload['emoji'] = $emoji;
     if ($category !== '') $payload['category'] = $category;
+    if ($emoji !== '') $payload['emoji'] = $emoji;
 
-    $insert = supabase_request(
-        'POST',
-        'feedback',
-        $payload
-    );
+    // Try to insert; if Supabase returns "column ... does not exist" remove that key and retry.
+    $maxRetries = 5;
+    $attempt = 0;
+    $insert = supabase_request('POST', 'feedback', $payload);
+
+    while (isset($insert['error']) && $attempt < $maxRetries) {
+        $attempt++;
+        $msg = $insert['response']['message'] ?? '';
+
+        // detect missing column from message like: "column feedback.emoji does not exist"
+        if (preg_match('/column\s+feedback\.(\w+)\s+does\s+not\s+exist/i', $msg, $m)) {
+            $col = $m[1];
+            if (isset($payload[$col])) {
+                unset($payload[$col]);
+                // retry insert without that column
+                $insert = supabase_request('POST', 'feedback', $payload);
+                continue;
+            }
+        }
+        // other errors - break and return the error
+        break;
+    }
 
     if (isset($insert['error'])) {
         echo json_encode(['status'=>'error','message'=>'Gagal menyimpan']);
