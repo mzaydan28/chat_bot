@@ -2540,7 +2540,7 @@ $cacheBuster = time() . rand(10000, 99999);
     </div>
 
     <!-- All Questions Modal -->
-    <div id="allQuestionsModal" class="questions-modal">
+    <div id="allQuestionsModal" class="questions-modal" onclick="if (event.target === this) closeAllQuestionsModal()">
         <div class="questions-modal-content">
             <div class="questions-header">
                 <h3>📋 Daftar Pertanyaan</h3>
@@ -2552,6 +2552,8 @@ $cacheBuster = time() . rand(10000, 99999);
         </div>
     </div>
 
+    <!-- Mobile floating button for accessing questions on small screens -->
+    <button class="mobile-questions-btn" type="button" aria-controls="allQuestionsModal" aria-expanded="false" onclick="loadAllQuestions()" title="Pertanyaan & Informasi Publik">Pertanyaan & Informasi</button>
 
 
     <!-- Footer -->
@@ -2991,8 +2993,10 @@ $cacheBuster = time() . rand(10000, 99999);
                     
                     console.log('✅ Categories created, opening modal...');
                     const modal = document.getElementById('allQuestionsModal');
+                    const mobileBtn = document.querySelector('.mobile-questions-btn');
                     if (modal) {
                         modal.classList.add('open');
+                        if (mobileBtn) mobileBtn.setAttribute('aria-expanded', 'true');
                         console.log('✅ Modal opened!');
                     } else {
                         console.error('❌ Modal allQuestionsModal not found!');
@@ -3008,7 +3012,10 @@ $cacheBuster = time() . rand(10000, 99999);
         }
 
         function closeAllQuestionsModal() {
-            document.getElementById('allQuestionsModal').classList.remove('open');
+            const modal = document.getElementById('allQuestionsModal');
+            if (modal) modal.classList.remove('open');
+            const mobileBtn = document.querySelector('.mobile-questions-btn');
+            if (mobileBtn) mobileBtn.setAttribute('aria-expanded', 'false');
         }
 
         function focusChatInput() {
