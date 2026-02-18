@@ -2274,6 +2274,8 @@ $cacheBuster = time() . rand(10000, 99999);
     <!-- Chat Section - Priority Position -->
     <section id="chat" class="chat-section">
         <div class="chat-container">
+            <!-- DEV DEBUG BADGE (temporary) -->
+            <div class="dev-ui-badge-fixed" title="DEV: modified chat UI"></div>
             <!-- Left Sidebar - Popular Questions -->
             <div class="chat-questions-sidebar" id="faq">
                 <!-- Scrollable Content Wrapper -->
@@ -3397,6 +3399,7 @@ $cacheBuster = time() . rand(10000, 99999);
         // Initialize event listeners when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM loaded, initializing...');
+            console.log('DEV: landing.php loaded — debug badge should be visible (magenta dot near top-right)');
 
 
 
