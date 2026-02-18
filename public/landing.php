@@ -2775,6 +2775,21 @@ $cacheBuster = time() . rand(10000, 99999);
                     }
                 });
 
+                // close mobile dropdown when clicking outside (overlay behavior)
+                document.addEventListener('click', (ev) => {
+                    const mobileDrop = document.getElementById('mobileQuestionsDropdown');
+                    const toggleBtn = document.querySelector('.mobile-questions-toggle');
+                    if (!mobileDrop || !toggleBtn) return;
+                    if (!mobileDrop.classList.contains('open')) return;
+                    const insideDrop = mobileDrop.contains(ev.target);
+                    const clickedToggle = toggleBtn.contains(ev.target);
+                    if (!insideDrop && !clickedToggle) {
+                        mobileDrop.classList.remove('open');
+                        mobileDrop.setAttribute('aria-hidden', 'true');
+                        toggleBtn.setAttribute('aria-expanded', 'false');
+                    }
+                });
+
                 // Mobile dropdown delegation for cloned content
                 const mobileDropEl = document.getElementById('mobileQuestionsDropdown');
                 if (mobileDropEl) {
