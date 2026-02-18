@@ -1931,31 +1931,19 @@ footer p {
   .chat-question-item { padding: 10px 12px !important; font-size: 13px !important; }
 
   /* Mobile dropdown (breakdown ke bawah) */
-  /* Mobile dropdown becomes an overlay so it doesn't push chat content */
   .mobile-questions-dropdown {
     display: block;
-    position: absolute;
-    left: 12px;
-    right: 12px;
-    top: calc(100% + 8px);
-    z-index: 2200;
-    width: auto;
+    width: 100%;
     max-height: 0;
     overflow: hidden;
     padding: 0 12px;
     background: var(--bg-main);
-    border-radius: 12px;
-    box-shadow: 0 18px 40px rgba(2,6,23,0.08);
-    border: 1px solid rgba(2,6,23,0.06);
-    transition: max-height 0.32s ease, padding 0.22s ease, opacity 0.16s ease;
-    opacity: 0;
-    pointer-events: none;
+    border-bottom: 1px solid #e5e7eb;
+    transition: max-height 0.32s ease, padding 0.22s ease;
   }
   .mobile-questions-dropdown.open {
     max-height: 420px;
     padding: 12px;
-    opacity: 1;
-    pointer-events: auto;
   }
   .mobile-questions-dropdown .question-category { border: none; box-shadow: none; }
   .mobile-questions-dropdown .category-header { padding: 10px 6px; }
