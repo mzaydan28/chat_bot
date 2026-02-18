@@ -745,7 +745,7 @@ $cacheBuster = time() . rand(10000, 99999);
 
         .chat-container {
             width: 100%;
-            /* allow more horizontal space on wide screens */
+            /* default max width for medium/large screens */
             max-width: 1600px;
             margin: 0 auto;
             display: flex;
@@ -763,6 +763,16 @@ $cacheBuster = time() . rand(10000, 99999);
             position: relative;
             z-index: 1;
             border: none;
+        }
+
+        /* Make chat container full-width on large screens (desktop) */
+        @media (min-width: 1200px) {
+            .chat-container {
+                max-width: none;
+                width: calc(100% - 48px); /* keep small page margin */
+                margin: 0 24px;
+                border-radius: 20px;
+            }
         }
 
         .chat-questions-sidebar {
