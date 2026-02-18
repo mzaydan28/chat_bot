@@ -467,7 +467,7 @@ $cacheBuster = time() . rand(10000, 99999);
             margin-left: auto !important;
             margin-right: 0 !important;
             /* increased so user bubbles use more horizontal space */
-            max-width: 85% !important;
+            max-width: 90% !important;
         }
         
         .message.user-msg .msg-content {
@@ -492,7 +492,7 @@ $cacheBuster = time() . rand(10000, 99999);
             margin-right: auto !important;
             margin-left: 0 !important;
             /* align bot bubble width with user bubble */
-            max-width: 85% !important;
+            max-width: 90% !important;
         }
         
         .message.bot-msg .msg-content {
@@ -745,7 +745,8 @@ $cacheBuster = time() . rand(10000, 99999);
 
         .chat-container {
             width: 100%;
-            max-width: 1400px;
+            /* allow more horizontal space on wide screens */
+            max-width: 1600px;
             margin: 0 auto;
             display: flex;
             flex-direction: row;
@@ -765,15 +766,15 @@ $cacheBuster = time() . rand(10000, 99999);
         }
 
         .chat-questions-sidebar {
-            /* reduced width so chat area is wider and more comfortable */
-            width: 260px;
+            /* further reduced so chat-right-container becomes roomier */
+            width: 220px;
             background: linear-gradient(180deg, #dbeafe 0%, #eff6ff 50%, #ffffff 100%);
             border-right: 2px solid #bfdbfe;
             display: flex;
             flex-direction: column;
             max-height: 100vh;
             overflow: hidden;
-            padding: 16px; /* slightly reduced padding to fit content */
+            padding: 14px;
         }
         
         .sidebar-scrollable-content {

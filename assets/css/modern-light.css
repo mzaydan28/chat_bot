@@ -851,9 +851,9 @@ textarea {
 
 .chat-questions-sidebar {
   /* match embedded layout: reduce sidebar so chat gets more width */
-  width: 260px;
+  width: 220px;
   background: var(--bg-secondary);
-  padding: 16px;
+  padding: 14px;
   border-right: 1px solid var(--border-light);
   overflow-y: auto;
 }
@@ -1055,7 +1055,7 @@ textarea {
 
 .msg-content {
   /* allow message bubbles to occupy more horizontal space */
-  max-width: 85%;
+  max-width: 90%;
   padding: 12px 16px;
   border-radius: 12px;
   font-size: 14px;
