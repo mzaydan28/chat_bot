@@ -476,6 +476,10 @@ $cacheBuster = time() . rand(10000, 99999);
             padding: 12px 16px !important;
             text-align: right !important;
             margin-left: auto !important;
+            /* prevent accidental per-character stacking: collapse whitespace and use normal wrapping */
+            white-space: normal !important;
+            word-break: normal !important;
+            overflow-wrap: anywhere !important;
         }
         
         .message.bot-msg {
@@ -3235,10 +3239,12 @@ $cacheBuster = time() . rand(10000, 99999);
             // Update last message time
             window.lastMessageTime = now;
             
-            // Add user message
+            // Normalize user message (collapse newlines/spaces) and add user message
+            const normalizedMessage = String(message).replace(/\s+/g, ' ').trim();
+
             const userMsgDiv = document.createElement('div');
             userMsgDiv.className = 'message user-msg';
-            userMsgDiv.innerHTML = `<div class="msg-content">${escapeHtml(message)}</div>`;
+            userMsgDiv.innerHTML = `<div class="msg-content">${escapeHtml(normalizedMessage)}</div>`;
             chatMessages.appendChild(userMsgDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
@@ -3256,7 +3262,7 @@ $cacheBuster = time() . rand(10000, 99999);
             fetch('<?php echo $baseUrl; ?>/proses.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: 'pesan=' + encodeURIComponent(message)
+                body: 'pesan=' + encodeURIComponent(normalizedMessage)
             })
             .then(res => res.text())
             .then(data => {
