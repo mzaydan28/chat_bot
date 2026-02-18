@@ -1740,6 +1740,8 @@ $cacheBuster = time() . rand(10000, 99999);
             .view-all-btn {
                 width: calc(100% - 32px);
                 margin: 10px 16px 16px 16px;
+                font-size: 13px; /* smaller text for Lihat Semua Pertanyaan */
+                padding: 10px 16px;
             }
 
             .chat-right-container {
@@ -2101,9 +2103,10 @@ $cacheBuster = time() . rand(10000, 99999);
             background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
             color: white;
             border: none;
-            padding: 12px 20px;
+            padding: 10px 16px; /* slightly reduced */
             border-radius: 12px;
             font-weight: 600;
+            font-size: 13px; /* reduced */
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
             transition: all 0.3s ease;
             margin: 10px 20px 20px 20px;
