@@ -1054,7 +1054,8 @@ textarea {
 }
 
 .msg-content {
-  max-width: 70%;
+  /* allow message bubbles to occupy more horizontal space */
+  max-width: 85%;
   padding: 12px 16px;
   border-radius: 12px;
   font-size: 14px;
@@ -1065,7 +1066,6 @@ textarea {
   overflow-wrap: anywhere;
   white-space: pre-wrap;
   overflow: hidden;
-  max-width: 70%;
 }
 
 /* Links inside msg-content */

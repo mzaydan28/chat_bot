@@ -466,7 +466,8 @@ $cacheBuster = time() . rand(10000, 99999);
             justify-content: flex-end !important;
             margin-left: auto !important;
             margin-right: 0 !important;
-            max-width: 75% !important;
+            /* increased so user bubbles use more horizontal space */
+            max-width: 85% !important;
         }
         
         .message.user-msg .msg-content {
@@ -480,6 +481,7 @@ $cacheBuster = time() . rand(10000, 99999);
             white-space: normal !important;
             word-break: normal !important;
             overflow-wrap: anywhere !important;
+            max-width: 100% !important; /* ensure inner content can grow within the message element */
         }
         
         .message.bot-msg {
@@ -489,7 +491,8 @@ $cacheBuster = time() . rand(10000, 99999);
             gap: 10px !important;
             margin-right: auto !important;
             margin-left: 0 !important;
-            max-width: 80% !important;
+            /* align bot bubble width with user bubble */
+            max-width: 85% !important;
         }
         
         .message.bot-msg .msg-content {
