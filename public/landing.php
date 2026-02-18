@@ -945,23 +945,13 @@ $cacheBuster = time() . rand(10000, 99999);
         .category-header.collapsed .category-arrow {
             transform: rotate(-90deg);
         }
-        .category-header[aria-expanded="true"] .category-arrow {
-            transform: rotate(90deg);
-        }
 
         .category-questions {
-            padding: 0 12px; /* padding animates when expanded */
-            max-height: 0;
-            overflow: hidden;
+            padding: 12px;
             display: flex;
             flex-direction: column;
             gap: 8px;
             background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 100%);
-            transition: max-height 0.32s ease, padding 0.22s ease;
-        }
-        .category-questions.expanded {
-            padding: 12px;
-            max-height: 800px; /* large enough to contain content */
         }
 
         .chat-question-item {
@@ -2874,39 +2864,12 @@ $cacheBuster = time() . rand(10000, 99999);
                             questionsContainer.appendChild(btn);
                         });
                         
-                        // Toggle functionality (animated accordion)
-                        categoryHeader.setAttribute('aria-expanded', 'false');
-                        questionsContainer.classList.remove('expanded');
-
+                        // Toggle functionality
                         categoryHeader.onclick = () => {
-                            const isExpanded = questionsContainer.classList.contains('expanded');
-
-                            // accordion: collapse other categories
-                            const otherContainers = container.querySelectorAll('.category-questions.expanded');
-                            otherContainers.forEach(c => {
-                                if (c !== questionsContainer) {
-                                    c.classList.remove('expanded');
-                                    const hdr = c.previousElementSibling;
-                                    if (hdr && hdr.classList) {
-                                        hdr.classList.add('collapsed');
-                                        hdr.setAttribute('aria-expanded', 'false');
-                                        const arrow = hdr.querySelector('.category-arrow');
-                                        if (arrow) arrow.textContent = '▶';
-                                    }
-                                }
-                            });
-
-                            if (isExpanded) {
-                                questionsContainer.classList.remove('expanded');
-                                categoryHeader.classList.add('collapsed');
-                                categoryHeader.setAttribute('aria-expanded', 'false');
-                                categoryHeader.querySelector('.category-arrow').textContent = '▶';
-                            } else {
-                                questionsContainer.classList.add('expanded');
-                                categoryHeader.classList.remove('collapsed');
-                                categoryHeader.setAttribute('aria-expanded', 'true');
-                                categoryHeader.querySelector('.category-arrow').textContent = '▼';
-                            }
+                            const isVisible = questionsContainer.style.display === 'block';
+                            questionsContainer.style.display = isVisible ? 'none' : 'block';
+                            categoryHeader.querySelector('.category-arrow').textContent = isVisible ? '▶' : '▼';
+                            categoryHeader.classList.toggle('collapsed', isVisible);
                         };
                         
                         // Hover effects for collapsed categories only
