@@ -2362,9 +2362,6 @@ $cacheBuster = time() . rand(10000, 99999);
                             </span>
                         </div>
                     </div>
-
-                    <!-- Mobile toggle for sidebar -->
-                    <button class="mobile-questions-toggle" type="button" aria-controls="faq" aria-expanded="true" title="Tampilkan Pertanyaan Populer">📋 Pertanyaan</button>
                 </div>
 
                 <!-- Messages Area -->
@@ -2695,43 +2692,6 @@ $cacheBuster = time() . rand(10000, 99999);
                 }
                 console.log('✓ Chat ready');
             }, 500);
-
-            // Mobile sidebar toggle behavior (shows/hides popular questions on small screens)
-            (function mobileSidebarToggle(){
-                const toggle = document.querySelector('.mobile-questions-toggle');
-                const chatContainer = document.querySelector('.chat-container');
-                const sidebar = document.querySelector('.chat-questions-sidebar');
-                if (!toggle || !chatContainer || !sidebar) return;
-
-                toggle.addEventListener('click', () => {
-                    const collapsed = chatContainer.classList.toggle('sidebar-collapsed');
-                    toggle.setAttribute('aria-expanded', String(!collapsed));
-                    if (!collapsed) {
-                        const first = sidebar.querySelector('.chat-question-item, .public-info-link');
-                        if (first) first.focus();
-                    }
-                });
-
-                // Auto-collapse sidebar after selecting a question on mobile
-                sidebar.addEventListener('click', (e) => {
-                    const target = e.target.closest('.chat-question-item');
-                    if (!target) return;
-                    if (window.innerWidth <= 768) {
-                        chatContainer.classList.add('sidebar-collapsed');
-                        const toggleBtn = document.querySelector('.mobile-questions-toggle');
-                        if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'false');
-                        setTimeout(() => {
-                            const chatInput = document.getElementById('pesan');
-                            if (chatInput) chatInput.focus();
-                        }, 200);
-                    }
-                });
-
-                // ensure correct state on resize
-                window.addEventListener('resize', () => {
-                    if (window.innerWidth > 768) chatContainer.classList.remove('sidebar-collapsed');
-                });
-            })();
         });
 
         function openFeedbackModal() {
