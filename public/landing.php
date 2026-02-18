@@ -2381,12 +2381,6 @@ $cacheBuster = time() . rand(10000, 99999);
                     </div>
                 </div>
 
-                <!-- New messages indicator (appears when user scrolled up) -->
-                <button id="scrollToBottomBtn" class="chat-scroll-to-bottom" aria-hidden="true" title="Lihat pesan terbaru" onclick="scrollChatToBottom(true)">
-                    <span id="scrollToBottomCount" class="scroll-count" aria-hidden="true"></span>
-                    Lihat Pesan Terbaru
-                </button>
-
                 <!-- Input Area -->
                 <div class="chat-input-area">
                     <!-- Live Search Suggestions Container -->
@@ -3281,7 +3275,7 @@ $cacheBuster = time() . rand(10000, 99999);
             userMsgDiv.appendChild(userContent);
             chatMessages.appendChild(userMsgDiv);
             // user's own message: always scroll into view
-            scrollChatToBottom(true);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
 
             // Create bot message div with typing indicator
             const botMsgDiv = document.createElement('div');
@@ -3291,8 +3285,8 @@ $cacheBuster = time() . rand(10000, 99999);
                 <div class="msg-content typing-indicator"><span></span><span></span><span></span></div>
             `;
             chatMessages.appendChild(botMsgDiv);
-            // bot reply: only auto-scroll if user is already near bottom
-            scrollChatToBottom(false);
+            // bot reply: keep previous behavior and auto-scroll
+            chatMessages.scrollTop = chatMessages.scrollHeight;
 
             // Send to server
             fetch('<?php echo $baseUrl; ?>/proses.php', {
@@ -3319,8 +3313,8 @@ $cacheBuster = time() . rand(10000, 99999);
                         if (charIndex < fullText.length) {
                             messageContent.innerHTML = linkifyText(fullText.substring(0, charIndex + 1));
                             charIndex++;
-                            // only auto-scroll while typing if user is near the bottom
-                            scrollChatToBottom(false);
+                            // keep scrolling as before while typing
+                            chatMessages.scrollTop = chatMessages.scrollHeight;
                             setTimeout(typeText, typingSpeed);
                         }
                     }
@@ -3330,8 +3324,8 @@ $cacheBuster = time() . rand(10000, 99999);
                     const msgContent = botMsgDiv.querySelector('.msg-content');
                     msgContent.innerHTML = 'Maaf, saya tidak dapat menjawab pertanyaan tersebut. Silakan coba dengan pertanyaan lain.';
                     msgContent.classList.remove('typing-indicator');
-                    // show indicator instead of forcing scroll when user is reading history
-                    scrollChatToBottom(false);
+                    // restore previous behavior: auto-scroll to bottom
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
                 }
             })
             .catch(err => {
@@ -3343,8 +3337,8 @@ $cacheBuster = time() . rand(10000, 99999);
                 const msgContent = botMsgDiv.querySelector('.msg-content');
                 msgContent.innerHTML = 'Maaf, terjadi kesalahan koneksi. Silakan periksa koneksi internet Anda dan coba lagi.';
                 msgContent.classList.remove('typing-indicator');
-                // do not force-scroll when user is reading history; show indicator instead
-                scrollChatToBottom(false);
+                // restore previous behavior: auto-scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
             });
         }
 
@@ -3387,76 +3381,14 @@ $cacheBuster = time() . rand(10000, 99999);
             return safe;
         }
 
-        /* ===== Chat auto-scroll guard + "new messages" indicator =====
-           Behavior:
-           - Do NOT force-scroll when the user has scrolled up reading history.
-           - When new messages arrive while user is away from bottom, show a small
-             "Lihat Pesan Terbaru" button with unseen count.
-           - User's own messages still scroll immediately (expected UX).
-        */
-
-        window.unseenMessages = 0;
-
-        function isChatAtBottom(el, threshold = 120) {
-            if (!el) return true;
-            return (el.scrollHeight - el.clientHeight - el.scrollTop) <= threshold;
-        }
-
-        function showScrollButton() {
-            const btn = document.getElementById('scrollToBottomBtn');
-            const cnt = document.getElementById('scrollToBottomCount');
-            if (!btn) return;
-            window.unseenMessages = (window.unseenMessages || 0) + 1;
-            if (cnt) cnt.textContent = window.unseenMessages > 0 ? window.unseenMessages : '';
-            btn.classList.add('show');
-            btn.setAttribute('aria-hidden', 'false');
-        }
-
-        function hideScrollButton() {
-            const btn = document.getElementById('scrollToBottomBtn');
-            const cnt = document.getElementById('scrollToBottomCount');
-            if (!btn) return;
-            window.unseenMessages = 0;
-            if (cnt) cnt.textContent = '';
-            btn.classList.remove('show');
-            btn.setAttribute('aria-hidden', 'true');
-        }
-
-        function scrollChatToBottom(force = false) {
-            const chatMessages = document.getElementById('chatMessages');
-            if (!chatMessages) return;
-            const atBottom = isChatAtBottom(chatMessages, 120);
-            if (force || atBottom) {
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-                hideScrollButton();
-            } else {
-                // do not force-scroll; show indicator instead
-                showScrollButton();
-            }
-        }
+        
 
 
         // Initialize event listeners when DOM is ready
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM loaded, initializing...');
 
-            // wire up chat scroll detection and ensure "new messages" indicator is hidden
-            (function initScrollIndicator() {
-                const chatMessages = document.getElementById('chatMessages');
-                const btn = document.getElementById('scrollToBottomBtn');
-                if (btn) btn.setAttribute('aria-hidden', 'true');
-                if (!chatMessages) return;
 
-                // hide indicator when user scrolls to (near) bottom
-                chatMessages.addEventListener('scroll', function() {
-                    if (isChatAtBottom(chatMessages, 80)) {
-                        hideScrollButton();
-                    }
-                }, { passive: true });
-
-                // on initial load ensure we are scrolled to bottom
-                setTimeout(() => { if (isChatAtBottom(chatMessages)) scrollChatToBottom(true); }, 50);
-            })();
 
             // expose navbar height as CSS variable so sections (like #chat) can offset themselves
             (function setNavHeightVarAndScrollBehavior() {

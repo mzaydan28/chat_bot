@@ -989,43 +989,9 @@ textarea {
   flex: 1;
   display: flex;
   flex-direction: column;
-  position: relative; /* for absolutely positioned controls (scroll-to-bottom) */
   /* allow internal children (.chat-messages) to scroll instead of enlarging the page */
   min-height: 0;
 }
-
-/* Scroll-to-bottom button inside chat */
-.chat-scroll-to-bottom {
-  display: none;
-  position: absolute;
-  right: 18px;
-  bottom: 104px; /* sit above the input area */
-  z-index: 60;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-  color: white;
-  border: none;
-  border-radius: 999px;
-  padding: 8px 12px;
-  font-weight: 700;
-  font-size: 13px;
-  box-shadow: 0 8px 30px rgba(59,130,246,0.18);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.chat-scroll-to-bottom .scroll-count {
-  background: rgba(255,255,255,0.12);
-  padding: 2px 7px;
-  border-radius: 999px;
-  font-size: 12px;
-  min-width: 20px;
-  text-align: center;
-  color: white;
-}
-
-.chat-scroll-to-bottom.show { display: inline-flex; }
 
 .chat-header {
   display: flex;
