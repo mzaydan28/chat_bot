@@ -3438,20 +3438,8 @@ $cacheBuster = time() . rand(10000, 99999);
                 });
             });
 
-            // If page opens with a hash (e.g. #chat), ensure it's visible below the navbar
-            if (location.hash) {
-                const targetOnLoad = document.querySelector(location.hash);
-                if (targetOnLoad) {
-                    setTimeout(() => scrollToWithOffset(targetOnLoad), 60);
-                    // focus chat input if deep-linking to #chat
-                    if (location.hash === '#chat') {
-                        setTimeout(() => {
-                            const chatInput = document.getElementById('pesan');
-                            if (chatInput) { chatInput.focus(); try { const v = chatInput.value || ''; chatInput.setSelectionRange(v.length, v.length); } catch(e){} }
-                        }, 420);
-                    }
-                }
-            }
+            // Do NOT auto-scroll or autofocus on initial page load (prevents unexpected jumps).
+            // Deep-links and user actions are still handled via anchor clicks and the hashchange listener below.
 
             window.addEventListener('hashchange', () => {
                 const t = document.querySelector(location.hash);
