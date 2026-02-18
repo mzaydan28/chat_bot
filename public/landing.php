@@ -3381,6 +3381,7 @@ $cacheBuster = time() . rand(10000, 99999);
                 const chips = document.querySelectorAll('.suggestion-chip');
                 const textarea = document.getElementById('feedbackMessage');
                 const charCount = document.getElementById('fbCharCount');
+                const emojiBtns = document.querySelectorAll('.emoji-btn');
 
                 function updateChar() {
                     if (!textarea || !charCount) return;
@@ -3396,6 +3397,39 @@ $cacheBuster = time() . rand(10000, 99999);
                     textarea.focus();
                     updateChar();
                 }));
+
+                // star visual: fill all stars up to the selected one + hover preview
+                (function initStarVisuals(){
+                    const ratingContainer = document.querySelector('.rating-group-modal');
+                    if (!ratingContainer) return;
+
+                    const radios = Array.from(ratingContainer.querySelectorAll('input[name="rating"]'));
+                    const labels = Array.from(ratingContainer.querySelectorAll('label.star-label'));
+
+                    function refresh(selectedValue) {
+                        const num = Number(selectedValue || 0);
+                        labels.forEach(lbl => {
+                            const forId = lbl.getAttribute('for');
+                            const input = ratingContainer.querySelector('#' + forId);
+                            const val = Number(input?.value || 0);
+                            lbl.classList.toggle('filled', val > 0 && val <= num);
+                        });
+                    }
+
+                    // change handler (when user selects a star)
+                    radios.forEach(r => r.addEventListener('change', e => refresh(e.target.value)));
+
+                    // hover preview (temporary)
+                    labels.forEach((lbl, idx) => {
+                        lbl.addEventListener('mouseenter', () => {
+                            labels.forEach((l, i) => l.classList.toggle('hover', i <= idx));
+                        });
+                        lbl.addEventListener('mouseleave', () => labels.forEach(l => l.classList.remove('hover')));
+                    });
+
+                    // initialize from checked value (if any)
+                    refresh(ratingContainer.querySelector('input[name="rating"]:checked')?.value || 0);
+                })();
 
                 // keyboard accessibility for emoji (Enter/Space)
                 emojiBtns.forEach(b => b.addEventListener('keydown', function(e) {
