@@ -25,6 +25,11 @@ if ($useSupabase) {
         $category = $row['category'] ?? 'Umum';
         $question = $row['question'] ?? '';
         
+        // Skip kategori Greeting
+        if (strtolower($category) === 'greeting') {
+            continue;
+        }
+        
         if (!empty($question)) {
             if (!isset($categoriesMap[$category])) {
                 $categoriesMap[$category] = [];

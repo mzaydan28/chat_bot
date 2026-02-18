@@ -3,6 +3,16 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+// Set headers untuk AJAX request (prevent caching & improve mobile compatibility)
+header('Content-Type: text/plain; charset=utf-8');
+header('Cache-Control: no-cache, must-revalidate');
+header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+
+// CORS headers jika diperlukan (uncomment jika cross-origin issue)
+// header('Access-Control-Allow-Origin: *');
+// header('Access-Control-Allow-Methods: POST');
+// header('Access-Control-Allow-Headers: Content-Type, X-Requested-With');
+
 // Start session untuk rate limiting dengan validasi
 // Validasi session ID jika ada dari cookie/query string
 if (isset($_COOKIE['PHPSESSID']) || isset($_GET['PHPSESSID'])) {
