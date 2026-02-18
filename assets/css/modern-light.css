@@ -1899,23 +1899,9 @@ footer p {
     justify-content: center;
   }
 
-  /* Make sidebar visible on mobile and stack above chat; keep it scrollable */
-  .chat-container { flex-direction: column !important; }
-
+  /* Hide sidebar on mobile, show floating button instead */
   .chat-questions-sidebar {
-    display: block !important;
-    width: 100% !important;
-    border-right: none !important;
-    border-bottom: 2px solid #bfdbfe !important;
-    max-height: 260px !important;
-    overflow-y: auto !important;
-  }
-
-  .sidebar-scrollable-content { padding: 12px !important; }
-
-  .chat-right-container {
-    width: 100% !important;
-    border-radius: 0 !important;
+    display: none !important;
   }
 
   .chat-modal-content {
@@ -1923,14 +1909,15 @@ footer p {
     max-width: 100% !important;
     margin: 0 !important;
     border-radius: 0 !important;
-    height: auto !important;
+    height: 100vh !important;
   }
 
-  /* Provide compact view for mobile questions */
-  .chat-questions-sidebar h4 { font-size: 14px !important; padding: 10px 12px !important; }
-  .chat-question-item { padding: 10px 12px !important; font-size: 13px !important; }
+  .chat-right-container {
+    width: 100% !important;
+    border-radius: 0 !important;
+  }
 
-  /* Show mobile questions button (optional helper) */
+  /* Show mobile questions button */
   .mobile-questions-btn {
     display: flex !important;
     align-items: center;
