@@ -751,8 +751,11 @@ $cacheBuster = time() . rand(10000, 99999);
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            min-height: 100vh;
-            max-height: none;
+            /* allow inner flex children to constrain and scroll */
+            min-height: 0;
+            /* use viewport-aware height so chat area is fixed and messages scroll */
+            height: calc(100vh - var(--nav-height) - 120px);
+            max-height: calc(100vh - var(--nav-height) - 80px);
             position: relative;
             z-index: 1;
             border: none;
