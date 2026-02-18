@@ -35,16 +35,20 @@ $cacheBuster = time() . rand(10000, 99999);
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+            background: transparent;               /* transparent by default */
+            backdrop-filter: blur(10px);           /* light frosted glass */
+            border-bottom: none;
+            box-shadow: none;
             z-index: 1000;
-            transition: all 0.3s ease;
+            transition: background 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
         }
         
+        /* when user scrolls, make navbar opaque for readability */
         .modern-navbar.scrolled {
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.08);
+            box-shadow: 0 6px 30px rgba(2,6,23,0.08);
         }
         
         .nav-container {
@@ -3334,7 +3338,7 @@ $cacheBuster = time() . rand(10000, 99999);
             console.log('DOM loaded, initializing...');
 
             // expose navbar height as CSS variable so sections (like #chat) can offset themselves
-            (function setNavHeightVar() {
+            (function setNavHeightVarAndScrollBehavior() {
                 const nav = document.querySelector('.modern-navbar');
                 if (!nav) return;
                 function applyNavHeight() {
@@ -3349,6 +3353,14 @@ $cacheBuster = time() . rand(10000, 99999);
                     const ro = new ResizeObserver(applyNavHeight);
                     ro.observe(nav);
                 }
+
+                // Toggle opaque navbar on scroll for readability
+                function updateNavScrolled() {
+                    if (window.scrollY > 24) nav.classList.add('scrolled');
+                    else nav.classList.remove('scrolled');
+                }
+                updateNavScrolled();
+                window.addEventListener('scroll', updateNavScrolled, { passive: true });
             })();
             
             const feedbackModal = document.getElementById('feedbackModal');
