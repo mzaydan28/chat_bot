@@ -3393,6 +3393,17 @@ $cacheBuster = time() . rand(10000, 99999);
                             scrollToWithOffset(target);
                             // keep URL hash in sync
                             history.replaceState(null, '', href);
+
+                            // if user clicked "Mulai Chat" (or any link to #chat), focus chat input after scroll
+                            if (href === '#chat' || (target && target.id === 'chat')) {
+                                setTimeout(() => {
+                                    const chatInput = document.getElementById('pesan') || document.querySelector('#chat input, #chat .chat-input');
+                                    if (chatInput) {
+                                        chatInput.focus();
+                                        try { const v = chatInput.value || ''; chatInput.setSelectionRange(v.length, v.length); } catch(e){}
+                                    }
+                                }, 360);
+                            }
                         }
                     }
                 });
@@ -3401,12 +3412,27 @@ $cacheBuster = time() . rand(10000, 99999);
             // If page opens with a hash (e.g. #chat), ensure it's visible below the navbar
             if (location.hash) {
                 const targetOnLoad = document.querySelector(location.hash);
-                if (targetOnLoad) setTimeout(() => scrollToWithOffset(targetOnLoad), 60);
+                if (targetOnLoad) {
+                    setTimeout(() => scrollToWithOffset(targetOnLoad), 60);
+                    // focus chat input if deep-linking to #chat
+                    if (location.hash === '#chat') {
+                        setTimeout(() => {
+                            const chatInput = document.getElementById('pesan');
+                            if (chatInput) { chatInput.focus(); try { const v = chatInput.value || ''; chatInput.setSelectionRange(v.length, v.length); } catch(e){} }
+                        }, 420);
+                    }
+                }
             }
 
             window.addEventListener('hashchange', () => {
                 const t = document.querySelector(location.hash);
                 if (t) scrollToWithOffset(t);
+                if (location.hash === '#chat') {
+                    setTimeout(() => {
+                        const chatInput = document.getElementById('pesan');
+                        if (chatInput) { chatInput.focus(); try { const v = chatInput.value || ''; chatInput.setSelectionRange(v.length, v.length); } catch(e){} }
+                    }, 360);
+                }
             });
 
             // Cleanup legacy feedback elements and enforce floating position (small delay to account for other scripts)
