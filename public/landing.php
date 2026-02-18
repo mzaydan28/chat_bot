@@ -2566,7 +2566,12 @@ $cacheBuster = time() . rand(10000, 99999);
         // Live Search Function - IMPROVED
         function handleLiveSearch(event) {
             const input = event.target;
-            const query = input.value.trim().toLowerCase();
+            // sanitize input in real-time: remove control/zero-width chars and collapse whitespace
+            let raw = (input.value || '').replace(/[\x00-\x1F\x7F\u200B\u200C\u200D\uFEFF]+/g, '');
+            raw = raw.replace(/\s+/g, ' ');
+            if (raw !== input.value) input.value = raw;
+            const query = raw.trim().toLowerCase();
+
             const suggestionsContainer = document.getElementById('chatSuggestions');
             const suggestionsList = document.getElementById('suggestionsList');
             
